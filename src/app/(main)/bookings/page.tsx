@@ -46,16 +46,12 @@ export default function BookingsPage() {
   const fetchBookings = async () => {
     try {
       setLoading(true);
-      const filters = statusFilter !== "all" ? { booking_status: statusFilter } : {};
-      const data = await hotelService.getBookings(filters);
-      console.log("✅ Bookings response:", data);
 
-      // Ensure data is an array
-      const bookingsArray = Array.isArray(data) ? data : [];
-      setBookings(bookingsArray);
+      // Mock data for UI development
+      setBookings([]);
     } catch (error) {
       console.error("Error fetching bookings:", error);
-      setBookings([]); // Set empty array on error
+      setBookings([]);
     } finally {
       setLoading(false);
     }

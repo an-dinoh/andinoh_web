@@ -53,30 +53,49 @@ export default function MyHotelPage() {
   const fetchHotel = async () => {
     try {
       setLoading(true);
-      const data = await hotelService.getMyHotel();
-      console.log("✅ Hotel response:", data);
 
-      if (!data || typeof data !== "object") {
-        throw new Error("Invalid hotel data received");
-      }
+      // Mock data for UI development
+      const data: HotelType = {
+        id: "1",
+        owner_id: "owner-1",
+        name: "Grand Plaza Hotel",
+        description: "A luxurious 5-star hotel in the heart of the city offering world-class amenities and exceptional service.",
+        hotel_type: "luxury",
+        star_rating: 5,
+        address: "123 Main Street",
+        city: "New York",
+        state: "NY",
+        country: "USA",
+        postal_code: "10001",
+        phone: "+1 (555) 123-4567",
+        email: "info@grandplaza.com",
+        website: "https://grandplaza.com",
+        check_in_time: "15:00:00",
+        check_out_time: "11:00:00",
+        total_rooms: 150,
+        is_active: true,
+        is_verified: true,
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString(),
+      };
 
       setHotel(data);
       setForm({
-        name: data.name || "",
-        description: data.description || "",
-        hotel_type: data.hotel_type || "boutique",
-        star_rating: data.star_rating || 3,
-        address: data.address || "",
-        city: data.city || "",
-        state: data.state || "",
-        country: data.country || "",
-        postal_code: data.postal_code || "",
-        phone: data.phone || "",
-        email: data.email || "",
+        name: data.name,
+        description: data.description,
+        hotel_type: data.hotel_type,
+        star_rating: data.star_rating,
+        address: data.address,
+        city: data.city,
+        state: data.state,
+        country: data.country,
+        postal_code: data.postal_code,
+        phone: data.phone,
+        email: data.email,
         website: data.website || "",
-        check_in_time: data.check_in_time || "15:00:00",
-        check_out_time: data.check_out_time || "11:00:00",
-        total_rooms: data.total_rooms || 0,
+        check_in_time: data.check_in_time,
+        check_out_time: data.check_out_time,
+        total_rooms: data.total_rooms,
       });
     } catch (error: any) {
       console.error("Error fetching hotel:", error);
@@ -98,23 +117,19 @@ export default function MyHotelPage() {
       setSaving(true);
       console.log("💾 Saving hotel data:", form);
 
+      // Simulate API delay
+      await new Promise(resolve => setTimeout(resolve, 1000));
+
+      // Update local state with form data
       if (hotel) {
-        console.log("🔄 Updating existing hotel");
-        await hotelService.updateHotel(form);
-      } else {
-        console.log("➕ Creating new hotel");
-        await hotelService.createHotel(form);
+        setHotel({ ...hotel, ...form });
       }
 
-      await fetchHotel();
       setEditing(false);
+      console.log("✅ Hotel data saved successfully");
     } catch (error: any) {
       console.error("Error saving hotel:", error);
-      const errorMessage =
-        error?.response?.data?.message ||
-        error?.message ||
-        "Failed to save hotel information";
-      alert(errorMessage);
+      alert("Failed to save hotel information");
     } finally {
       setSaving(false);
     }

@@ -64,6 +64,7 @@ export default function BookingDetailPage() {
     try {
       setActionLoading(true);
       await hotelService.checkIn(bookingId, {
+        staff_id: "current-staff-id", // TODO: Get from auth context
         actual_check_in_time: new Date().toISOString(),
       });
       setShowCheckInModal(false);
@@ -79,6 +80,7 @@ export default function BookingDetailPage() {
     try {
       setActionLoading(true);
       await hotelService.checkOut(bookingId, {
+        staff_id: "current-staff-id", // TODO: Get from auth context
         actual_check_out_time: new Date().toISOString(),
       });
       setShowCheckOutModal(false);

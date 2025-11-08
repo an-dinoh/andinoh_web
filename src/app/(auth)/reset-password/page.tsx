@@ -63,6 +63,7 @@ export default function ResetPasswordPage() {
       email: email || "",
       password: updatedForm.password,
       confirmPassword: updatedForm.confirmPassword,
+      hotelLicenseNumber: "",
     });
 
     // Update password strength

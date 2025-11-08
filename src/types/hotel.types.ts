@@ -23,6 +23,7 @@ export interface Hotel {
   logo?: string;
   cover_image?: string;
   is_active: boolean;
+  is_verified?: boolean;
   created_at: string;
   updated_at: string;
 }
@@ -63,6 +64,8 @@ export interface Room {
   max_adults: number;
   max_children: number;
   base_price: string;
+  price_per_night?: string;
+  room_number?: string;
   weekend_price?: string;
   peak_season_price?: string;
   has_balcony: boolean;
@@ -147,9 +150,11 @@ export interface CreateBookingRequest {
   check_out_date: string;
   number_of_adults: number;
   number_of_children: number;
+  number_of_nights?: number;
   booking_source: BookingSource;
   special_requests?: string;
   amount_paid?: string;
+  balance_due?: string;
   created_by_staff_id?: string;
 }
 
@@ -168,10 +173,12 @@ export interface BookingFilters {
 
 export interface CheckInRequest {
   staff_id: string;
+  actual_check_in_time?: string;
 }
 
 export interface CheckOutRequest {
   staff_id: string;
+  actual_check_out_time?: string;
 }
 
 // Staff Types

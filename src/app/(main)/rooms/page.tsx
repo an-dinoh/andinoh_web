@@ -27,19 +27,8 @@ export default function RoomsPage() {
   const fetchRooms = async () => {
     try {
       setLoading(true);
-      const filters = filterType !== "all" ? { room_type: filterType } : {};
-      const data = await hotelService.getRooms(filters);
-      console.log('✅ Rooms response:', data);
-      console.log('✅ Rooms type:', typeof data);
-      console.log('✅ Is array?', Array.isArray(data));
 
-      // Ensure data is an array
-      const roomsArray = Array.isArray(data) ? data : [];
-      setRooms(roomsArray);
-    } catch (error) {
-      console.error("Error fetching rooms:", error);
-
-      // FOR UI DEVELOPMENT: Use mock data when API fails
+      // Mock data for UI development
       const mockRooms: Room[] = [
         {
           id: "1",
@@ -112,8 +101,10 @@ export default function RoomsPage() {
     if (!confirm("Are you sure you want to delete this room?")) return;
 
     try {
-      await hotelService.deleteRoom(id);
+      // Simulate API delay
+      await new Promise(resolve => setTimeout(resolve, 500));
       setRooms(rooms.filter((room) => room.id !== id));
+      console.log("✅ Room deleted successfully");
     } catch (error) {
       console.error("Error deleting room:", error);
       alert("Failed to delete room");

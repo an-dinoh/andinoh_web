@@ -75,9 +75,14 @@ export default function CreateBookingPage() {
     // Auto-calculate total amount when room or dates change
     if (form.room_id && form.check_in_date && form.check_out_date) {
       const room = rooms.find((r) => r.id === form.room_id);
-      if (room) {
+      if (room && room.price_per_night) {
         const nights = calculateNights(form.check_in_date, form.check_out_date);
         const total = parseFloat(room.price_per_night) * nights;
+        setForm((prev) => ({ ...prev, total_amount: total.toFixed(2) }));
+      } else if (room) {
+        // Fallback to base_price if price_per_night is not available
+        const nights = calculateNights(form.check_in_date, form.check_out_date);
+        const total = parseFloat(room.base_price) * nights;
         setForm((prev) => ({ ...prev, total_amount: total.toFixed(2) }));
       }
     }
@@ -161,7 +166,17 @@ export default function CreateBookingPage() {
       const nights = calculateNights(form.check_in_date, form.check_out_date);
 
       await hotelService.createBooking({
-        ...form,
+        room: form.room_id,
+        customer_name: form.customer_name,
+        customer_email: form.customer_email,
+        customer_phone: form.customer_phone,
+        check_in_date: form.check_in_date,
+        check_out_date: form.check_out_date,
+        number_of_adults: form.number_of_adults,
+        number_of_children: form.number_of_children,
+        booking_source: form.booking_source,
+        special_requests: form.special_requests,
+        amount_paid: form.amount_paid,
         number_of_nights: nights,
         balance_due: (parseFloat(form.total_amount) - parseFloat(form.amount_paid)).toFixed(2),
       });
