@@ -24,7 +24,6 @@ import MessageIcon from "@/icons/MessageIcon";
 
 const navigationMain = [
   { name: "Dashboard", href: "/dashboard", icon: DashboardIcon, badge: null },
-  { name: "My Hotel", href: "/my_hotel", icon: Building2, badge: null },
   { name: "Rooms", href: "/rooms", icon: BookingIcon, badge: null },
   { name: "Bookings", href: "/bookings", icon: CalendarIcon, badge: "3" },
   { name: "Wallet", href: "/wallet", icon: WalletIcon, badge: null },
@@ -112,7 +111,7 @@ export default function Sidebar() {
 
       {/* Navigation */}
 
-      <nav className="px-4 pt-8 space-y-3 overflow-y-auto flex-shrink-0">
+      <nav className="px-4 pt-8 space-y-3 overflow-y-auto scrollbar-hide flex-1">
         {navigationMain.map((item) => {
           const isActive =
             pathname === item.href || pathname.startsWith(item.href + "/");
@@ -160,7 +159,7 @@ export default function Sidebar() {
               )}
 
               {collapsed && (
-                <div className="absolute left-full ml-6 px-3 py-2 bg-gray-800 text-white text-sm font-medium rounded-lg shadow-xl opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap z-50">
+                <div className="absolute left-full ml-6 px-3 py-2 bg-gray-800 text-white text-sm font-medium rounded-lg  opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap z-50">
                   {item.name}
                   <div className="absolute right-full top-1/2 -translate-y-1/2 border-8 border-transparent border-r-gray-800" />
                 </div>
@@ -174,7 +173,7 @@ export default function Sidebar() {
       <div className="mx-4 my-6 border-t border-[#E5E7EB] space-y-3"></div>
 
       {/* Secondary Navigation */}
-      <nav className="px-4 space-y-3 overflow-y-auto flex-shrink-0">
+      <nav className="px-4 space-y-3">
         {navigationSecondary.map((item) => {
           const isActive =
             pathname === item.href || pathname.startsWith(item.href + "/");
@@ -222,7 +221,7 @@ export default function Sidebar() {
               )}
 
               {collapsed && (
-                <div className="absolute left-full ml-6 px-3 py-2 bg-gray-800 text-white text-sm font-medium rounded-lg shadow-xl opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap z-50">
+                <div className="absolute left-full ml-6 px-3 py-2 bg-gray-800 text-white text-sm font-medium rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap z-50">
                   {item.name}
                   <div className="absolute right-full top-1/2 -translate-y-1/2 border-8 border-transparent border-r-gray-800" />
                 </div>
@@ -235,7 +234,7 @@ export default function Sidebar() {
       <div className="mx-4 my-10 border-t border-[#E5E7EB]"></div>
 
       {/* Bottom Section */}
-      <div className="px-4 pb-4 pt-2 space-y-1">
+      <div className="px-4 pb-4 pt-2 space-y-1 mt-auto">
         {/* Logout Button */}
         <button
           onClick={handleLogout}
@@ -279,7 +278,7 @@ export default function Sidebar() {
 
       {/* Mobile Sidebar */}
       <aside
-        className={`lg:hidden fixed top-0 left-0 h-full w-64 bg-gray-900 shadow-2xl transform transition-transform duration-300 ease-out z-50 ${
+        className={`lg:hidden fixed top-0 left-0 h-full w-64 bg-gray-900 transform transition-transform duration-300 ease-out z-50 ${
           mobileOpen ? "translate-x-0" : "-translate-x-full"
         }`}
       >
@@ -289,7 +288,7 @@ export default function Sidebar() {
       {/* Mobile Menu Button */}
       <button
         onClick={() => setMobileOpen(true)}
-        className="lg:hidden fixed bottom-6 right-6 bg-gradient-to-r from-[#0F75BD] to-[#002968] text-white p-4 rounded-full shadow-2xl shadow-[#0F75BD]/50 z-30 hover:shadow-[#0F75BD]/70 hover:scale-110 transition-all duration-200"
+        className="lg:hidden fixed bottom-6 right-6 bg-gradient-to-r from-[#0F75BD] to-[#002968] text-white p-4 rounded-full z-30 hover:scale-110 transition-all duration-200"
       >
         <Menu size={24} />
       </button>

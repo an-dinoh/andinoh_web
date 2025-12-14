@@ -129,8 +129,8 @@ export default function AnalyticsDatePicker() {
                   }}
                   className={`py-3 px-4 rounded-2xl text-sm font-medium transition-all duration-200 ${
                     year === selectedYear
-                      ? "bg-[#002968] text-white shadow-md scale-105"
-                      : "text-[#0B0A07] hover:bg-gray-100 hover:scale-105"
+                      ? "bg-[#002968] text-white"
+                      : "text-[#0B0A07] hover:bg-gray-100"
                   }`}
                 >
                   {year}

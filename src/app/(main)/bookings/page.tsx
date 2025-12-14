@@ -140,292 +140,112 @@ export default function BookingsPage() {
   });
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <div className="bg-white border-b border-gray-200 sticky top-0 z-10">
-        <div className="px-6 py-6">
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-            <div>
-              <h1 className="text-2xl font-bold text-gray-900">Bookings Management</h1>
-              <p className="text-sm text-gray-500 mt-1">
-                {new Date().toLocaleDateString("en-US", {
-                  weekday: "long",
-                  year: "numeric",
-                  month: "long",
-                  day: "numeric",
-                })}
-              </p>
-            </div>
-            <div className="flex flex-wrap gap-3">
-              <button
-                onClick={() => router.push("/bookings/calendar")}
-                className="inline-flex items-center gap-2 px-4 py-2.5 bg-white border border-gray-300 text-gray-700 rounded-xl hover:bg-gray-50 transition-all duration-200 font-medium shadow-sm hover:shadow"
-              >
-                <CalendarIcon className="w-4 h-4" />
-                Calendar View
-              </button>
-              <button
-                onClick={() => router.push("/bookings/create")}
-                className="inline-flex items-center gap-2 px-4 py-2.5 bg-gradient-to-r from-blue-600 to-blue-500 text-white rounded-xl hover:from-blue-700 hover:to-blue-600 transition-all duration-200 font-medium shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40"
-              >
-                <Plus className="w-4 h-4" />
-                New Booking
-              </button>
-            </div>
+    <div className="h-full bg-white overflow-y-auto scrollbar-hide pt-8 pb-8">
+      <div className="space-y-6">
+        {/* Header */}
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-3xl font-bold text-[#1A1A1A]">Bookings</h1>
+            <p className="text-[#5C5B59] mt-1">Manage your hotel bookings and reservations</p>
           </div>
+          <button
+            onClick={() => router.push("/bookings/create")}
+            className="px-4 py-2.5 bg-[#0F75BD] text-sm text-white font-regular rounded-2xl hover:bg-[#0050C8] transition-colors flex items-center gap-2"
+          >
+            <Plus className="w-4 h-4" />
+            Add New Booking
+          </button>
         </div>
-      </div>
 
-      <div className="p-6 space-y-6">
-        {/* Stats Cards */}
+        {/* Stats Bar */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          {loading ? (
-            <>
-              <SkeletonCard />
-              <SkeletonCard />
-              <SkeletonCard />
-              <SkeletonCard />
-            </>
-          ) : (
-            <>
-          {/* Total Bookings Today */}
-          <div className="bg-white rounded-2xl p-6 border border-gray-200 shadow-sm hover:shadow-md transition-shadow duration-200">
-            <div className="flex items-center justify-between">
-              <div className="flex-1">
-                <p className="text-sm font-medium text-gray-600">Total Bookings Today</p>
-                <p className="text-3xl font-bold text-gray-900 mt-2">{totalBookingsToday.length}</p>
-                <div className="flex items-center gap-1 mt-2">
-                  <TrendingUp className="w-3 h-3 text-emerald-600" />
-                  <span className="text-xs font-medium text-emerald-600">All activities</span>
-                </div>
-              </div>
-              <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl flex items-center justify-center shadow-lg shadow-blue-500/25">
-                <CalendarIcon className="w-6 h-6 text-white" />
-              </div>
+          {[
+            { label: "Total Bookings", value: bookings.length, bg: "bg-[#F5F5F5]" },
+            { label: "Check-ins Today", value: arrivalsToday.length, bg: "bg-[#F0F9FF]" },
+            { label: "Check-outs Today", value: departuresToday.length, bg: "bg-[#FEF3C7]" },
+            { label: "Active", value: occupancyRate, bg: "bg-[#F5F3FF]" },
+          ].map((stat, index) => (
+            <div key={index} className={`${stat.bg} rounded-2xl p-5`}>
+              <p className="text-[#5C5B59] text-sm mb-1">{stat.label}</p>
+              <p className="text-2xl font-bold text-[#1A1A1A]">{stat.value}</p>
             </div>
-          </div>
-
-          {/* Arrivals Today */}
-          <div className="bg-white rounded-2xl p-6 border border-gray-200 shadow-sm hover:shadow-md transition-shadow duration-200">
-            <div className="flex items-center justify-between">
-              <div className="flex-1">
-                <p className="text-sm font-medium text-gray-600">Arrivals Today</p>
-                <p className="text-3xl font-bold text-gray-900 mt-2">{arrivalsToday.length}</p>
-                <div className="flex items-center gap-1 mt-2">
-                  <LogIn className="w-3 h-3 text-blue-600" />
-                  <span className="text-xs font-medium text-blue-600">Check-ins expected</span>
-                </div>
-              </div>
-              <div className="w-12 h-12 bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-2xl flex items-center justify-center shadow-lg shadow-emerald-500/25">
-                <LogIn className="w-6 h-6 text-white" />
-              </div>
-            </div>
-          </div>
-
-          {/* Departures Today */}
-          <div className="bg-white rounded-2xl p-6 border border-gray-200 shadow-sm hover:shadow-md transition-shadow duration-200">
-            <div className="flex items-center justify-between">
-              <div className="flex-1">
-                <p className="text-sm font-medium text-gray-600">Departures Today</p>
-                <p className="text-3xl font-bold text-gray-900 mt-2">{departuresToday.length}</p>
-                <div className="flex items-center gap-1 mt-2">
-                  <LogOut className="w-3 h-3 text-orange-600" />
-                  <span className="text-xs font-medium text-orange-600">Check-outs expected</span>
-                </div>
-              </div>
-              <div className="w-12 h-12 bg-gradient-to-br from-orange-500 to-orange-600 rounded-2xl flex items-center justify-center shadow-lg shadow-orange-500/25">
-                <LogOut className="w-6 h-6 text-white" />
-              </div>
-            </div>
-          </div>
-
-          {/* Currently Occupied */}
-          <div className="bg-white rounded-2xl p-6 border border-gray-200 shadow-sm hover:shadow-md transition-shadow duration-200">
-            <div className="flex items-center justify-between">
-              <div className="flex-1">
-                <p className="text-sm font-medium text-gray-600">Currently Occupied</p>
-                <p className="text-3xl font-bold text-gray-900 mt-2">{occupancyRate}</p>
-                <div className="flex items-center gap-1 mt-2">
-                  <Users className="w-3 h-3 text-purple-600" />
-                  <span className="text-xs font-medium text-purple-600">Rooms occupied</span>
-                </div>
-              </div>
-              <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-purple-600 rounded-2xl flex items-center justify-center shadow-lg shadow-purple-500/25">
-                <Users className="w-6 h-6 text-white" />
-              </div>
-            </div>
-          </div>
-            </>
-          )}
+          ))}
         </div>
 
-        {/* Filters and Search */}
-        <div className="bg-white rounded-2xl border border-gray-200 shadow-sm">
-          <div className="p-6 space-y-4">
-            {/* Search Bar */}
-            <div className="relative">
-              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
-              <input
-                type="text"
-                placeholder="Search by guest name, email, phone, or booking reference..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-12 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 text-sm"
-              />
-            </div>
+        {/* Search & Filters Bar */}
+        <div className="flex items-center gap-4">
+          {/* Search */}
+          <div className="flex-1 relative">
+            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-[#5C5B59]" />
+            <input
+              type="text"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              placeholder="Search bookings by name, email, or reference..."
+              className="w-full pl-12 pr-4 py-3 border border-[#E5E7EB] rounded-2xl focus:ring-2 focus:ring-[#0F75BD] focus:border-transparent text-[#1A1A1A] placeholder:text-[#5C5B59]"
+            />
+          </div>
 
-            {/* Filter Toggle */}
+          {/* Status Filter */}
+          <select
+            value={statusFilter}
+            onChange={(e) => setStatusFilter(e.target.value as BookingStatus | "all")}
+            className="px-4 py-3 border border-[#E5E7EB] rounded-xl focus:ring-2 focus:ring-[#0F75BD] focus:border-transparent text-sm"
+          >
+            <option value="all">All Status</option>
+            <option value="pending">Pending</option>
+            <option value="confirmed">Confirmed</option>
+            <option value="checked_in">Checked In</option>
+            <option value="checked_out">Checked Out</option>
+            <option value="cancelled">Cancelled</option>
+          </select>
+        </div>
+
+        {/* Bookings List */}
+        {filteredBookings.length === 0 ? (
+          <div className="bg-[#FAFAFB] border border-[#E5E7EB] rounded-3xl p-16 text-center">
+            <div className="w-16 h-16 bg-[#0F75BD]/10 rounded-2xl flex items-center justify-center mx-auto mb-4">
+              <CalendarIcon className="w-8 h-8 text-[#0F75BD]" />
+            </div>
+            <h3 className="text-base font-semibold text-[#1A1A1A] mb-2">No bookings found</h3>
+            <p className="text-[#5C5B59] text-sm mb-6">
+              {searchTerm || statusFilter !== "all"
+                ? "Try adjusting your search or filters"
+                : "Start by adding your first booking"}
+            </p>
             <button
-              onClick={() => setShowFilters(!showFilters)}
-              className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-700 bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors duration-200"
+              onClick={() => router.push("/bookings/create")}
+              className="px-4 py-2.5 bg-[#0F75BD] text-sm text-white font-regular rounded-2xl hover:bg-[#0050C8] transition-colors inline-flex items-center gap-2"
             >
-              <Filter className="w-4 h-4" />
-              Advanced Filters
-              <ChevronDown
-                className={`w-4 h-4 transition-transform duration-200 ${
-                  showFilters ? "rotate-180" : ""
-                }`}
-              />
+              <Plus className="w-4 h-4" />
+              Add New Booking
             </button>
-
-            {/* Advanced Filters */}
-            {showFilters && (
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-4 border-t border-gray-200">
-                {/* Status Filter */}
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Booking Status
-                  </label>
-                  <select
-                    value={statusFilter}
-                    onChange={(e) => setStatusFilter(e.target.value as BookingStatus | "all")}
-                    className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 text-sm"
-                  >
-                    <option value="all">All Statuses</option>
-                    <option value="pending">Pending</option>
-                    <option value="confirmed">Confirmed</option>
-                    <option value="checked_in">Checked In</option>
-                    <option value="checked_out">Checked Out</option>
-                    <option value="cancelled">Cancelled</option>
-                    <option value="no_show">No Show</option>
-                  </select>
-                </div>
-
-                {/* Payment Filter */}
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Payment Status
-                  </label>
-                  <select
-                    value={paymentFilter}
-                    onChange={(e) => setPaymentFilter(e.target.value as PaymentStatus | "all")}
-                    className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 text-sm"
-                  >
-                    <option value="all">All Payment Status</option>
-                    <option value="pending">Pending</option>
-                    <option value="partial">Partial</option>
-                    <option value="paid">Paid</option>
-                    <option value="refunded">Refunded</option>
-                  </select>
-                </div>
-
-                {/* Source Filter */}
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Booking Source
-                  </label>
-                  <select
-                    value={sourceFilter}
-                    onChange={(e) => setSourceFilter(e.target.value as BookingSource | "all")}
-                    className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 text-sm"
-                  >
-                    <option value="all">All Sources</option>
-                    <option value="online">Online</option>
-                    <option value="walk_in">Walk-in</option>
-                    <option value="phone">Phone</option>
-                    <option value="email">Email</option>
-                  </select>
-                </div>
-              </div>
-            )}
-
-            {/* Results Count */}
-            <div className="flex items-center justify-between pt-2">
-              <p className="text-sm text-gray-600">
-                Showing <span className="font-semibold text-gray-900">{filteredBookings.length}</span> of{" "}
-                <span className="font-semibold text-gray-900">{bookings.length}</span> bookings
-              </p>
-              {(statusFilter !== "all" || paymentFilter !== "all" || sourceFilter !== "all" || searchTerm) && (
-                <button
-                  onClick={() => {
-                    setStatusFilter("all");
-                    setPaymentFilter("all");
-                    setSourceFilter("all");
-                    setSearchTerm("");
-                  }}
-                  className="text-sm text-blue-600 hover:text-blue-700 font-medium"
-                >
-                  Clear all filters
-                </button>
-              )}
-            </div>
           </div>
-        </div>
-
-        {/* Bookings Table */}
-        {loading ? (
-          <SkeletonTable rows={8} columns={9} />
         ) : (
-          <div className="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
-          {filteredBookings.length === 0 ? (
-            <div className="flex flex-col items-center justify-center py-16 px-4">
-              <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mb-4">
-                <CalendarIcon className="w-8 h-8 text-gray-400" />
-              </div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">No bookings found</h3>
-              <p className="text-sm text-gray-500 text-center max-w-md mb-6">
-                {searchTerm || statusFilter !== "all" || paymentFilter !== "all"
-                  ? "Try adjusting your filters or search terms to find what you're looking for."
-                  : "Get started by creating your first booking or wait for guests to book online."}
-              </p>
-              <button
-                onClick={() => router.push("/bookings/create")}
-                className="inline-flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-blue-600 to-blue-500 text-white rounded-xl hover:from-blue-700 hover:to-blue-600 transition-all duration-200 font-medium shadow-lg shadow-blue-500/25"
-              >
-                <Plus className="w-4 h-4" />
-                Create New Booking
-              </button>
-            </div>
-          ) : (
+          <div className="bg-white rounded-2xl border border-[#E5E7EB] overflow-hidden">
             <div className="overflow-x-auto">
               <table className="w-full">
                 <thead>
-                  <tr className="bg-gray-50 border-b border-gray-200">
-                    <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                      Booking Reference
+                  <tr className="bg-[#FAFAFB] border-b border-[#E5E7EB]">
+                    <th className="px-6 py-4 text-left text-xs font-semibold text-[#5C5B59] uppercase">
+                      Guest
                     </th>
-                    <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                      Guest Details
+                    <th className="px-6 py-4 text-left text-xs font-semibold text-[#5C5B59] uppercase">
+                      Check-in
                     </th>
-                    <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                      Stay Period
+                    <th className="px-6 py-4 text-left text-xs font-semibold text-[#5C5B59] uppercase">
+                      Check-out
                     </th>
-                    <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                      Guests
+                    <th className="px-6 py-4 text-left text-xs font-semibold text-[#5C5B59] uppercase">
+                      Nights
                     </th>
-                    <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                    <th className="px-6 py-4 text-left text-xs font-semibold text-[#5C5B59] uppercase">
                       Amount
                     </th>
-                    <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                      Payment
-                    </th>
-                    <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                    <th className="px-6 py-4 text-left text-xs font-semibold text-[#5C5B59] uppercase">
                       Status
                     </th>
-                    <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                      Source
-                    </th>
-                    <th className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                    <th className="px-6 py-4 text-left text-xs font-semibold text-[#5C5B59] uppercase">
                       Actions
                     </th>
                   </tr>
@@ -440,136 +260,56 @@ export default function BookingsPage() {
                     return (
                       <tr
                         key={booking.id}
-                        className="hover:bg-gray-50 transition-colors duration-150 cursor-pointer"
+                        className="hover:bg-[#FAFAFB] transition-colors cursor-pointer"
                         onClick={() => router.push(`/bookings/${booking.id}`)}
                       >
-                        {/* Booking Reference */}
-                        <td className="px-6 py-4">
-                          <div className="flex items-center gap-2">
-                            <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
-                              <span className="text-white font-bold text-xs">
-                                {booking.booking_reference.substring(0, 2).toUpperCase()}
-                              </span>
-                            </div>
-                            <div>
-                              <p className="text-sm font-semibold text-gray-900">
-                                {booking.booking_reference}
-                              </p>
-                              <p className="text-xs text-gray-500">
-                                {new Date(booking.created_at || "").toLocaleDateString()}
-                              </p>
-                            </div>
-                          </div>
-                        </td>
-
-                        {/* Guest Details */}
+                        {/* Guest */}
                         <td className="px-6 py-4">
                           <div className="flex items-center gap-3">
-                            <div className="w-10 h-10 bg-gradient-to-br from-emerald-400 to-emerald-600 rounded-full flex items-center justify-center shadow-sm">
+                            <div className="w-10 h-10 bg-[#0F75BD] rounded-full flex items-center justify-center">
                               <span className="text-white font-semibold text-sm">
                                 {booking.customer_name.charAt(0).toUpperCase()}
                               </span>
                             </div>
-                            <div className="min-w-0">
-                              <p className="text-sm font-medium text-gray-900 truncate">
-                                {booking.customer_name}
-                              </p>
-                              <div className="flex items-center gap-1 text-xs text-gray-500 truncate">
-                                <Mail className="w-3 h-3 flex-shrink-0" />
-                                <span className="truncate">{booking.customer_email}</span>
-                              </div>
-                              {booking.customer_phone && (
-                                <div className="flex items-center gap-1 text-xs text-gray-500">
-                                  <Phone className="w-3 h-3 flex-shrink-0" />
-                                  <span>{booking.customer_phone}</span>
-                                </div>
-                              )}
+                            <div>
+                              <p className="text-sm font-semibold text-[#1A1A1A]">{booking.customer_name}</p>
+                              <p className="text-xs text-[#5C5B59]">{booking.customer_email}</p>
                             </div>
                           </div>
                         </td>
 
-                        {/* Stay Period */}
+                        {/* Check-in */}
                         <td className="px-6 py-4">
-                          <div className="space-y-1">
-                            <div className="flex items-center gap-1.5 text-sm text-gray-900">
-                              <LogIn className="w-3.5 h-3.5 text-emerald-600" />
-                              <span>{new Date(booking.check_in_date).toLocaleDateString()}</span>
-                            </div>
-                            <div className="flex items-center gap-1.5 text-sm text-gray-900">
-                              <LogOut className="w-3.5 h-3.5 text-orange-600" />
-                              <span>{new Date(booking.check_out_date).toLocaleDateString()}</span>
-                            </div>
-                            <p className="text-xs font-medium text-gray-600">
-                              {booking.number_of_nights} {booking.number_of_nights === 1 ? "night" : "nights"}
-                            </p>
-                          </div>
+                          <p className="text-sm text-[#1A1A1A]">
+                            {new Date(booking.check_in_date).toLocaleDateString()}
+                          </p>
                         </td>
 
-                        {/* Guests */}
+                        {/* Check-out */}
                         <td className="px-6 py-4">
-                          <div className="flex items-center gap-3">
-                            <div className="flex items-center gap-1.5">
-                              <User className="w-4 h-4 text-gray-400" />
-                              <span className="text-sm font-medium text-gray-900">
-                                {booking.number_of_adults}
-                              </span>
-                            </div>
-                            {booking.number_of_children > 0 && (
-                              <div className="flex items-center gap-1.5">
-                                <Users className="w-4 h-4 text-gray-400" />
-                                <span className="text-sm font-medium text-gray-900">
-                                  {booking.number_of_children}
-                                </span>
-                              </div>
-                            )}
-                          </div>
+                          <p className="text-sm text-[#1A1A1A]">
+                            {new Date(booking.check_out_date).toLocaleDateString()}
+                          </p>
+                        </td>
+
+                        {/* Nights */}
+                        <td className="px-6 py-4">
+                          <p className="text-sm font-semibold text-[#1A1A1A]">{booking.number_of_nights}</p>
                         </td>
 
                         {/* Amount */}
                         <td className="px-6 py-4">
-                          <div className="space-y-1">
-                            <p className="text-sm font-bold text-gray-900">
-                              ${parseFloat(booking.total_amount).toFixed(2)}
-                            </p>
-                            {booking.amount_paid && parseFloat(booking.amount_paid) > 0 && (
-                              <p className="text-xs text-emerald-600 font-medium">
-                                ${parseFloat(booking.amount_paid).toFixed(2)} paid
-                              </p>
-                            )}
-                            {booking.balance_due && parseFloat(booking.balance_due) > 0 && (
-                              <p className="text-xs text-orange-600 font-medium">
-                                ${parseFloat(booking.balance_due).toFixed(2)} due
-                              </p>
-                            )}
-                          </div>
+                          <p className="text-sm font-bold text-[#1A1A1A]">
+                            ₦{parseFloat(booking.total_amount).toFixed(2)}
+                          </p>
                         </td>
 
-                        {/* Payment Status */}
+                        {/* Status */}
                         <td className="px-6 py-4">
                           <span
-                            className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold border ${paymentConfig.color}`}
+                            className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold ${statusConfig.color}`}
                           >
-                            <DollarSign className="w-3 h-3" />
-                            {paymentConfig.label}
-                          </span>
-                        </td>
-
-                        {/* Booking Status */}
-                        <td className="px-6 py-4">
-                          <span
-                            className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold border ${statusConfig.color}`}
-                          >
-                            <StatusIcon className="w-3 h-3" />
                             {statusConfig.label}
-                          </span>
-                        </td>
-
-                        {/* Source */}
-                        <td className="px-6 py-4">
-                          <span
-                            className={`inline-flex items-center px-2.5 py-1 rounded-lg text-xs font-medium ${sourceConfig.color}`}
-                          >
-                            {sourceConfig.label}
                           </span>
                         </td>
 
@@ -580,9 +320,8 @@ export default function BookingsPage() {
                               e.stopPropagation();
                               router.push(`/bookings/${booking.id}`);
                             }}
-                            className="inline-flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium text-blue-600 hover:text-blue-700 hover:bg-blue-50 rounded-lg transition-colors duration-200"
+                            className="px-3 py-1.5 text-sm font-medium text-[#0F75BD] hover:bg-[#0F75BD]/10 rounded-lg transition-colors"
                           >
-                            <Eye className="w-4 h-4" />
                             View
                           </button>
                         </td>
@@ -592,8 +331,7 @@ export default function BookingsPage() {
                 </tbody>
               </table>
             </div>
-          )}
-        </div>
+          </div>
         )}
       </div>
     </div>

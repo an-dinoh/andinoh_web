@@ -54,43 +54,48 @@ export default function StaffPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#FAFAFA]">
-      {/* Header */}
-      <div className="bg-white border-b border-gray-200 px-8 py-6">
+    <div className="h-full bg-white overflow-y-auto scrollbar-hide pt-8 pb-8">
+      <div className="space-y-6">
+        {/* Header */}
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-2xl font-bold text-gray-900">User Management</h1>
-            <p className="text-sm text-gray-500 mt-1">Manage your hotel staff and permissions</p>
+            <h1 className="text-3xl font-bold text-[#1A1A1A]">Staff</h1>
+            <p className="text-[#5C5B59] mt-1">Manage your hotel staff and permissions</p>
           </div>
           <button
             onClick={handleCreateClick}
-            className="flex items-center gap-2 px-5 py-2.5 bg-red-500 hover:bg-red-600 text-white rounded-lg font-medium transition-colors"
+            className="px-4 py-2.5 bg-[#0F75BD] text-sm text-white font-regular rounded-2xl hover:bg-[#0050C8] transition-colors flex items-center gap-2"
           >
             <Plus className="w-4 h-4" />
             {getButtonText()}
           </button>
         </div>
-      </div>
 
-      <div className="p-8">
-        {/* Stats Cards */}
-        <div className="grid grid-cols-4 gap-6 mb-8">
-          <StatsCard title="Total Users" value={mockStats.totalUsers} color="gray" />
-          <StatsCard title="Active Users" value={mockStats.activeUsers} color="green" />
-          <StatsCard title="Inactive Users" value={mockStats.inactiveUsers} color="orange" />
-          <StatsCard title="Deleted Users" value={mockStats.deletedUsers} color="red" />
+        {/* Stats Bar */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          {[
+            { label: "Total Users", value: mockStats.totalUsers, bg: "bg-[#F5F5F5]" },
+            { label: "Active Users", value: mockStats.activeUsers, bg: "bg-[#F0F9FF]" },
+            { label: "Inactive Users", value: mockStats.inactiveUsers, bg: "bg-[#FEF3C7]" },
+            { label: "Deleted Users", value: mockStats.deletedUsers, bg: "bg-[#FEE2E2]" },
+          ].map((stat, index) => (
+            <div key={index} className={`${stat.bg} rounded-2xl p-5`}>
+              <p className="text-[#5C5B59] text-sm mb-1">{stat.label}</p>
+              <p className="text-2xl font-bold text-[#1A1A1A]">{stat.value}</p>
+            </div>
+          ))}
         </div>
 
         {/* Tabs */}
-        <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
-          <div className="border-b border-gray-200">
+        <div className="bg-white rounded-2xl border border-[#E5E7EB] overflow-hidden">
+          <div className="border-b border-[#E5E7EB]">
             <div className="flex">
               <button
                 onClick={() => setActiveTab("users")}
                 className={`px-8 py-4 font-medium transition-colors relative ${
                   activeTab === "users"
-                    ? "text-red-500 border-b-2 border-red-500"
-                    : "text-gray-600 hover:text-gray-900"
+                    ? "text-[#0F75BD] border-b-2 border-[#0F75BD]"
+                    : "text-[#5C5B59] hover:text-[#1A1A1A]"
                 }`}
               >
                 Users
@@ -99,8 +104,8 @@ export default function StaffPage() {
                 onClick={() => setActiveTab("admins")}
                 className={`px-8 py-4 font-medium transition-colors relative ${
                   activeTab === "admins"
-                    ? "text-red-500 border-b-2 border-red-500"
-                    : "text-gray-600 hover:text-gray-900"
+                    ? "text-[#0F75BD] border-b-2 border-[#0F75BD]"
+                    : "text-[#5C5B59] hover:text-[#1A1A1A]"
                 }`}
               >
                 Admins
@@ -109,8 +114,8 @@ export default function StaffPage() {
                 onClick={() => setActiveTab("roles")}
                 className={`px-8 py-4 font-medium transition-colors relative ${
                   activeTab === "roles"
-                    ? "text-red-500 border-b-2 border-red-500"
-                    : "text-gray-600 hover:text-gray-900"
+                    ? "text-[#0F75BD] border-b-2 border-[#0F75BD]"
+                    : "text-[#5C5B59] hover:text-[#1A1A1A]"
                 }`}
               >
                 Roles and Permissions

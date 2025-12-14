@@ -12,12 +12,11 @@ import {
   Bed,
   DollarSign,
   CreditCard,
-  MapPin,
   FileText,
   CheckCircle,
   AlertCircle,
-  Search,
   Loader2,
+  Plus,
 } from "lucide-react";
 import { hotelService } from "@/services/hotel.service";
 import { Room, BookingSource } from "@/types/hotel.types";
@@ -40,7 +39,6 @@ interface BookingForm {
 export default function CreateBookingPage() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
-  const [checkingAvailability, setCheckingAvailability] = useState(false);
   const [rooms, setRooms] = useState<Room[]>([]);
   const [availableRooms, setAvailableRooms] = useState<Room[]>([]);
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
@@ -66,13 +64,6 @@ export default function CreateBookingPage() {
   }, []);
 
   useEffect(() => {
-    if (form.check_in_date && form.check_out_date) {
-      checkAvailability();
-    }
-  }, [form.check_in_date, form.check_out_date]);
-
-  useEffect(() => {
-    // Auto-calculate total amount when room or dates change
     if (form.room_id && form.check_in_date && form.check_out_date) {
       const room = rooms.find((r) => r.id === form.room_id);
       if (room && room.price_per_night) {
@@ -80,7 +71,6 @@ export default function CreateBookingPage() {
         const total = parseFloat(room.price_per_night) * nights;
         setForm((prev) => ({ ...prev, total_amount: total.toFixed(2) }));
       } else if (room) {
-        // Fallback to base_price if price_per_night is not available
         const nights = calculateNights(form.check_in_date, form.check_out_date);
         const total = parseFloat(room.base_price) * nights;
         setForm((prev) => ({ ...prev, total_amount: total.toFixed(2) }));
@@ -98,27 +88,6 @@ export default function CreateBookingPage() {
       console.error("Error fetching rooms:", error);
       setRooms([]);
       setAvailableRooms([]);
-    }
-  };
-
-  const checkAvailability = async () => {
-    if (!form.check_in_date || !form.check_out_date) return;
-
-    try {
-      setCheckingAvailability(true);
-      const response = await hotelService.checkRoomAvailability(
-        form.check_in_date,
-        form.check_out_date
-      );
-
-      // Filter available rooms based on response
-      const available = Array.isArray(response) ? response : [];
-      setAvailableRooms(available);
-    } catch (error) {
-      console.error("Error checking availability:", error);
-      setAvailableRooms([]);
-    } finally {
-      setCheckingAvailability(false);
     }
   };
 
@@ -212,130 +181,110 @@ export default function CreateBookingPage() {
   const balanceDue = parseFloat(form.total_amount) - parseFloat(form.amount_paid);
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <div className="bg-white border-b border-gray-200 sticky top-0 z-10">
-        <div className="px-6 py-6">
+    <div className="h-full bg-white overflow-y-auto scrollbar-hide pt-8 pb-8">
+      <div className="max-w-4xl mx-auto space-y-6">
+        {/* Header */}
+        <div className="flex items-center justify-between">
           <div className="flex items-center gap-4">
             <button
               onClick={() => router.back()}
-              className="p-2 hover:bg-gray-100 rounded-lg transition-colors duration-200"
+              className="p-2 hover:bg-[#FAFAFB] rounded-lg transition-colors"
             >
-              <ArrowLeft className="w-5 h-5 text-gray-600" />
+              <ArrowLeft className="w-5 h-5 text-[#5C5B59]" />
             </button>
-            <div className="flex-1">
-              <h1 className="text-2xl font-bold text-gray-900">Create New Booking</h1>
-              <p className="text-sm text-gray-500 mt-1">Fill in the details to create a new booking</p>
+            <div>
+              <h1 className="text-3xl font-bold text-[#1A1A1A]">Create New Booking</h1>
+              <p className="text-[#5C5B59] mt-1">Fill in the booking details</p>
             </div>
           </div>
         </div>
-      </div>
 
-      <form onSubmit={handleSubmit} className="p-6 max-w-5xl mx-auto">
         {/* Success/Error Messages */}
         {successMessage && (
-          <div className="mb-6 p-4 bg-emerald-50 border border-emerald-200 rounded-xl flex items-center gap-3">
-            <CheckCircle className="w-5 h-5 text-emerald-600 flex-shrink-0" />
-            <p className="text-sm font-medium text-emerald-800">{successMessage}</p>
+          <div className="p-4 bg-green-50 border border-green-200 rounded-xl flex items-center gap-3">
+            <CheckCircle className="w-5 h-5 text-green-600" />
+            <p className="text-sm font-medium text-green-800">{successMessage}</p>
           </div>
         )}
 
         {errors.submit && (
-          <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-xl flex items-center gap-3">
-            <AlertCircle className="w-5 h-5 text-red-600 flex-shrink-0" />
+          <div className="p-4 bg-red-50 border border-red-200 rounded-xl flex items-center gap-3">
+            <AlertCircle className="w-5 h-5 text-red-600" />
             <p className="text-sm font-medium text-red-800">{errors.submit}</p>
           </div>
         )}
 
-        <div className="space-y-6">
+        <form onSubmit={handleSubmit} className="space-y-6">
           {/* Guest Information */}
-          <div className="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
-            <div className="px-6 py-4 border-b border-gray-200 bg-gray-50">
-              <h2 className="text-lg font-semibold text-gray-900 flex items-center gap-2">
-                <User className="w-5 h-5 text-blue-600" />
-                Guest Information
-              </h2>
-            </div>
-            <div className="p-6 grid grid-cols-1 md:grid-cols-2 gap-6">
-              {/* Customer Name */}
+          <div className="bg-[#FAFAFB] border border-[#E5E7EB] rounded-2xl p-6">
+            <h2 className="text-lg font-semibold text-[#1A1A1A] mb-4">Guest Information</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-[#1A1A1A] mb-2">
                   Full Name <span className="text-red-500">*</span>
                 </label>
-                <div className="relative">
-                  <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
-                  <input
-                    type="text"
-                    name="customer_name"
-                    value={form.customer_name}
-                    onChange={handleInputChange}
-                    className={`w-full pl-10 pr-4 py-2.5 bg-gray-50 border rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 ${
-                      errors.customer_name ? "border-red-300" : "border-gray-200"
-                    }`}
-                    placeholder="John Doe"
-                  />
-                </div>
+                <input
+                  type="text"
+                  name="customer_name"
+                  value={form.customer_name}
+                  onChange={handleInputChange}
+                  className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-[#0F75BD] focus:border-transparent ${
+                    errors.customer_name ? "border-red-300" : "border-[#E5E7EB]"
+                  }`}
+                  placeholder="John Doe"
+                />
                 {errors.customer_name && (
                   <p className="mt-1 text-xs text-red-600">{errors.customer_name}</p>
                 )}
               </div>
 
-              {/* Customer Email */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Email Address <span className="text-red-500">*</span>
+                <label className="block text-sm font-medium text-[#1A1A1A] mb-2">
+                  Email <span className="text-red-500">*</span>
                 </label>
-                <div className="relative">
-                  <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
-                  <input
-                    type="email"
-                    name="customer_email"
-                    value={form.customer_email}
-                    onChange={handleInputChange}
-                    className={`w-full pl-10 pr-4 py-2.5 bg-gray-50 border rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 ${
-                      errors.customer_email ? "border-red-300" : "border-gray-200"
-                    }`}
-                    placeholder="john@example.com"
-                  />
-                </div>
+                <input
+                  type="email"
+                  name="customer_email"
+                  value={form.customer_email}
+                  onChange={handleInputChange}
+                  className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-[#0F75BD] focus:border-transparent ${
+                    errors.customer_email ? "border-red-300" : "border-[#E5E7EB]"
+                  }`}
+                  placeholder="john@example.com"
+                />
                 {errors.customer_email && (
                   <p className="mt-1 text-xs text-red-600">{errors.customer_email}</p>
                 )}
               </div>
 
-              {/* Customer Phone */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Phone Number <span className="text-red-500">*</span>
+                <label className="block text-sm font-medium text-[#1A1A1A] mb-2">
+                  Phone <span className="text-red-500">*</span>
                 </label>
-                <div className="relative">
-                  <Phone className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
-                  <input
-                    type="tel"
-                    name="customer_phone"
-                    value={form.customer_phone}
-                    onChange={handleInputChange}
-                    className={`w-full pl-10 pr-4 py-2.5 bg-gray-50 border rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 ${
-                      errors.customer_phone ? "border-red-300" : "border-gray-200"
-                    }`}
-                    placeholder="+1234567890"
-                  />
-                </div>
+                <input
+                  type="tel"
+                  name="customer_phone"
+                  value={form.customer_phone}
+                  onChange={handleInputChange}
+                  className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-[#0F75BD] focus:border-transparent ${
+                    errors.customer_phone ? "border-red-300" : "border-[#E5E7EB]"
+                  }`}
+                  placeholder="+234 123 456 7890"
+                />
                 {errors.customer_phone && (
                   <p className="mt-1 text-xs text-red-600">{errors.customer_phone}</p>
                 )}
               </div>
 
-              {/* Booking Source */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Booking Source <span className="text-red-500">*</span>
+                <label className="block text-sm font-medium text-[#1A1A1A] mb-2">
+                  Booking Source
                 </label>
                 <select
                   name="booking_source"
                   value={form.booking_source}
                   onChange={handleInputChange}
-                  className="w-full px-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                  className="w-full px-4 py-3 border border-[#E5E7EB] rounded-xl focus:ring-2 focus:ring-[#0F75BD] focus:border-transparent"
                 >
                   <option value="walk_in">Walk-in</option>
                   <option value="online">Online</option>
@@ -347,109 +296,87 @@ export default function CreateBookingPage() {
           </div>
 
           {/* Stay Details */}
-          <div className="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
-            <div className="px-6 py-4 border-b border-gray-200 bg-gray-50">
-              <h2 className="text-lg font-semibold text-gray-900 flex items-center gap-2">
-                <Calendar className="w-5 h-5 text-blue-600" />
-                Stay Details
-              </h2>
-            </div>
-            <div className="p-6 grid grid-cols-1 md:grid-cols-2 gap-6">
-              {/* Check-in Date */}
+          <div className="bg-[#FAFAFB] border border-[#E5E7EB] rounded-2xl p-6">
+            <h2 className="text-lg font-semibold text-[#1A1A1A] mb-4">Stay Details</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-[#1A1A1A] mb-2">
                   Check-in Date <span className="text-red-500">*</span>
                 </label>
-                <div className="relative">
-                  <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
-                  <input
-                    type="date"
-                    name="check_in_date"
-                    value={form.check_in_date}
-                    onChange={handleInputChange}
-                    min={new Date().toISOString().split("T")[0]}
-                    className={`w-full pl-10 pr-4 py-2.5 bg-gray-50 border rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 ${
-                      errors.check_in_date ? "border-red-300" : "border-gray-200"
-                    }`}
-                  />
-                </div>
+                <input
+                  type="date"
+                  name="check_in_date"
+                  value={form.check_in_date}
+                  onChange={handleInputChange}
+                  min={new Date().toISOString().split("T")[0]}
+                  className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-[#0F75BD] focus:border-transparent ${
+                    errors.check_in_date ? "border-red-300" : "border-[#E5E7EB]"
+                  }`}
+                />
                 {errors.check_in_date && (
                   <p className="mt-1 text-xs text-red-600">{errors.check_in_date}</p>
                 )}
               </div>
 
-              {/* Check-out Date */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-[#1A1A1A] mb-2">
                   Check-out Date <span className="text-red-500">*</span>
                 </label>
-                <div className="relative">
-                  <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
-                  <input
-                    type="date"
-                    name="check_out_date"
-                    value={form.check_out_date}
-                    onChange={handleInputChange}
-                    min={form.check_in_date || new Date().toISOString().split("T")[0]}
-                    className={`w-full pl-10 pr-4 py-2.5 bg-gray-50 border rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 ${
-                      errors.check_out_date ? "border-red-300" : "border-gray-200"
-                    }`}
-                  />
-                </div>
+                <input
+                  type="date"
+                  name="check_out_date"
+                  value={form.check_out_date}
+                  onChange={handleInputChange}
+                  min={form.check_in_date || new Date().toISOString().split("T")[0]}
+                  className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-[#0F75BD] focus:border-transparent ${
+                    errors.check_out_date ? "border-red-300" : "border-[#E5E7EB]"
+                  }`}
+                />
                 {errors.check_out_date && (
                   <p className="mt-1 text-xs text-red-600">{errors.check_out_date}</p>
                 )}
               </div>
 
-              {/* Number of Adults */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Number of Adults <span className="text-red-500">*</span>
+                <label className="block text-sm font-medium text-[#1A1A1A] mb-2">
+                  Adults <span className="text-red-500">*</span>
                 </label>
-                <div className="relative">
-                  <User className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
-                  <input
-                    type="number"
-                    name="number_of_adults"
-                    value={form.number_of_adults}
-                    onChange={handleInputChange}
-                    min="1"
-                    max="10"
-                    className={`w-full pl-10 pr-4 py-2.5 bg-gray-50 border rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 ${
-                      errors.number_of_adults ? "border-red-300" : "border-gray-200"
-                    }`}
-                  />
-                </div>
+                <input
+                  type="number"
+                  name="number_of_adults"
+                  value={form.number_of_adults}
+                  onChange={handleInputChange}
+                  min="1"
+                  max="10"
+                  className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-[#0F75BD] focus:border-transparent ${
+                    errors.number_of_adults ? "border-red-300" : "border-[#E5E7EB]"
+                  }`}
+                />
                 {errors.number_of_adults && (
                   <p className="mt-1 text-xs text-red-600">{errors.number_of_adults}</p>
                 )}
               </div>
 
-              {/* Number of Children */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Number of Children
+                <label className="block text-sm font-medium text-[#1A1A1A] mb-2">
+                  Children
                 </label>
-                <div className="relative">
-                  <Users className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
-                  <input
-                    type="number"
-                    name="number_of_children"
-                    value={form.number_of_children}
-                    onChange={handleInputChange}
-                    min="0"
-                    max="10"
-                    className="w-full pl-10 pr-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
-                  />
-                </div>
+                <input
+                  type="number"
+                  name="number_of_children"
+                  value={form.number_of_children}
+                  onChange={handleInputChange}
+                  min="0"
+                  max="10"
+                  className="w-full px-4 py-3 border border-[#E5E7EB] rounded-xl focus:ring-2 focus:ring-[#0F75BD] focus:border-transparent"
+                />
               </div>
 
-              {/* Nights Display */}
               {nights > 0 && (
                 <div className="md:col-span-2">
-                  <div className="p-4 bg-blue-50 border border-blue-200 rounded-xl">
-                    <p className="text-sm font-medium text-blue-900">
-                      Total Stay: <span className="font-bold">{nights}</span> {nights === 1 ? "night" : "nights"}
+                  <div className="p-4 bg-[#0F75BD]/10 border border-[#0F75BD]/20 rounded-xl">
+                    <p className="text-sm font-medium text-[#0F75BD]">
+                      Total Stay: {nights} {nights === 1 ? "night" : "nights"}
                     </p>
                   </div>
                 </div>
@@ -458,146 +385,98 @@ export default function CreateBookingPage() {
           </div>
 
           {/* Room Selection */}
-          <div className="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
-            <div className="px-6 py-4 border-b border-gray-200 bg-gray-50">
-              <div className="flex items-center justify-between">
-                <h2 className="text-lg font-semibold text-gray-900 flex items-center gap-2">
-                  <Bed className="w-5 h-5 text-blue-600" />
-                  Room Selection
-                </h2>
-                {checkingAvailability && (
-                  <div className="flex items-center gap-2 text-sm text-blue-600">
-                    <Loader2 className="w-4 h-4 animate-spin" />
-                    Checking availability...
-                  </div>
-                )}
-              </div>
-            </div>
-            <div className="p-6">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Select Room <span className="text-red-500">*</span>
-                </label>
-                <select
-                  name="room_id"
-                  value={form.room_id}
-                  onChange={handleInputChange}
-                  className={`w-full px-4 py-2.5 bg-gray-50 border rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 ${
-                    errors.room_id ? "border-red-300" : "border-gray-200"
-                  }`}
-                  disabled={checkingAvailability}
-                >
-                  <option value="">Select a room</option>
-                  {availableRooms.map((room) => (
-                    <option key={room.id} value={room.id}>
-                      {room.room_number} - {room.room_type} - ${room.price_per_night}/night
-                      {room.max_occupancy && ` (Max ${room.max_occupancy} guests)`}
-                    </option>
-                  ))}
-                </select>
-                {errors.room_id && <p className="mt-1 text-xs text-red-600">{errors.room_id}</p>}
-
-                {form.check_in_date && form.check_out_date && availableRooms.length === 0 && !checkingAvailability && (
-                  <div className="mt-3 p-3 bg-amber-50 border border-amber-200 rounded-lg">
-                    <p className="text-sm text-amber-800">
-                      No rooms available for the selected dates. Please try different dates.
-                    </p>
-                  </div>
-                )}
-              </div>
+          <div className="bg-[#FAFAFB] border border-[#E5E7EB] rounded-2xl p-6">
+            <h2 className="text-lg font-semibold text-[#1A1A1A] mb-4">Room Selection</h2>
+            <div>
+              <label className="block text-sm font-medium text-[#1A1A1A] mb-2">
+                Select Room <span className="text-red-500">*</span>
+              </label>
+              <select
+                name="room_id"
+                value={form.room_id}
+                onChange={handleInputChange}
+                className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-[#0F75BD] focus:border-transparent ${
+                  errors.room_id ? "border-red-300" : "border-[#E5E7EB]"
+                }`}
+              >
+                <option value="">Select a room</option>
+                {availableRooms.map((room) => (
+                  <option key={room.id} value={room.id}>
+                    {room.room_number} - {room.room_type} - ₦{room.price_per_night || room.base_price}/night
+                  </option>
+                ))}
+              </select>
+              {errors.room_id && <p className="mt-1 text-xs text-red-600">{errors.room_id}</p>}
             </div>
           </div>
 
           {/* Payment Information */}
-          <div className="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
-            <div className="px-6 py-4 border-b border-gray-200 bg-gray-50">
-              <h2 className="text-lg font-semibold text-gray-900 flex items-center gap-2">
-                <DollarSign className="w-5 h-5 text-blue-600" />
-                Payment Information
-              </h2>
-            </div>
-            <div className="p-6 space-y-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {/* Total Amount */}
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Total Amount
-                  </label>
-                  <div className="relative">
-                    <DollarSign className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
-                    <input
-                      type="number"
-                      name="total_amount"
-                      value={form.total_amount}
-                      onChange={handleInputChange}
-                      step="0.01"
-                      min="0"
-                      className="w-full pl-10 pr-4 py-2.5 bg-gray-100 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
-                      readOnly
-                    />
-                  </div>
-                  <p className="mt-1 text-xs text-gray-500">Auto-calculated based on room and nights</p>
-                </div>
-
-                {/* Amount Paid */}
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Amount Paid
-                  </label>
-                  <div className="relative">
-                    <CreditCard className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
-                    <input
-                      type="number"
-                      name="amount_paid"
-                      value={form.amount_paid}
-                      onChange={handleInputChange}
-                      step="0.01"
-                      min="0"
-                      max={form.total_amount}
-                      className="w-full pl-10 pr-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
-                    />
-                  </div>
-                </div>
+          <div className="bg-[#FAFAFB] border border-[#E5E7EB] rounded-2xl p-6">
+            <h2 className="text-lg font-semibold text-[#1A1A1A] mb-4">Payment Information</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+              <div>
+                <label className="block text-sm font-medium text-[#1A1A1A] mb-2">
+                  Total Amount
+                </label>
+                <input
+                  type="number"
+                  name="total_amount"
+                  value={form.total_amount}
+                  onChange={handleInputChange}
+                  step="0.01"
+                  min="0"
+                  className="w-full px-4 py-3 bg-white/50 border border-[#E5E7EB] rounded-xl"
+                  readOnly
+                />
               </div>
 
-              {/* Payment Summary */}
-              <div className="p-4 bg-gradient-to-br from-blue-50 to-indigo-50 border border-blue-200 rounded-xl space-y-2">
-                <div className="flex justify-between items-center">
-                  <span className="text-sm font-medium text-gray-700">Total Amount:</span>
-                  <span className="text-lg font-bold text-gray-900">${parseFloat(form.total_amount).toFixed(2)}</span>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-sm font-medium text-gray-700">Amount Paid:</span>
-                  <span className="text-lg font-semibold text-emerald-600">${parseFloat(form.amount_paid).toFixed(2)}</span>
-                </div>
-                <div className="pt-2 border-t border-blue-300 flex justify-between items-center">
-                  <span className="text-sm font-medium text-gray-700">Balance Due:</span>
-                  <span className={`text-lg font-bold ${balanceDue > 0 ? "text-orange-600" : "text-emerald-600"}`}>
-                    ${balanceDue.toFixed(2)}
-                  </span>
-                </div>
+              <div>
+                <label className="block text-sm font-medium text-[#1A1A1A] mb-2">
+                  Amount Paid
+                </label>
+                <input
+                  type="number"
+                  name="amount_paid"
+                  value={form.amount_paid}
+                  onChange={handleInputChange}
+                  step="0.01"
+                  min="0"
+                  max={form.total_amount}
+                  className="w-full px-4 py-3 border border-[#E5E7EB] rounded-xl focus:ring-2 focus:ring-[#0F75BD] focus:border-transparent"
+                />
+              </div>
+            </div>
+
+            {/* Payment Summary */}
+            <div className="p-4 bg-white border border-[#E5E7EB] rounded-xl space-y-2">
+              <div className="flex justify-between">
+                <span className="text-sm text-[#5C5B59]">Total Amount:</span>
+                <span className="text-lg font-bold text-[#1A1A1A]">₦{parseFloat(form.total_amount).toFixed(2)}</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-sm text-[#5C5B59]">Amount Paid:</span>
+                <span className="text-lg font-semibold text-green-600">₦{parseFloat(form.amount_paid).toFixed(2)}</span>
+              </div>
+              <div className="pt-2 border-t border-[#E5E7EB] flex justify-between">
+                <span className="text-sm font-medium text-[#1A1A1A]">Balance Due:</span>
+                <span className={`text-lg font-bold ${balanceDue > 0 ? "text-orange-600" : "text-green-600"}`}>
+                  ₦{balanceDue.toFixed(2)}
+                </span>
               </div>
             </div>
           </div>
 
           {/* Special Requests */}
-          <div className="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
-            <div className="px-6 py-4 border-b border-gray-200 bg-gray-50">
-              <h2 className="text-lg font-semibold text-gray-900 flex items-center gap-2">
-                <FileText className="w-5 h-5 text-blue-600" />
-                Special Requests (Optional)
-              </h2>
-            </div>
-            <div className="p-6">
-              <textarea
-                name="special_requests"
-                value={form.special_requests}
-                onChange={handleInputChange}
-                rows={4}
-                className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 resize-none"
-                placeholder="Enter any special requests or notes for this booking..."
-              />
-            </div>
+          <div className="bg-[#FAFAFB] border border-[#E5E7EB] rounded-2xl p-6">
+            <h2 className="text-lg font-semibold text-[#1A1A1A] mb-4">Special Requests (Optional)</h2>
+            <textarea
+              name="special_requests"
+              value={form.special_requests}
+              onChange={handleInputChange}
+              rows={4}
+              className="w-full px-4 py-3 border border-[#E5E7EB] rounded-xl focus:ring-2 focus:ring-[#0F75BD] focus:border-transparent resize-none"
+              placeholder="Enter any special requests or notes..."
+            />
           </div>
 
           {/* Action Buttons */}
@@ -605,15 +484,15 @@ export default function CreateBookingPage() {
             <button
               type="button"
               onClick={() => router.back()}
-              className="flex-1 px-6 py-3 bg-white border border-gray-300 text-gray-700 rounded-xl hover:bg-gray-50 transition-all duration-200 font-medium"
+              className="flex-1 px-6 py-3 bg-white border border-[#E5E7EB] text-[#1A1A1A] font-medium rounded-xl hover:bg-[#FAFAFB] transition-colors"
               disabled={loading}
             >
               Cancel
             </button>
             <button
               type="submit"
-              disabled={loading || checkingAvailability}
-              className="flex-1 px-6 py-3 bg-gradient-to-r from-blue-600 to-blue-500 text-white rounded-xl hover:from-blue-700 hover:to-blue-600 transition-all duration-200 font-medium shadow-lg shadow-blue-500/25 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+              disabled={loading}
+              className="flex-1 px-6 py-3 bg-[#0F75BD] text-white font-medium rounded-xl hover:bg-[#0050C8] transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
             >
               {loading ? (
                 <>
@@ -621,12 +500,15 @@ export default function CreateBookingPage() {
                   Creating Booking...
                 </>
               ) : (
-                "Create Booking"
+                <>
+                  <Plus className="w-5 h-5" />
+                  Create Booking
+                </>
               )}
             </button>
           </div>
-        </div>
-      </form>
+        </form>
+      </div>
     </div>
   );
 }

@@ -1,102 +1,111 @@
 "use client";
 
 import { useState } from "react";
-import { Send, MoreVertical, MapPin, Star, X, Bold, Italic, Underline, RotateCcw, RotateCw, Image as ImageIcon, ChevronDown } from "lucide-react";
-import MessageIcon from "@/icons/MessageIcon";
+import { Send, Search, User, Phone, Video, MoreVertical, Paperclip, Smile } from "lucide-react";
 
 interface Chat {
   id: string;
-  name: string;
-  avatar: string;
+  guestName: string;
+  roomNumber: string;
   lastMessage: string;
   time: string;
   unread?: number;
-  role?: string;
-  rating?: number;
-  reviews?: number;
+  status: "active" | "checked-out";
 }
 
 interface Message {
   id: string;
   text: string;
   time: string;
-  sent: boolean;
+  isGuest: boolean;
 }
 
 export default function ChatsPage() {
   const [selectedChat, setSelectedChat] = useState<string>("1");
   const [message, setMessage] = useState("");
-  const [showOptionsMenu, setShowOptionsMenu] = useState(false);
-  const [showReportModal, setShowReportModal] = useState(false);
-  const [showSuccessModal, setShowSuccessModal] = useState(false);
-  const [reportReason, setReportReason] = useState("");
+  const [searchTerm, setSearchTerm] = useState("");
 
   const chats: Chat[] = [
     {
       id: "1",
-      name: "Adebanjo Nawas",
-      avatar: "👤",
-      lastMessage: "Hi Praise, I want to design a end-to-e...",
+      guestName: "John Doe",
+      roomNumber: "101",
+      lastMessage: "Thank you! The room service was excellent.",
       time: "Just Now",
-      unread: 1,
+      unread: 2,
+      status: "active",
     },
     {
       id: "2",
-      name: "Muhammad Nuralim",
-      avatar: "👤",
-      lastMessage: "Hi Praise, I want to design a end-to-e...",
-      time: "03:10 PM",
+      guestName: "Jane Smith",
+      roomNumber: "205",
+      lastMessage: "Can I get extra towels please?",
+      time: "5 mins ago",
+      unread: 1,
+      status: "active",
     },
     {
       id: "3",
-      name: "Grace Philomena",
-      avatar: "👤",
-      lastMessage: "Hi Praise, I want to design a end-to-e...",
-      time: "Yesterday",
+      guestName: "Mike Johnson",
+      roomNumber: "312",
+      lastMessage: "What time is breakfast served?",
+      time: "15 mins ago",
+      status: "active",
     },
     {
       id: "4",
-      name: "Adeyanju Emmanuel",
-      avatar: "👤",
-      lastMessage: "Hi Praise, I want to design a end-to-e...",
-      time: "Jun 28",
+      guestName: "Sarah Williams",
+      roomNumber: "108",
+      lastMessage: "The Wi-Fi password isn't working",
+      time: "1 hour ago",
+      status: "active",
     },
   ];
 
   const messages: Message[] = [
     {
       id: "1",
-      text: "Hi Praise, I want to design a end-to-end fintech product with 3 month maximum duration. Would you be available by 2:00PM for us to discuss the details?",
-      time: "11:54 AM",
-      sent: false,
+      text: "Hi! I just checked in. The room is lovely, thank you!",
+      time: "2:30 PM",
+      isGuest: true,
     },
     {
       id: "2",
-      text: "Hi Nawas, I will not be available during the time slot you suggested. However, between 5 - 7 pm is a good time for me. Please let me know that time works for you.",
-      time: "11:54 AM",
-      sent: true,
+      text: "Welcome to our hotel! We're delighted to have you. If you need anything, please don't hesitate to ask.",
+      time: "2:32 PM",
+      isGuest: false,
     },
     {
       id: "3",
-      text: "That's a great time. See you then!",
-      time: "11:54 AM",
-      sent: false,
+      text: "Thank you! Could you send someone to help with the TV remote? It's not working.",
+      time: "2:35 PM",
+      isGuest: true,
     },
     {
       id: "4",
-      text: "Thank you!\nSee you soon.",
-      time: "11:54 AM",
-      sent: true,
+      text: "Of course! I'll send someone from our technical team right away. They should be there in 5 minutes.",
+      time: "2:36 PM",
+      isGuest: false,
     },
     {
       id: "5",
-      text: "Hello It's time please. An end-to-end fintech product is a big one, however the duration might be bit or worries. I can't really give a timeframe until we get to discuss the product in details. Map out the requirement both on high and detailed level. So I will not say YES to the timeframe neither would I say NO. Lets just discuss the product in details and we can go from there.",
-      time: "11:54 AM",
-      sent: true,
+      text: "Perfect, thank you so much!",
+      time: "2:37 PM",
+      isGuest: true,
+    },
+    {
+      id: "6",
+      text: "Thank you! The room service was excellent.",
+      time: "3:15 PM",
+      isGuest: true,
     },
   ];
 
   const currentChat = chats.find((c) => c.id === selectedChat);
+  const filteredChats = chats.filter((chat) =>
+    chat.guestName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    chat.roomNumber.includes(searchTerm)
+  );
 
   const handleSendMessage = () => {
     if (message.trim()) {
@@ -105,427 +114,180 @@ export default function ChatsPage() {
     }
   };
 
-  const handleReport = () => {
-    setShowOptionsMenu(false);
-    setShowReportModal(true);
-  };
-
-  const handleSubmitReport = () => {
-    setShowReportModal(false);
-    setShowSuccessModal(true);
-  };
-
   return (
-    <div className="flex h-screen bg-gray-50">
-      {/* Sidebar - Recent Chats */}
-      <div className="w-96 bg-white border-r border-gray-200 flex flex-col">
-        {/* Sidebar Header */}
-        <div className="p-6 border-b border-gray-200">
-          <h2 className="text-2xl font-bold text-[#0B0A07]">Chats</h2>
-        </div>
-
-        {/* Recent Label */}
-        <div className="px-6 py-4">
-          <h3 className="text-lg font-semibold text-[#0B0A07]">Recent</h3>
+    <div className="h-full bg-white flex overflow-hidden">
+      {/* Chats List Sidebar */}
+      <div className="w-full sm:w-80 lg:w-96 border-r border-[#E5E7EB] flex flex-col">
+        {/* Header */}
+        <div className="p-6 border-b border-[#E5E7EB]">
+          <h1 className="text-2xl font-bold text-[#1A1A1A] mb-4">Messages</h1>
+          {/* Search */}
+          <div className="relative">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-[#5C5B59]" />
+            <input
+              type="text"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              placeholder="Search guests or rooms..."
+              className="w-full pl-10 pr-4 py-2.5 border border-[#E5E7EB] rounded-xl focus:ring-2 focus:ring-[#0F75BD] focus:border-transparent text-sm"
+            />
+          </div>
         </div>
 
         {/* Chats List */}
-        <div className="flex-1 overflow-y-auto">
-          {chats.map((chat) => (
+        <div className="flex-1 overflow-y-auto scrollbar-hide">
+          {filteredChats.map((chat) => (
             <button
               key={chat.id}
               onClick={() => setSelectedChat(chat.id)}
-              className={`w-full px-6 py-4 flex items-start gap-3 hover:bg-gray-50 transition-colors ${
-                selectedChat === chat.id ? "bg-gray-50" : ""
+              className={`w-full p-4 border-b border-[#E5E7EB] hover:bg-[#FAFAFB] transition-colors text-left ${
+                selectedChat === chat.id ? "bg-[#E8F4F8]" : ""
               }`}
             >
-              {/* Avatar */}
-              <div className="w-12 h-12 bg-gradient-to-br from-blue-400 to-blue-600 rounded-full flex items-center justify-center text-white text-xl flex-shrink-0">
-                {chat.avatar}
-              </div>
-
-              {/* Chat Info */}
-              <div className="flex-1 min-w-0 text-left">
-                <div className="flex items-center justify-between mb-1">
-                  <h4 className="font-semibold text-[#0B0A07] text-sm">{chat.name}</h4>
-                  <span className="text-xs text-gray-500">{chat.time}</span>
+              <div className="flex items-start gap-3">
+                <div className="w-12 h-12 rounded-full bg-[#0F75BD] flex items-center justify-center flex-shrink-0">
+                  <span className="text-white font-semibold text-lg">
+                    {chat.guestName.charAt(0)}
+                  </span>
                 </div>
-                <p className="text-sm text-gray-600 truncate">{chat.lastMessage}</p>
-              </div>
-
-              {/* Unread Badge */}
-              {chat.unread && (
-                <div className="w-5 h-5 bg-red-500 rounded-full flex items-center justify-center text-white text-xs font-bold flex-shrink-0">
-                  {chat.unread}
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center justify-between mb-1">
+                    <h3 className="font-semibold text-[#1A1A1A] text-sm truncate">
+                      {chat.guestName}
+                    </h3>
+                    <span className="text-xs text-[#5C5B59] flex-shrink-0 ml-2">
+                      {chat.time}
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-2 mb-1">
+                    <span className="text-xs text-[#5C5B59]">Room {chat.roomNumber}</span>
+                    <span className={`text-xs px-2 py-0.5 rounded-full ${
+                      chat.status === "active"
+                        ? "bg-[#ECFDF5] text-green-700"
+                        : "bg-[#F5F5F5] text-[#5C5B59]"
+                    }`}>
+                      {chat.status === "active" ? "Active" : "Checked Out"}
+                    </span>
+                  </div>
+                  <p className="text-sm text-[#5C5B59] truncate">{chat.lastMessage}</p>
                 </div>
-              )}
+                {chat.unread && (
+                  <span className="flex-shrink-0 w-5 h-5 rounded-full bg-[#0F75BD] text-white text-xs flex items-center justify-center font-semibold">
+                    {chat.unread}
+                  </span>
+                )}
+              </div>
             </button>
           ))}
         </div>
-
-        {/* Browse Gigs Button */}
-        <div className="p-6 border-t border-gray-200">
-          <button className="w-full px-6 py-3 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition-colors">
-            Browse Gigs
-          </button>
-        </div>
       </div>
 
-      {/* Main Chat Area */}
-      <div className="flex-1 flex flex-col bg-white">
-        {/* Chat Header */}
-        <div className="px-6 py-4 border-b border-gray-200">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              {/* Avatar */}
-              <div className="w-12 h-12 bg-gradient-to-br from-blue-400 to-blue-600 rounded-full flex items-center justify-center text-white text-xl">
-                👤
-              </div>
-
-              {/* User Info */}
-              <div>
-                <h3 className="font-bold text-[#0B0A07] text-lg">{currentChat?.name}</h3>
-                <div className="flex items-center gap-2 text-sm text-gray-600">
-                  <span>Product Designer</span>
-                  <span>•</span>
-                  <div className="flex items-center gap-1">
-                    <Star size={14} className="text-orange-400 fill-orange-400" />
-                    <span className="font-semibold text-[#0B0A07]">4.5</span>
-                    <span>(50+)</span>
-                  </div>
-                  <span>•</span>
-                  <div className="flex items-center gap-1">
-                    <MapPin size={14} />
-                    <span>Lagos, Nigeria</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Options Menu */}
-            <div className="relative">
-              <button
-                onClick={() => setShowOptionsMenu(!showOptionsMenu)}
-                className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
-              >
-                <MoreVertical size={20} className="text-gray-600" />
-              </button>
-
-              {showOptionsMenu && (
-                <div className="absolute top-full right-0 mt-2 w-48 bg-white border border-gray-200 rounded-xl shadow-lg z-10 py-2">
-                  <button className="w-full px-4 py-2 text-left text-sm hover:bg-gray-50 flex items-center gap-2">
-                    <span>👤</span>
-                    <span className="text-gray-700">View Profile</span>
-                  </button>
-                  <button className="w-full px-4 py-2 text-left text-sm hover:bg-gray-50 flex items-center gap-2">
-                    <span>🔕</span>
-                    <span className="text-gray-700">Mute Notification</span>
-                  </button>
-                  <button
-                    onClick={handleReport}
-                    className="w-full px-4 py-2 text-left text-sm hover:bg-gray-50 flex items-center gap-2"
-                  >
-                    <span className="text-red-500">⚠️</span>
-                    <span className="text-red-500">Report</span>
-                  </button>
-                </div>
-              )}
-            </div>
-          </div>
-
-          {/* Project Info Card */}
-          <div className="mt-4 bg-blue-50 border border-blue-200 rounded-xl p-4">
-            <div className="flex items-start justify-between">
-              <div className="flex-1">
-                <span className="inline-block px-3 py-1 bg-blue-100 text-blue-600 text-xs font-semibold rounded-full mb-2">
-                  Web Development
-                </span>
-                <h4 className="text-lg font-bold text-[#0B0A07] mb-2">Front-End Development</h4>
-                <p className="text-sm text-gray-600 mb-3">
-                  Skilled Front End Developer with 7 years of experience in crafting responsive and interactive...
-                </p>
-                <div className="flex items-center gap-4">
-                  <div>
-                    <span className="text-sm text-gray-600">Rate: </span>
-                    <span className="text-lg font-bold text-green-600">₦500K</span>
-                  </div>
-                  <span className="px-3 py-1 bg-green-100 text-green-700 text-xs font-semibold rounded-full">
-                    Available Now
+      {/* Chat Area */}
+      <div className="flex-1 flex flex-col">
+        {currentChat ? (
+          <>
+            {/* Chat Header */}
+            <div className="p-6 border-b border-[#E5E7EB] flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <div className="w-12 h-12 rounded-full bg-[#0F75BD] flex items-center justify-center">
+                  <span className="text-white font-semibold text-lg">
+                    {currentChat.guestName.charAt(0)}
                   </span>
                 </div>
+                <div>
+                  <h2 className="font-semibold text-[#1A1A1A]">{currentChat.guestName}</h2>
+                  <p className="text-sm text-[#5C5B59]">Room {currentChat.roomNumber}</p>
+                </div>
               </div>
-              <div className="flex gap-2">
-                <button className="px-4 py-2 bg-green-600 text-white rounded-lg text-sm font-semibold hover:bg-green-700 transition-colors">
-                  Mark as Completed
+              <div className="flex items-center gap-2">
+                <button className="p-2 hover:bg-[#FAFAFB] rounded-lg transition-colors">
+                  <Phone className="w-5 h-5 text-[#5C5B59]" />
                 </button>
-                <button className="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg text-sm font-semibold hover:bg-gray-50 transition-colors">
-                  View Project
+                <button className="p-2 hover:bg-[#FAFAFB] rounded-lg transition-colors">
+                  <Video className="w-5 h-5 text-[#5C5B59]" />
+                </button>
+                <button className="p-2 hover:bg-[#FAFAFB] rounded-lg transition-colors">
+                  <MoreVertical className="w-5 h-5 text-[#5C5B59]" />
                 </button>
               </div>
             </div>
-          </div>
-        </div>
 
-        {/* Messages Area */}
-        <div className="flex-1 overflow-y-auto p-6">
-          {/* Today Label */}
-          <div className="flex justify-center mb-6">
-            <span className="px-4 py-1 bg-gray-200 text-gray-600 text-xs font-medium rounded-full">
-              Today
-            </span>
-          </div>
-
-          {/* Messages */}
-          <div className="space-y-4 max-w-4xl mx-auto">
-            {messages.map((msg) => (
-              <div
-                key={msg.id}
-                className={`flex ${msg.sent ? "justify-end" : "justify-start"}`}
-              >
+            {/* Messages Area */}
+            <div className="flex-1 overflow-y-auto scrollbar-hide p-6 space-y-4 bg-[#FAFAFB]">
+              {messages.map((msg) => (
                 <div
-                  className={`max-w-2xl px-4 py-3 rounded-2xl ${
-                    msg.sent
-                      ? "bg-gray-200 text-gray-900"
-                      : "bg-blue-50 text-gray-900"
-                  }`}
+                  key={msg.id}
+                  className={`flex ${msg.isGuest ? "justify-start" : "justify-end"}`}
                 >
-                  <p className="text-sm whitespace-pre-line">{msg.text}</p>
-                  <p className="text-xs text-gray-500 mt-1">Delivered: {msg.time}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Message Input */}
-        <div className="px-6 py-4 border-t border-gray-200">
-          <div className="flex items-center gap-3">
-            {/* Bold N Icon */}
-            <button className="w-10 h-10 bg-gray-100 rounded-lg flex items-center justify-center font-bold text-gray-700 hover:bg-gray-200 transition-colors">
-              N
-            </button>
-
-            {/* Message Input Field */}
-            <div className="flex-1 relative">
-              <input
-                type="text"
-                value={message}
-                onChange={(e) => setMessage(e.target.value)}
-                onKeyPress={(e) => e.key === "Enter" && handleSendMessage()}
-                placeholder="Type message here..."
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              />
-            </div>
-
-            {/* Send Button */}
-            <button
-              onClick={handleSendMessage}
-              className="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center text-white hover:bg-blue-700 transition-colors"
-            >
-              <Send size={18} />
-            </button>
-          </div>
-        </div>
-      </div>
-
-      {/* Report Modal */}
-      {showReportModal && (
-        <>
-          <div
-            className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50"
-            onClick={() => setShowReportModal(false)}
-          />
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-            <div
-              className="bg-white rounded-2xl shadow-2xl max-w-2xl w-full p-8 relative"
-              onClick={(e) => e.stopPropagation()}
-            >
-              {/* Close Button */}
-              <button
-                onClick={() => setShowReportModal(false)}
-                className="absolute top-4 right-4 text-gray-400 hover:text-gray-600"
-              >
-                <X size={24} />
-              </button>
-
-              {/* Header */}
-              <h2 className="text-2xl font-bold text-[#0B0A07] mb-2">Report an Issue</h2>
-              <p className="text-sm text-gray-600 mb-6">
-                If you notice any anomalies or have concerns, please report them here. We aim to keep our community safe and respectful.
-              </p>
-
-              {/* Form */}
-              <div className="space-y-4">
-                {/* Email */}
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Your Email:
-                  </label>
-                  <input
-                    type="email"
-                    placeholder="Type your email here..."
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  />
-                </div>
-
-                {/* Who are you reporting */}
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Who are you reporting?
-                  </label>
-                  <input
-                    type="text"
-                    value="Auto filled"
-                    disabled
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg bg-gray-50 text-gray-500"
-                  />
-                </div>
-
-                {/* Their Username */}
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Their Username
-                  </label>
-                  <input
-                    type="text"
-                    value="Auto filled"
-                    disabled
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg bg-gray-50 text-gray-500"
-                  />
-                </div>
-
-                {/* Why are you Reporting */}
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Why are you Reporting?
-                  </label>
-                  <select
-                    value={reportReason}
-                    onChange={(e) => setReportReason(e.target.value)}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 appearance-none"
+                  <div
+                    className={`max-w-[70%] rounded-2xl px-4 py-3 ${
+                      msg.isGuest
+                        ? "bg-white text-[#1A1A1A]"
+                        : "bg-[#0F75BD] text-white"
+                    }`}
                   >
-                    <option value="">Choose here...</option>
-                    <option value="spam">Spam</option>
-                    <option value="harassment">Harassment</option>
-                    <option value="fraud">Fraud</option>
-                    <option value="other">Other</option>
-                  </select>
-                </div>
-
-                {/* Additional Message */}
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Additional Message
-                  </label>
-                  <div className="border border-gray-300 rounded-lg">
-                    {/* Toolbar */}
-                    <div className="flex items-center gap-2 px-3 py-2 border-b border-gray-200">
-                      <button className="p-1 hover:bg-gray-100 rounded">
-                        <Bold size={18} className="text-gray-600" />
-                      </button>
-                      <button className="p-1 hover:bg-gray-100 rounded">
-                        <Italic size={18} className="text-gray-600" />
-                      </button>
-                      <button className="p-1 hover:bg-gray-100 rounded">
-                        <Underline size={18} className="text-gray-600" />
-                      </button>
-                      <div className="w-px h-6 bg-gray-300 mx-1" />
-                      <button className="p-1 hover:bg-gray-100 rounded">
-                        <RotateCcw size={18} className="text-gray-600" />
-                      </button>
-                      <button className="p-1 hover:bg-gray-100 rounded">
-                        <RotateCw size={18} className="text-gray-600" />
-                      </button>
-                      <div className="w-px h-6 bg-gray-300 mx-1" />
-                      <button className="p-1 hover:bg-gray-100 rounded">
-                        <ImageIcon size={18} className="text-gray-600" />
-                      </button>
-                    </div>
-                    {/* Textarea */}
-                    <textarea
-                      placeholder="Type your question"
-                      rows={6}
-                      className="w-full px-4 py-3 focus:outline-none resize-none"
-                    />
+                    <p className="text-sm whitespace-pre-wrap">{msg.text}</p>
+                    <p
+                      className={`text-xs mt-1 ${
+                        msg.isGuest ? "text-[#5C5B59]" : "text-white/70"
+                      }`}
+                    >
+                      {msg.time}
+                    </p>
                   </div>
                 </div>
-              </div>
-
-              {/* Buttons */}
-              <div className="flex items-center justify-end gap-3 mt-6">
-                <button
-                  onClick={() => setShowReportModal(false)}
-                  className="px-6 py-3 border border-gray-300 text-gray-700 rounded-lg font-semibold hover:bg-gray-50 transition-colors"
-                >
-                  Cancel
-                </button>
-                <button
-                  onClick={handleSubmitReport}
-                  className="px-6 py-3 bg-red-500 text-white rounded-lg font-semibold hover:bg-red-600 transition-colors"
-                >
-                  Submit
-                </button>
-              </div>
+              ))}
             </div>
-          </div>
-        </>
-      )}
 
-      {/* Success Modal */}
-      {showSuccessModal && (
-        <>
-          <div
-            className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50"
-            onClick={() => setShowSuccessModal(false)}
-          />
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-            <div
-              className="bg-white rounded-2xl shadow-2xl max-w-md w-full p-8 text-center"
-              onClick={(e) => e.stopPropagation()}
-            >
-              {/* Success Icon */}
-              <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <svg
-                  className="w-8 h-8 text-green-600"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M5 13l4 4L19 7"
+            {/* Message Input */}
+            <div className="p-4 border-t border-[#E5E7EB] bg-white">
+              <div className="flex items-end gap-3">
+                <button className="p-2 hover:bg-[#FAFAFB] rounded-lg transition-colors">
+                  <Paperclip className="w-5 h-5 text-[#5C5B59]" />
+                </button>
+                <div className="flex-1 border border-[#E5E7EB] rounded-xl p-3 focus-within:ring-2 focus-within:ring-[#0F75BD] focus-within:border-transparent">
+                  <textarea
+                    value={message}
+                    onChange={(e) => setMessage(e.target.value)}
+                    onKeyPress={(e) => {
+                      if (e.key === "Enter" && !e.shiftKey) {
+                        e.preventDefault();
+                        handleSendMessage();
+                      }
+                    }}
+                    placeholder="Type your message..."
+                    className="w-full resize-none focus:outline-none text-sm max-h-32"
+                    rows={1}
                   />
-                </svg>
-              </div>
-
-              <h3 className="text-2xl font-bold text-[#0B0A07] mb-2">
-                Report Submitted Successfully
-              </h3>
-              <p className="text-sm text-gray-600 mb-6">
-                Are you certain you want to delete this post? Deleting is permanent and cannot be undone.
-              </p>
-
-              {/* Buttons */}
-              <div className="flex items-center gap-3">
-                <button
-                  onClick={() => setShowSuccessModal(false)}
-                  className="flex-1 px-6 py-3 border border-gray-300 text-gray-700 rounded-full font-semibold hover:bg-gray-50 transition-colors"
-                >
-                  No, Cancel
+                </div>
+                <button className="p-2 hover:bg-[#FAFAFB] rounded-lg transition-colors">
+                  <Smile className="w-5 h-5 text-[#5C5B59]" />
                 </button>
                 <button
-                  onClick={() => setShowSuccessModal(false)}
-                  className="flex-1 px-6 py-3 bg-black text-white rounded-full font-semibold hover:bg-gray-800 transition-colors"
+                  onClick={handleSendMessage}
+                  className="p-3 bg-[#0F75BD] hover:bg-[#0050C8] rounded-xl transition-colors"
                 >
-                  View Ticket
+                  <Send className="w-5 h-5 text-white" />
                 </button>
               </div>
             </div>
+          </>
+        ) : (
+          <div className="flex-1 flex items-center justify-center bg-[#FAFAFB]">
+            <div className="text-center">
+              <div className="w-20 h-20 bg-[#E8F4F8] rounded-2xl flex items-center justify-center mx-auto mb-4">
+                <User className="w-10 h-10 text-[#0F75BD]" />
+              </div>
+              <h3 className="text-xl font-semibold text-[#1A1A1A] mb-2">
+                No chat selected
+              </h3>
+              <p className="text-[#5C5B59]">
+                Select a guest conversation to start messaging
+              </p>
+            </div>
           </div>
-        </>
-      )}
+        )}
+      </div>
     </div>
   );
 }

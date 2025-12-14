@@ -24,7 +24,7 @@ export default function LogoutModal({
       {/* Modal */}
       <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
         <div
-          className="bg-white rounded-3xl shadow-2xl max-w-md w-full p-8 relative"
+          className="bg-white rounded-3xl max-w-md w-full p-8 relative"
           onClick={(e) => e.stopPropagation()}
         >
           {/* Icon */}

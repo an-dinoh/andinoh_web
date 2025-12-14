@@ -25,7 +25,7 @@ export default function RolesList({ roles }: RolesListProps) {
         {roles.map((role) => (
           <div
             key={role.id}
-            className="border border-gray-200 rounded-xl p-6 hover:shadow-md transition-shadow"
+            className="border border-gray-200 rounded-xl p-6 transition-all"
           >
             <div className="flex items-start justify-between">
               <div className="flex-1">

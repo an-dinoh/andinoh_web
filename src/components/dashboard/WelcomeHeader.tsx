@@ -48,7 +48,7 @@ export default function WelcomeHeader({
         {actionCards.map((card, index) => (
           <div
             key={index}
-            className={`${card.bgColor} border ${card.borderColor} rounded-3xl flex-1 transition hover:shadow-md`}
+            className={`${card.bgColor} border ${card.borderColor} rounded-3xl flex-1 transition`}
           >
             <div className="px-4 py-4 space-y-5">
               <div>

@@ -44,7 +44,7 @@ export const Skeleton: React.FC<SkeletonProps> = ({
 
 // Specialized skeleton components
 export const SkeletonCard: React.FC<{ className?: string }> = ({ className = '' }) => (
-  <div className={`bg-white rounded-2xl p-6 border border-gray-200 shadow-sm ${className}`}>
+  <div className={`bg-white rounded-2xl p-6 border border-gray-200 ${className}`}>
     <div className="flex items-center justify-between">
       <div className="flex-1">
         <Skeleton width="60%" height="14px" className="mb-2" />
@@ -60,7 +60,7 @@ export const SkeletonTable: React.FC<{ rows?: number; columns?: number }> = ({
   rows = 5,
   columns = 6
 }) => (
-  <div className="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
+  <div className="bg-white rounded-2xl border border-gray-200 overflow-hidden">
     <div className="overflow-x-auto">
       <table className="w-full">
         <thead>

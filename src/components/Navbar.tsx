@@ -16,7 +16,7 @@ export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const linkClass = "text-lg font-semibold text-gray-700 hover:text-green ";
   return (
-<nav className="flex items-center justify-between px-24 py-3 bg-white shadow-none relative border-b border-gray-200">
+<nav className="flex items-center justify-between px-24 py-3 bg-white relative border-b border-gray-200">
 
       {/* Logo */}
       <div className="flex items-center space-x-2">

@@ -18,11 +18,11 @@ export default function Card({
     lg: "p-8",
   };
 
-  const hoverStyle = hover ? "hover:shadow-lg transition-shadow duration-200" : "";
+  const hoverStyle = hover ? "transition-all duration-200" : "";
 
   return (
     <div
-      className={`bg-white rounded-lg shadow-sm border border-gray-200 ${paddingStyles[padding]} ${hoverStyle} ${className}`}
+      className={`bg-white rounded-lg border border-gray-200 ${paddingStyles[padding]} ${hoverStyle} ${className}`}
     >
       {children}
     </div>
