@@ -125,7 +125,6 @@ export default function CreateRoomPage() {
         router.push("/rooms");
       }, 1500);
     } catch (error: any) {
-      console.error("Error creating room:", error);
       setErrors({
         submit:
           error?.response?.data?.message ||

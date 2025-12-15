@@ -1,5 +1,7 @@
 "use client";
 
+export const dynamic = 'force-dynamic';
+
 import Link from "next/link";
 import InputField from "@/components/ui/InputField";
 import Button from "@/components/ui/Button";
@@ -112,7 +114,6 @@ function ResetPasswordForm() {
 
     try {
       // TODO: Call API to reset password
-      console.log("✅ Password reset successfully for:", email);
       await new Promise((resolve) => setTimeout(resolve, 1000));
       setIsSubmitted(true);
     } catch (error) {

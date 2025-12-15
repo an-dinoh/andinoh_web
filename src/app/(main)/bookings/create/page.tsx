@@ -85,7 +85,6 @@ export default function CreateBookingPage() {
       setRooms(roomsArray.filter((r) => r.is_available));
       setAvailableRooms(roomsArray.filter((r) => r.is_available));
     } catch (error) {
-      console.error("Error fetching rooms:", error);
       setRooms([]);
       setAvailableRooms([]);
     }
@@ -155,7 +154,6 @@ export default function CreateBookingPage() {
         router.push("/bookings");
       }, 1500);
     } catch (error: any) {
-      console.error("Error creating booking:", error);
       setErrors({
         submit: error?.response?.data?.message || "Failed to create booking. Please try again.",
       });
