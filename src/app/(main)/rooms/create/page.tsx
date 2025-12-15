@@ -21,10 +21,11 @@ import {
   Sparkles,
 } from "lucide-react";
 import { hotelService } from "@/services/hotel.service";
+import { RoomType } from "@/types/hotel.types";
 
 interface RoomForm {
   room_number: string;
-  room_type: string;
+  room_type: RoomType;
   title: string;
   description: string;
   base_price: string;
@@ -141,7 +142,7 @@ export default function CreateRoomPage() {
     >
   ) => {
     const { name, value } = e.target;
-    setForm((prev) => ({ ...prev, [name]: value }));
+    setForm((prev) => ({ ...prev, [name]: name === 'room_type' ? value as RoomType : value }));
     if (errors[name]) {
       setErrors((prev) => ({ ...prev, [name]: "" }));
     }
