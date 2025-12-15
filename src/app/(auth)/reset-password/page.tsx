@@ -4,11 +4,11 @@ import Link from "next/link";
 import InputField from "@/components/ui/InputField";
 import Button from "@/components/ui/Button";
 import PasswordStrengthIndicator from "@/components/ui/PasswordStrengthIndicator";
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { FormValidator } from "@/utils/FormValidator";
 
-export default function ResetPasswordPage() {
+function ResetPasswordForm() {
   const searchParams = useSearchParams();
   const email = searchParams.get("email");
   const verified = searchParams.get("verified");
@@ -275,5 +275,17 @@ export default function ResetPasswordPage() {
         />
       </form>
     </div>
+  );
+}
+
+export default function ResetPasswordPage() {
+  return (
+    <Suspense fallback={
+      <div className="rounded-2xl p-8 text-center">
+        <p className="text-gray-500">Loading...</p>
+      </div>
+    }>
+      <ResetPasswordForm />
+    </Suspense>
   );
 }

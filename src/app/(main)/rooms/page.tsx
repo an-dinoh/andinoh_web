@@ -2,9 +2,11 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { Plus, Search, Filter, Edit, Trash2, Eye, ChevronDown, Bookmark, MapPin, Star, Bed, Users, Maximize2, Sparkles } from "lucide-react";
+import { Plus, Search, Filter, Edit, Trash2, Eye, ChevronDown, Bookmark, MapPin, Star, Bed, Users, Maximize2, Sparkles, Image as ImageIcon, Video, MessageSquare, Box } from "lucide-react";
 import Loading from "@/components/ui/Loading";
 import { Room, RoomType } from "@/types/hotel.types";
+
+type RoomDetailTab = "pictures" | "videos" | "reviews" | "3d-tour";
 
 export default function RoomsPage() {
   const router = useRouter();
@@ -15,6 +17,7 @@ export default function RoomsPage() {
   const [showSortDropdown, setShowSortDropdown] = useState(false);
   const [sortBy, setSortBy] = useState("newly_added");
   const [selectedRoom, setSelectedRoom] = useState<Room | null>(null);
+  const [activeTab, setActiveTab] = useState<RoomDetailTab>("pictures");
 
   useEffect(() => {
     fetchRooms();
@@ -143,10 +146,10 @@ export default function RoomsPage() {
                   <h1 className="text-4xl font-bold text-white mb-3">{selectedRoom.title}</h1>
                   <p className="text-white/90 text-lg max-w-3xl">{selectedRoom.description}</p>
                 </div>
-                <div className={`px-4 py-2 rounded-xl font-bold ${
+                <div className={`px-4 py-2 rounded-xl font-semibold ${
                   selectedRoom.is_available
-                    ? "bg-green-500 text-white"
-                    : "bg-red-500 text-white"
+                    ? "bg-[#ECFDF5] text-green-700"
+                    : "bg-[#FEE2E2] text-red-700"
                 }`}>
                   {selectedRoom.is_available ? "Available" : "Occupied"}
                 </div>
@@ -165,8 +168,155 @@ export default function RoomsPage() {
             </div>
           </div>
 
-          {/* Room Details Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {/* Tabs Navigation */}
+          <div className="border-b border-[#E5E7EB]">
+            <div className="flex gap-1">
+              {[
+                { id: "pictures" as RoomDetailTab, label: "Pictures", icon: ImageIcon },
+                { id: "videos" as RoomDetailTab, label: "Videos", icon: Video },
+                { id: "reviews" as RoomDetailTab, label: "Reviews", icon: MessageSquare },
+                { id: "3d-tour" as RoomDetailTab, label: "3D Tour", icon: Box },
+              ].map((tab) => {
+                const Icon = tab.icon;
+                return (
+                  <button
+                    key={tab.id}
+                    onClick={() => setActiveTab(tab.id)}
+                    className={`flex items-center gap-2 px-6 py-4 font-semibold transition-all ${
+                      activeTab === tab.id
+                        ? "text-[#0F75BD] border-b-2 border-[#0F75BD]"
+                        : "text-[#5C5B59] hover:text-[#0F75BD]"
+                    }`}
+                  >
+                    <Icon className="w-5 h-5" />
+                    {tab.label}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Tab Content */}
+          <div className="min-h-[500px]">
+            {activeTab === "pictures" && (
+              <div className="space-y-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                  {[1, 2, 3, 4, 5, 6].map((i) => (
+                    <div key={i} className="relative h-64 bg-[#E8F4F8] rounded-2xl overflow-hidden group cursor-pointer">
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <ImageIcon className="w-16 h-16 text-[#0F75BD]/30" />
+                      </div>
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity">
+                        <div className="absolute bottom-4 left-4 text-white">
+                          <p className="font-semibold">Room View {i}</p>
+                          <p className="text-sm text-white/80">Click to enlarge</p>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+                <button className="flex items-center gap-2 px-6 py-3 bg-[#FAFAFB] border border-[#E5E7EB] rounded-xl hover:bg-white hover:border-[#0F75BD] text-[#0F75BD] font-semibold transition-all">
+                  <Plus className="w-5 h-5" />
+                  Upload More Pictures
+                </button>
+              </div>
+            )}
+
+            {activeTab === "videos" && (
+              <div className="space-y-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {[1, 2, 3, 4].map((i) => (
+                    <div key={i} className="relative h-72 bg-[#E8F4F8] rounded-2xl overflow-hidden group cursor-pointer">
+                      <div className="absolute inset-0 flex flex-col items-center justify-center gap-3">
+                        <Video className="w-16 h-16 text-[#0F75BD]/30" />
+                        <div className="text-center">
+                          <p className="font-semibold text-[#1A1A1A]">Room Tour Video {i}</p>
+                          <p className="text-sm text-[#5C5B59]">2:30 duration</p>
+                        </div>
+                      </div>
+                      <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                        <div className="w-16 h-16 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center">
+                          <div className="w-0 h-0 border-l-[16px] border-l-white border-t-[10px] border-t-transparent border-b-[10px] border-b-transparent ml-1"></div>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+                <button className="flex items-center gap-2 px-6 py-3 bg-[#FAFAFB] border border-[#E5E7EB] rounded-xl hover:bg-white hover:border-[#0F75BD] text-[#0F75BD] font-semibold transition-all">
+                  <Plus className="w-5 h-5" />
+                  Upload Room Video
+                </button>
+              </div>
+            )}
+
+            {activeTab === "reviews" && (
+              <div className="space-y-6">
+                <div className="bg-[#FAFAFB] border border-[#E5E7EB] rounded-2xl p-6">
+                  <div className="flex items-center justify-between mb-6">
+                    <div>
+                      <h3 className="text-2xl font-bold text-[#1A1A1A]">4.8</h3>
+                      <div className="flex items-center gap-1 mt-1">
+                        {[1, 2, 3, 4, 5].map((star) => (
+                          <Star key={star} className={`w-5 h-5 ${star <= 4 ? "fill-[#FBB81F] text-[#FBB81F]" : "text-gray-300"}`} />
+                        ))}
+                        <span className="text-sm text-[#5C5B59] ml-2">Based on 124 reviews</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="space-y-4">
+                    {[
+                      { name: "John Doe", rating: 5, comment: "Amazing room! The view was spectacular and the amenities were top-notch.", date: "2 days ago" },
+                      { name: "Sarah Johnson", rating: 4, comment: "Very comfortable stay. The bed was incredibly comfortable and staff was friendly.", date: "1 week ago" },
+                      { name: "Michael Brown", rating: 5, comment: "Best room I've ever stayed in. Everything was perfect from start to finish.", date: "2 weeks ago" },
+                    ].map((review, i) => (
+                      <div key={i} className="bg-white border border-[#E5E7EB] rounded-xl p-4">
+                        <div className="flex items-start justify-between mb-3">
+                          <div className="flex items-center gap-3">
+                            <div className="w-10 h-10 bg-[#0F75BD] rounded-full flex items-center justify-center">
+                              <span className="text-white font-semibold text-sm">{review.name.charAt(0)}</span>
+                            </div>
+                            <div>
+                              <p className="font-semibold text-[#1A1A1A]">{review.name}</p>
+                              <div className="flex items-center gap-1 mt-0.5">
+                                {[1, 2, 3, 4, 5].map((star) => (
+                                  <Star key={star} className={`w-4 h-4 ${star <= review.rating ? "fill-[#FBB81F] text-[#FBB81F]" : "text-gray-300"}`} />
+                                ))}
+                              </div>
+                            </div>
+                          </div>
+                          <span className="text-xs text-[#5C5B59]">{review.date}</span>
+                        </div>
+                        <p className="text-sm text-[#5C5B59]">{review.comment}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {activeTab === "3d-tour" && (
+              <div className="space-y-6">
+                <div className="bg-[#E8F4F8] border-2 border-dashed border-[#0F75BD] rounded-2xl p-12 text-center">
+                  <Box className="w-20 h-20 text-[#0F75BD] mx-auto mb-4" />
+                  <h3 className="text-xl font-bold text-[#1A1A1A] mb-2">3D Virtual Tour</h3>
+                  <p className="text-[#5C5B59] mb-6">Experience the room in 360° virtual reality</p>
+                  <div className="space-y-3 max-w-md mx-auto">
+                    <button className="w-full px-6 py-3 bg-[#0F75BD] text-white font-semibold rounded-xl hover:bg-[#0050C8] transition-colors">
+                      Launch 3D Tour
+                    </button>
+                    <button className="w-full px-6 py-3 bg-white border-2 border-[#E5E7EB] text-[#1A1A1A] font-semibold rounded-xl hover:border-[#0F75BD] transition-colors">
+                      Upload 3D Tour Link
+                    </button>
+                  </div>
+                  <p className="text-xs text-[#5C5B59] mt-6">Supported platforms: Matterport, Kuula, 360Cities</p>
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Quick Info Cards */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
             {/* Basic Info */}
             <div className="bg-[#FAFAFB] border border-[#E5E7EB] rounded-2xl p-6">
               <h3 className="font-bold text-[#1A1A1A] mb-4 flex items-center gap-2">
@@ -186,14 +336,6 @@ export default function RoomsPage() {
                   <span className="text-[#5C5B59] text-sm">Max Occupancy</span>
                   <span className="font-semibold text-[#1A1A1A]">{selectedRoom.max_occupancy} guests</span>
                 </div>
-                <div className="flex items-center justify-between">
-                  <span className="text-[#5C5B59] text-sm">Max Adults</span>
-                  <span className="font-semibold text-[#1A1A1A]">{selectedRoom.max_adults}</span>
-                </div>
-                <div className="flex items-center justify-between">
-                  <span className="text-[#5C5B59] text-sm">Max Children</span>
-                  <span className="font-semibold text-[#1A1A1A]">{selectedRoom.max_children}</span>
-                </div>
               </div>
             </div>
 
@@ -201,58 +343,41 @@ export default function RoomsPage() {
             <div className="bg-[#FAFAFB] border border-[#E5E7EB] rounded-2xl p-6">
               <h3 className="font-bold text-[#1A1A1A] mb-4 flex items-center gap-2">
                 <Sparkles className="w-5 h-5 text-[#0F75BD]" />
-                Features & Amenities
+                Amenities
               </h3>
               <div className="space-y-2">
                 {selectedRoom.has_sea_view && (
-                  <div className="flex items-center gap-2 p-2 bg-blue-50 rounded-lg">
+                  <div className="flex items-center gap-2 p-2 bg-[#E8F4F8] rounded-lg">
                     <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
-                    <span className="text-sm font-medium text-blue-700">Sea View</span>
+                    <span className="text-sm font-medium text-[#0F75BD]">Sea View</span>
                   </div>
                 )}
                 {selectedRoom.has_city_view && (
-                  <div className="flex items-center gap-2 p-2 bg-purple-50 rounded-lg">
+                  <div className="flex items-center gap-2 p-2 bg-[#F5F3FF] rounded-lg">
                     <div className="w-2 h-2 bg-purple-500 rounded-full"></div>
                     <span className="text-sm font-medium text-purple-700">City View</span>
                   </div>
                 )}
                 {selectedRoom.has_balcony && (
-                  <div className="flex items-center gap-2 p-2 bg-green-50 rounded-lg">
+                  <div className="flex items-center gap-2 p-2 bg-[#ECFDF5] rounded-lg">
                     <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                    <span className="text-sm font-medium text-green-700">Private Balcony</span>
+                    <span className="text-sm font-medium text-green-700">Balcony</span>
                   </div>
                 )}
-                <div className="flex items-center gap-2 p-2 bg-orange-50 rounded-lg">
+                <div className="flex items-center gap-2 p-2 bg-[#FEF3C7] rounded-lg">
                   <div className="w-2 h-2 bg-orange-500 rounded-full"></div>
                   <span className="text-sm font-medium text-orange-700">Free WiFi</span>
-                </div>
-                <div className="flex items-center gap-2 p-2 bg-pink-50 rounded-lg">
-                  <div className="w-2 h-2 bg-pink-500 rounded-full"></div>
-                  <span className="text-sm font-medium text-pink-700">Air Conditioning</span>
                 </div>
               </div>
             </div>
 
-            {/* Availability */}
+            {/* Actions */}
             <div className="bg-[#FAFAFB] border border-[#E5E7EB] rounded-2xl p-6">
               <h3 className="font-bold text-[#1A1A1A] mb-4 flex items-center gap-2">
                 <Users className="w-5 h-5 text-[#0F75BD]" />
-                Availability
+                Quick Actions
               </h3>
               <div className="space-y-3">
-                <div className="flex items-center justify-between">
-                  <span className="text-[#5C5B59] text-sm">Total Rooms</span>
-                  <span className="font-semibold text-[#1A1A1A]">{selectedRoom.total_rooms}</span>
-                </div>
-                <div className="flex items-center justify-between">
-                  <span className="text-[#5C5B59] text-sm">Status</span>
-                  <span className={`font-semibold ${selectedRoom.is_available ? 'text-green-600' : 'text-red-600'}`}>
-                    {selectedRoom.is_available ? "Available Now" : "Currently Occupied"}
-                  </span>
-                </div>
-              </div>
-
-              <div className="mt-6 space-y-3">
                 <button className="w-full py-3 bg-[#0F75BD] text-white font-semibold rounded-xl hover:bg-[#0050C8] transition-colors">
                   Book Now
                 </button>
@@ -428,10 +553,10 @@ export default function RoomsPage() {
                       {/* Availability Badge */}
                       <div className="absolute bottom-3 right-3">
                         <span
-                          className={`px-2.5 py-1 text-xs font-medium rounded-lg backdrop-blur-sm ${
+                          className={`px-2.5 py-1 text-xs font-semibold rounded-lg ${
                             room.is_available
-                              ? "bg-green-500/90 text-white"
-                              : "bg-red-500/90 text-white"
+                              ? "bg-[#ECFDF5] text-green-700"
+                              : "bg-[#FEE2E2] text-red-700"
                           }`}
                         >
                           {room.is_available ? "Available" : "Occupied"}

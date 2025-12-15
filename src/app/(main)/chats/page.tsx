@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Send, Search, User, Phone, Video, MoreVertical, Paperclip, Smile } from "lucide-react";
+import { Send, Search, User, Phone, MoreVertical, Paperclip, Smile } from "lucide-react";
 
 interface Chat {
   id: string;
@@ -202,9 +202,6 @@ export default function ChatsPage() {
               <div className="flex items-center gap-2">
                 <button className="p-2 hover:bg-[#FAFAFB] rounded-lg transition-colors">
                   <Phone className="w-5 h-5 text-[#5C5B59]" />
-                </button>
-                <button className="p-2 hover:bg-[#FAFAFB] rounded-lg transition-colors">
-                  <Video className="w-5 h-5 text-[#5C5B59]" />
                 </button>
                 <button className="p-2 hover:bg-[#FAFAFB] rounded-lg transition-colors">
                   <MoreVertical className="w-5 h-5 text-[#5C5B59]" />

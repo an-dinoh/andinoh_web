@@ -201,23 +201,28 @@ export default function CreateBookingPage() {
 
         {/* Success/Error Messages */}
         {successMessage && (
-          <div className="p-4 bg-green-50 border border-green-200 rounded-xl flex items-center gap-3">
-            <CheckCircle className="w-5 h-5 text-green-600" />
-            <p className="text-sm font-medium text-green-800">{successMessage}</p>
+          <div className="p-5 bg-[#ECFDF5] border-2 border-green-200 rounded-2xl flex items-center gap-3">
+            <CheckCircle className="w-6 h-6 text-green-700" />
+            <p className="text-sm font-bold text-green-800">{successMessage}</p>
           </div>
         )}
 
         {errors.submit && (
-          <div className="p-4 bg-red-50 border border-red-200 rounded-xl flex items-center gap-3">
-            <AlertCircle className="w-5 h-5 text-red-600" />
-            <p className="text-sm font-medium text-red-800">{errors.submit}</p>
+          <div className="p-5 bg-[#FEE2E2] border-2 border-red-200 rounded-2xl flex items-center gap-3">
+            <AlertCircle className="w-6 h-6 text-red-700" />
+            <p className="text-sm font-bold text-red-800">{errors.submit}</p>
           </div>
         )}
 
         <form onSubmit={handleSubmit} className="space-y-6">
           {/* Guest Information */}
-          <div className="bg-[#FAFAFB] border border-[#E5E7EB] rounded-2xl p-6">
-            <h2 className="text-lg font-semibold text-[#1A1A1A] mb-4">Guest Information</h2>
+          <div className="bg-[#FAFAFB] border border-[#E5E7EB] rounded-2xl p-8">
+            <div className="flex items-center gap-3 mb-6">
+              <div className="w-10 h-10 bg-[#0F75BD] rounded-xl flex items-center justify-center">
+                <User className="w-5 h-5 text-white" />
+              </div>
+              <h2 className="text-xl font-bold text-[#1A1A1A]">Guest Information</h2>
+            </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <label className="block text-sm font-medium text-[#1A1A1A] mb-2">
@@ -296,8 +301,13 @@ export default function CreateBookingPage() {
           </div>
 
           {/* Stay Details */}
-          <div className="bg-[#FAFAFB] border border-[#E5E7EB] rounded-2xl p-6">
-            <h2 className="text-lg font-semibold text-[#1A1A1A] mb-4">Stay Details</h2>
+          <div className="bg-[#FAFAFB] border border-[#E5E7EB] rounded-2xl p-8">
+            <div className="flex items-center gap-3 mb-6">
+              <div className="w-10 h-10 bg-[#0F75BD] rounded-xl flex items-center justify-center">
+                <Calendar className="w-5 h-5 text-white" />
+              </div>
+              <h2 className="text-xl font-bold text-[#1A1A1A]">Stay Details</h2>
+            </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <label className="block text-sm font-medium text-[#1A1A1A] mb-2">
@@ -374,9 +384,10 @@ export default function CreateBookingPage() {
 
               {nights > 0 && (
                 <div className="md:col-span-2">
-                  <div className="p-4 bg-[#0F75BD]/10 border border-[#0F75BD]/20 rounded-xl">
-                    <p className="text-sm font-medium text-[#0F75BD]">
-                      Total Stay: {nights} {nights === 1 ? "night" : "nights"}
+                  <div className="p-5 bg-[#E8F4F8] border-2 border-[#0F75BD] rounded-2xl flex items-center gap-3">
+                    <Calendar className="w-6 h-6 text-[#0F75BD]" />
+                    <p className="text-base font-bold text-[#0F75BD]">
+                      Total Stay: {nights} {nights === 1 ? "Night" : "Nights"}
                     </p>
                   </div>
                 </div>
@@ -385,8 +396,13 @@ export default function CreateBookingPage() {
           </div>
 
           {/* Room Selection */}
-          <div className="bg-[#FAFAFB] border border-[#E5E7EB] rounded-2xl p-6">
-            <h2 className="text-lg font-semibold text-[#1A1A1A] mb-4">Room Selection</h2>
+          <div className="bg-[#FAFAFB] border border-[#E5E7EB] rounded-2xl p-8">
+            <div className="flex items-center gap-3 mb-6">
+              <div className="w-10 h-10 bg-[#0F75BD] rounded-xl flex items-center justify-center">
+                <Bed className="w-5 h-5 text-white" />
+              </div>
+              <h2 className="text-xl font-bold text-[#1A1A1A]">Room Selection</h2>
+            </div>
             <div>
               <label className="block text-sm font-medium text-[#1A1A1A] mb-2">
                 Select Room <span className="text-red-500">*</span>
@@ -411,8 +427,13 @@ export default function CreateBookingPage() {
           </div>
 
           {/* Payment Information */}
-          <div className="bg-[#FAFAFB] border border-[#E5E7EB] rounded-2xl p-6">
-            <h2 className="text-lg font-semibold text-[#1A1A1A] mb-4">Payment Information</h2>
+          <div className="bg-[#FAFAFB] border border-[#E5E7EB] rounded-2xl p-8">
+            <div className="flex items-center gap-3 mb-6">
+              <div className="w-10 h-10 bg-[#0F75BD] rounded-xl flex items-center justify-center">
+                <CreditCard className="w-5 h-5 text-white" />
+              </div>
+              <h2 className="text-xl font-bold text-[#1A1A1A]">Payment Information</h2>
+            </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
               <div>
                 <label className="block text-sm font-medium text-[#1A1A1A] mb-2">
@@ -448,27 +469,32 @@ export default function CreateBookingPage() {
             </div>
 
             {/* Payment Summary */}
-            <div className="p-4 bg-white border border-[#E5E7EB] rounded-xl space-y-2">
-              <div className="flex justify-between">
-                <span className="text-sm text-[#5C5B59]">Total Amount:</span>
-                <span className="text-lg font-bold text-[#1A1A1A]">₦{parseFloat(form.total_amount).toFixed(2)}</span>
+            <div className="p-6 bg-white border-2 border-[#E5E7EB] rounded-2xl space-y-4">
+              <div className="flex justify-between items-center">
+                <span className="text-sm font-medium text-[#5C5B59]">Total Amount:</span>
+                <span className="text-2xl font-bold text-[#1A1A1A]">₦{parseFloat(form.total_amount).toLocaleString()}</span>
               </div>
-              <div className="flex justify-between">
-                <span className="text-sm text-[#5C5B59]">Amount Paid:</span>
-                <span className="text-lg font-semibold text-green-600">₦{parseFloat(form.amount_paid).toFixed(2)}</span>
+              <div className="flex justify-between items-center">
+                <span className="text-sm font-medium text-[#5C5B59]">Amount Paid:</span>
+                <span className="text-xl font-bold text-green-700">₦{parseFloat(form.amount_paid).toLocaleString()}</span>
               </div>
-              <div className="pt-2 border-t border-[#E5E7EB] flex justify-between">
-                <span className="text-sm font-medium text-[#1A1A1A]">Balance Due:</span>
-                <span className={`text-lg font-bold ${balanceDue > 0 ? "text-orange-600" : "text-green-600"}`}>
-                  ₦{balanceDue.toFixed(2)}
+              <div className="pt-4 border-t-2 border-[#E5E7EB] flex justify-between items-center">
+                <span className="text-base font-bold text-[#1A1A1A]">Balance Due:</span>
+                <span className={`text-2xl font-bold ${balanceDue > 0 ? "text-orange-600" : "text-green-700"}`}>
+                  ₦{balanceDue.toLocaleString()}
                 </span>
               </div>
             </div>
           </div>
 
           {/* Special Requests */}
-          <div className="bg-[#FAFAFB] border border-[#E5E7EB] rounded-2xl p-6">
-            <h2 className="text-lg font-semibold text-[#1A1A1A] mb-4">Special Requests (Optional)</h2>
+          <div className="bg-[#FAFAFB] border border-[#E5E7EB] rounded-2xl p-8">
+            <div className="flex items-center gap-3 mb-6">
+              <div className="w-10 h-10 bg-[#0F75BD] rounded-xl flex items-center justify-center">
+                <FileText className="w-5 h-5 text-white" />
+              </div>
+              <h2 className="text-xl font-bold text-[#1A1A1A]">Special Requests <span className="text-sm font-normal text-[#5C5B59]">(Optional)</span></h2>
+            </div>
             <textarea
               name="special_requests"
               value={form.special_requests}
@@ -480,11 +506,11 @@ export default function CreateBookingPage() {
           </div>
 
           {/* Action Buttons */}
-          <div className="flex gap-4">
+          <div className="flex gap-4 pt-4">
             <button
               type="button"
               onClick={() => router.back()}
-              className="flex-1 px-6 py-3 bg-white border border-[#E5E7EB] text-[#1A1A1A] font-medium rounded-xl hover:bg-[#FAFAFB] transition-colors"
+              className="flex-1 px-8 py-4 bg-white border-2 border-[#E5E7EB] text-[#1A1A1A] font-bold rounded-2xl hover:bg-[#FAFAFB] hover:border-[#0F75BD] transition-all"
               disabled={loading}
             >
               Cancel
@@ -492,16 +518,16 @@ export default function CreateBookingPage() {
             <button
               type="submit"
               disabled={loading}
-              className="flex-1 px-6 py-3 bg-[#0F75BD] text-white font-medium rounded-xl hover:bg-[#0050C8] transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+              className="flex-1 px-8 py-4 bg-[#0F75BD] text-white font-bold rounded-2xl hover:bg-[#0050C8] transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-3 text-lg"
             >
               {loading ? (
                 <>
-                  <Loader2 className="w-5 h-5 animate-spin" />
+                  <Loader2 className="w-6 h-6 animate-spin" />
                   Creating Booking...
                 </>
               ) : (
                 <>
-                  <Plus className="w-5 h-5" />
+                  <Plus className="w-6 h-6" />
                   Create Booking
                 </>
               )}

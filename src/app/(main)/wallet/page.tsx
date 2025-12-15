@@ -9,16 +9,17 @@ export default function WalletPage() {
 
   // Mock transaction data
   const transactions = [
-    { id: "TXN-001", type: "Payment Received", guest: "John Doe", amount: 45000, date: "Dec 14, 2025", status: "Completed" },
-    { id: "TXN-002", type: "Payment Received", guest: "Jane Smith", amount: 32000, date: "Dec 13, 2025", status: "Completed" },
-    { id: "TXN-003", type: "Refund", guest: "Mike Johnson", amount: -15000, date: "Dec 12, 2025", status: "Completed" },
-    { id: "TXN-004", type: "Payment Received", guest: "Sarah Williams", amount: 58000, date: "Dec 11, 2025", status: "Pending" },
-    { id: "TXN-005", type: "Payment Received", guest: "David Brown", amount: 41000, date: "Dec 10, 2025", status: "Completed" },
+    { id: "TXN-001", type: "Room Booking Payment", guest: "John Doe", room: "Suite 201", amount: 45000, date: "Dec 14, 2025", status: "Completed" },
+    { id: "TXN-002", type: "Room Booking Payment", guest: "Jane Smith", room: "Deluxe 105", amount: 32000, date: "Dec 13, 2025", status: "Completed" },
+    { id: "TXN-003", type: "Booking Refund", guest: "Mike Johnson", room: "Standard 303", amount: -15000, date: "Dec 12, 2025", status: "Completed" },
+    { id: "TXN-004", type: "Room Booking Payment", guest: "Sarah Williams", room: "Presidential Suite", amount: 58000, date: "Dec 11, 2025", status: "Pending" },
+    { id: "TXN-005", type: "Room Service Payment", guest: "David Brown", room: "Suite 201", amount: 8000, date: "Dec 10, 2025", status: "Completed" },
+    { id: "TXN-006", type: "Room Booking Payment", guest: "Emily Davis", room: "Deluxe 108", amount: 35000, date: "Dec 10, 2025", status: "Completed" },
   ];
 
   const totalRevenue = 450000;
-  const totalPayouts = 120000;
-  const pendingPayments = 28000;
+  const withdrawals = 120000;
+  const pendingPayments = 58000;
 
   return (
     <div className="h-full bg-white overflow-y-auto scrollbar-hide pt-8 pb-8">
@@ -47,24 +48,24 @@ export default function WalletPage() {
           </div>
 
           <div className="bg-[#F0F9FF] rounded-2xl p-5">
-            <p className="text-[#5C5B59] text-sm mb-1">Total Payouts</p>
-            <p className="text-2xl font-bold text-[#1A1A1A]">₦{totalPayouts.toLocaleString()}</p>
+            <p className="text-[#5C5B59] text-sm mb-1">Total Withdrawals</p>
+            <p className="text-2xl font-bold text-[#1A1A1A]">₦{withdrawals.toLocaleString()}</p>
             <div className="flex items-center gap-1 mt-2">
               <TrendingDown className="w-4 h-4 text-orange-600" />
-              <span className="text-xs font-medium text-orange-600">-8.3%</span>
+              <span className="text-xs font-medium text-orange-600">Withdrawn</span>
             </div>
           </div>
 
           <div className="bg-[#FEF3C7] rounded-2xl p-5">
-            <p className="text-[#5C5B59] text-sm mb-1">Pending</p>
+            <p className="text-[#5C5B59] text-sm mb-1">Pending Payments</p>
             <p className="text-2xl font-bold text-[#1A1A1A]">₦{pendingPayments.toLocaleString()}</p>
-            <p className="text-xs text-[#5C5B59] mt-2">2 transactions</p>
+            <p className="text-xs text-[#5C5B59] mt-2">1 booking payment</p>
           </div>
 
           <div className="bg-[#F5F3FF] rounded-2xl p-5">
             <p className="text-[#5C5B59] text-sm mb-1">Available Balance</p>
-            <p className="text-2xl font-bold text-[#1A1A1A]">₦{(totalRevenue - totalPayouts).toLocaleString()}</p>
-            <button className="text-xs font-medium text-[#0F75BD] mt-2 hover:underline">Withdraw</button>
+            <p className="text-2xl font-bold text-[#1A1A1A]">₦{(totalRevenue - withdrawals).toLocaleString()}</p>
+            <button className="text-xs font-medium text-[#0F75BD] mt-2 hover:underline">Withdraw Funds</button>
           </div>
         </div>
 
@@ -114,7 +115,7 @@ export default function WalletPage() {
                     Type
                   </th>
                   <th className="px-6 py-4 text-left text-xs font-semibold text-[#5C5B59] uppercase">
-                    Guest
+                    Guest / Room
                   </th>
                   <th className="px-6 py-4 text-left text-xs font-semibold text-[#5C5B59] uppercase">
                     Amount
@@ -138,6 +139,7 @@ export default function WalletPage() {
                     </td>
                     <td className="px-6 py-4">
                       <p className="text-sm font-medium text-[#1A1A1A]">{transaction.guest}</p>
+                      <p className="text-xs text-[#5C5B59]">{transaction.room}</p>
                     </td>
                     <td className="px-6 py-4">
                       <p className={`text-sm font-bold ${transaction.amount > 0 ? "text-green-600" : "text-red-600"}`}>

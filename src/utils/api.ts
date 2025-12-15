@@ -2,16 +2,12 @@ import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'https://hotel-api-gateway.onrender.com';
 
-// 🔍 DEBUG: Log environment variable
-console.log('🔍 DEBUG - API_BASE_URL:', API_BASE_URL);
-console.log('🔍 DEBUG - process.env.NEXT_PUBLIC_API_URL:', process.env.NEXT_PUBLIC_API_URL);
+// DEBUG logs muted for production
 
 class ApiClient {
   private client: AxiosInstance;
 
   constructor(baseURL: string = API_BASE_URL) {
-    console.log('🔍 DEBUG - ApiClient constructor baseURL:', baseURL);
-
     this.client = axios.create({
       baseURL,
       headers: {
@@ -20,9 +16,6 @@ class ApiClient {
       timeout: 60000, // 60 seconds (Render free tier can be slow on cold start)
     });
 
-    console.log('🔍 DEBUG - axios.defaults.baseURL:', axios.defaults.baseURL);
-    console.log('🔍 DEBUG - this.client.defaults.baseURL:', this.client.defaults.baseURL);
-
     this.setupInterceptors();
   }
 
@@ -30,14 +23,6 @@ class ApiClient {
     // Request interceptor - Add auth token to all requests
     this.client.interceptors.request.use(
       (config) => {
-        // Debug logging
-        console.log('🚀 API Request:', config.method?.toUpperCase(), config.url);
-        console.log('🔍 Full URL:', `${config.baseURL || 'UNDEFINED'}${config.url || 'UNDEFINED'}`);
-        console.log('🔍 Base URL:', config.baseURL || 'UNDEFINED');
-        console.log('🔍 Endpoint:', config.url || 'UNDEFINED');
-        console.log('📦 Request data:', config.data);
-        console.log('📦 Request headers:', config.headers);
-
         if (typeof window !== 'undefined') {
           const token = localStorage.getItem('token');
           if (token) {
@@ -47,7 +32,6 @@ class ApiClient {
         return config;
       },
       (error) => {
-        console.error('❌ Request error:', error);
         return Promise.reject(error);
       }
     );
@@ -55,24 +39,9 @@ class ApiClient {
     // Response interceptor - Handle errors globally
     this.client.interceptors.response.use(
       (response) => {
-        console.log('✅ API Response:', response.status, response.config.url);
         return response;
       },
       (error) => {
-        // Log status and basic info
-        console.error('❌ API Error Status:', error?.response?.status);
-        console.error('❌ API Error Message:', error?.message);
-
-        // DISABLED FOR UI DEVELOPMENT - Re-enable when implementing authentication
-        // if (error.response?.status === 401) {
-        //   // Unauthorized - redirect to login
-        //   if (typeof window !== 'undefined') {
-        //     localStorage.removeItem('token');
-        //     localStorage.removeItem('user');
-        //     window.location.href = '/login';
-        //   }
-        // }
-
         // Handle 404 errors
         if (error.response?.status === 404) {
           const notFoundError = new Error('Resource not found');

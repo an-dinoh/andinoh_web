@@ -184,7 +184,7 @@ export default function DashboardPage() {
       </div>
 
       {/* Performance & Reviews Section */}
-      <div className="space-y-6 overflow-y-auto scrollbar-hide pt-8 pb-8">
+      <div className="hidden lg:block space-y-6 overflow-y-auto scrollbar-hide pt-8 pb-8 w-80 xl:w-96">
         <PerformanceCard
           userName="Kelo Kello"
           userBadge="Top 100% Clients"
