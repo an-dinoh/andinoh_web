@@ -109,16 +109,17 @@ export default function CreateRoomPage() {
       setSuccessMessage("");
 
       await hotelService.createRoom({
-        room_number: form.room_number,
+        hotel: "", // Will be set by backend from authenticated user
         room_type: form.room_type,
         title: form.title,
         description: form.description,
-        base_price: form.base_price,
-        max_occupancy: form.max_occupancy,
+        room_size: parseFloat(form.size_sqm),
         bed_type: form.bed_type,
-        size_sqm: parseFloat(form.size_sqm),
-        amenities: form.amenities,
-        is_available: form.is_available,
+        max_occupancy: form.max_occupancy,
+        max_adults: form.max_occupancy,
+        max_children: 0,
+        base_price: form.base_price,
+        total_rooms: 1,
       });
 
       setSuccessMessage("Room created successfully!");
