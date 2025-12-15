@@ -6,8 +6,8 @@ export default function AuthLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="min-h-screen flex">
-      {/* Left side - Blue container with big flowers */}
+    <div className="h-screen flex overflow-hidden">
+      {/* Left side - Blue container with big flowers (fixed, no scroll) */}
       <div className="hidden lg:flex lg:w-1/2 bg-[#0F75BD] relative items-center justify-center overflow-hidden">
         {/* Large flower flowing from top-left */}
         <div className="absolute -top-[250px] -left-[150px] transform rotate-[15deg]">
@@ -41,10 +41,12 @@ export default function AuthLayout({
         </div>
       </div>
 
-      {/* Right side - Form */}
-      <div className="w-full lg:w-1/2 flex items-center justify-center bg-white px-4 sm:px-6 md:px-8 py-8 overflow-y-auto">
-        <div className="w-full max-w-md">
-          {children}
+      {/* Right side - Form (scrollable) */}
+      <div className="w-full lg:w-1/2 bg-white overflow-y-auto">
+        <div className="min-h-full flex items-center justify-center px-4 sm:px-6 md:px-8 py-8">
+          <div className="w-full max-w-md">
+            {children}
+          </div>
         </div>
       </div>
     </div>
