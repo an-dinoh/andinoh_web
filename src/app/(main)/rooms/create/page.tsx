@@ -21,7 +21,7 @@ import {
   Sparkles,
 } from "lucide-react";
 import { hotelService } from "@/services/hotel.service";
-import { RoomType } from "@/types/hotel.types";
+import { RoomType, BedType } from "@/types/hotel.types";
 
 interface RoomForm {
   room_number: string;
@@ -30,7 +30,7 @@ interface RoomForm {
   description: string;
   base_price: string;
   max_occupancy: number;
-  bed_type: string;
+  bed_type: BedType;
   size_sqm: string;
   amenities: string[];
   images: string[];
@@ -66,10 +66,11 @@ export default function CreateRoomPage() {
 
   const bedTypes = [
     { value: "single", label: "Single Bed" },
+    { value: "double", label: "Double Bed" },
     { value: "twin", label: "Twin Beds" },
     { value: "queen", label: "Queen Bed" },
     { value: "king", label: "King Bed" },
-    { value: "suite", label: "Suite Configuration" },
+    { value: "sofa_bed", label: "Sofa Bed" },
   ];
 
   const availableAmenities = [
@@ -141,7 +142,8 @@ export default function CreateRoomPage() {
     >
   ) => {
     const { name, value } = e.target;
-    setForm((prev) => ({ ...prev, [name]: name === 'room_type' ? value as RoomType : value }));
+    const updatedValue = name === 'room_type' ? value as RoomType : name === 'bed_type' ? value as BedType : value;
+    setForm((prev) => ({ ...prev, [name]: updatedValue }));
     if (errors[name]) {
       setErrors((prev) => ({ ...prev, [name]: "" }));
     }
