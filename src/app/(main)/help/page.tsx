@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Search, MessageCircle, Mail, Phone, Book, Video, ExternalLink, Clock, CheckCircle2, ArrowRight, Zap, Shield, HeadphonesIcon } from "lucide-react";
+import { Search, MessageCircle, Mail, Phone, Book, Video, ExternalLink, Clock, CheckCircle2, ArrowRight, Zap, Shield, HeadphonesIcon, MessageSquare } from "lucide-react";
 
 export default function HelpPage() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -113,21 +113,11 @@ export default function HelpPage() {
 
   const supportChannels = [
     {
-      icon: MessageCircle,
-      title: "Live Chat",
-      description: "Chat with our support team in real-time",
-      availability: "Available 24/7",
-      action: "Start Chat",
-      bg: "bg-[#F0F9FF]",
-      iconColor: "text-blue-600",
-      available: true,
-    },
-    {
       icon: Mail,
       title: "Email Support",
       description: "Send us an email and we'll respond within 24 hours",
       availability: "Response within 24h",
-      action: "Send Email",
+      action: "support@andinoh.com",
       bg: "bg-[#F5F3FF]",
       iconColor: "text-purple-600",
       available: true,
@@ -136,11 +126,21 @@ export default function HelpPage() {
       icon: Phone,
       title: "Phone Support",
       description: "Speak directly with our support team",
-      availability: "Mon-Fri, 9AM-6PM WAT",
-      action: "+234 800 123 4567",
+      availability: "Available 24/7",
+      action: "+234 7079726698",
       bg: "bg-[#ECFDF5]",
       iconColor: "text-green-600",
-      available: false,
+      available: true,
+    },
+    {
+      icon: MessageSquare,
+      title: "WhatsApp Support",
+      description: "Chat with us on WhatsApp for quick assistance",
+      availability: "Available 24/7",
+      action: "+44 7400 730594",
+      bg: "bg-[#F0F9FF]",
+      iconColor: "text-blue-600",
+      available: true,
     },
   ];
 
@@ -169,13 +169,13 @@ export default function HelpPage() {
           {/* Search Bar */}
           <div className="max-w-3xl mx-auto">
             <div className="relative">
-              <Search className="absolute left-6 top-1/2 -translate-y-1/2 w-6 h-6 text-[#8F8E8D]" />
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-[#8F8E8D]" />
               <input
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Search for help articles, guides, FAQs..."
-                className="w-full pl-16 pr-6 py-5 bg-white rounded-2xl border border-[#D3D9DD] text-lg focus:outline-none focus:ring-1 focus:ring-[#8E9397] focus:border-transparent text-gray-800 placeholder:text-[#8F8E8D]"
+                className="w-full pl-12 pr-4 py-3.5 bg-white rounded-xl border border-[#D3D9DD] text-sm focus:outline-none focus:ring-1 focus:ring-[#8E9397] focus:border-transparent text-gray-800 placeholder:text-[#8F8E8D] placeholder:text-sm"
               />
             </div>
             <div className="flex items-center gap-3 mt-4 justify-center flex-wrap">
@@ -183,7 +183,7 @@ export default function HelpPage() {
               {["Add rooms", "Check-in guests", "Process payments", "View reports"].map((tag, i) => (
                 <button
                   key={i}
-                  className="px-4 py-1.5 bg-white border border-[#D3D9DD] hover:bg-gray-50 text-gray-800 text-sm rounded-full transition-all"
+                  className="px-4 py-1.5 bg-white border border-[#D3D9DD] hover:bg-gray-50 text-gray-800 text-sm rounded-lg transition-all"
                 >
                   {tag}
                 </button>
