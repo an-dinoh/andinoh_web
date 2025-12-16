@@ -22,6 +22,8 @@ import {
 } from "lucide-react";
 import { hotelService } from "@/services/hotel.service";
 import { RoomType, BedType } from "@/types/hotel.types";
+import InputField from "@/components/ui/InputField";
+import Button from "@/components/ui/Button";
 
 interface RoomForm {
   room_number: string;
@@ -162,24 +164,22 @@ export default function CreateRoomPage() {
   return (
     <div className="h-full bg-white overflow-y-auto scrollbar-hide pt-8 pb-8">
       <div className="max-w-5xl mx-auto space-y-6">
+        {/* Back Button */}
+        <button
+          onClick={() => router.back()}
+          className="inline-flex items-center justify-center w-10 h-10 rounded-full border border-[#0F75BD] hover:bg-gray-50 transition-colors"
+        >
+          <ArrowLeft className="w-5 h-5 text-[#0F75BD]" />
+        </button>
+
         {/* Header */}
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <button
-              onClick={() => router.back()}
-              className="p-2 hover:bg-[#FAFAFB] rounded-xl transition-colors"
-            >
-              <ArrowLeft className="w-5 h-5 text-[#5C5B59]" />
-            </button>
-            <div>
-              <h1 className="text-3xl font-bold text-[#1A1A1A]">
-                Add New Room
-              </h1>
-              <p className="text-[#5C5B59] mt-1">
-                Create a new room for your hotel
-              </p>
-            </div>
-          </div>
+        <div className="text-left">
+          <h1 className="text-2xl font-semibold text-gray-800 mb-2">
+            Add New Room
+          </h1>
+          <p className="text-gray-500 text-sm">
+            Create a new room for your hotel
+          </p>
         </div>
 
         {/* Success/Error Messages */}
@@ -201,41 +201,31 @@ export default function CreateRoomPage() {
 
         <form onSubmit={handleSubmit} className="space-y-6">
           {/* Basic Information */}
-          <div className="bg-[#FAFAFB] border border-[#E5E7EB] rounded-2xl p-6">
-            <h2 className="text-lg font-bold text-[#1A1A1A] mb-6">
+          <div className="bg-white rounded-2xl p-8">
+            <h2 className="text-2xl font-semibold text-gray-800 mb-6">
               Basic Information
             </h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div>
-                <label className="block text-sm font-semibold text-[#1A1A1A] mb-2">
-                  Room Number <span className="text-red-500">*</span>
-                </label>
-                <input
-                  type="text"
-                  name="room_number"
-                  value={form.room_number}
-                  onChange={handleInputChange}
-                  className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-[#0F75BD] focus:border-transparent ${
-                    errors.room_number ? "border-red-300" : "border-[#E5E7EB]"
-                  }`}
-                  placeholder="e.g., 101, 205, Suite 301"
-                />
-                {errors.room_number && (
-                  <p className="mt-1 text-xs text-red-600">
-                    {errors.room_number}
-                  </p>
-                )}
-              </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+              <InputField
+                label="Room Number *"
+                type="text"
+                placeholder="e.g., 101, 205, Suite 301"
+                value={form.room_number}
+                onChange={(e) => {
+                  handleInputChange(e);
+                }}
+                error={errors.room_number}
+              />
 
               <div>
-                <label className="block text-sm font-semibold text-[#1A1A1A] mb-2">
+                <label className="block text-[#0B0A07] text-sm mb-1">
                   Room Type <span className="text-red-500">*</span>
                 </label>
                 <select
                   name="room_type"
                   value={form.room_type}
                   onChange={handleInputChange}
-                  className="w-full px-4 py-3 border border-[#E5E7EB] rounded-xl focus:ring-2 focus:ring-[#0F75BD] focus:border-transparent"
+                  className="w-full rounded-xl border border-[#D3D9DD] px-3 py-2 text-sm text-gray-800 focus:outline-none focus:ring-1 focus:ring-[#8E9397] focus:border-transparent appearance-none bg-white bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHZpZXdCb3g9IjAgMCAxNiAxNiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNNCA2TDggMTBMMTIgNiIgc3Ryb2tlPSIjOEY4RThEIiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIvPjwvc3ZnPg==')] bg-[length:16px_16px] bg-[right_12px_center] bg-no-repeat pr-10"
                 >
                   {roomTypes.map((type) => (
                     <option key={type.value} value={type.value}>
@@ -246,26 +236,18 @@ export default function CreateRoomPage() {
               </div>
 
               <div className="md:col-span-2">
-                <label className="block text-sm font-semibold text-[#1A1A1A] mb-2">
-                  Room Title <span className="text-red-500">*</span>
-                </label>
-                <input
+                <InputField
+                  label="Room Title *"
                   type="text"
-                  name="title"
+                  placeholder="e.g., Deluxe Ocean View Suite"
                   value={form.title}
                   onChange={handleInputChange}
-                  className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-[#0F75BD] focus:border-transparent ${
-                    errors.title ? "border-red-300" : "border-[#E5E7EB]"
-                  }`}
-                  placeholder="e.g., Deluxe Ocean View Suite"
+                  error={errors.title}
                 />
-                {errors.title && (
-                  <p className="mt-1 text-xs text-red-600">{errors.title}</p>
-                )}
               </div>
 
               <div className="md:col-span-2">
-                <label className="block text-sm font-semibold text-[#1A1A1A] mb-2">
+                <label className="block text-[#0B0A07] text-sm mb-1">
                   Description <span className="text-red-500">*</span>
                 </label>
                 <textarea
@@ -273,13 +255,15 @@ export default function CreateRoomPage() {
                   value={form.description}
                   onChange={handleInputChange}
                   rows={4}
-                  className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-[#0F75BD] focus:border-transparent resize-none ${
-                    errors.description ? "border-red-300" : "border-[#E5E7EB]"
+                  className={`w-full rounded-xl border px-3 py-2 text-sm text-gray-800 focus:outline-none focus:ring-1 focus:border-transparent placeholder:text-[#8F8E8D] placeholder:text-sm resize-none ${
+                    errors.description
+                      ? "border-red-500 focus:ring-red-500"
+                      : "border-[#D3D9DD] focus:ring-[#8E9397]"
                   }`}
                   placeholder="Describe the room features, views, and highlights..."
                 />
                 {errors.description && (
-                  <p className="mt-1 text-xs text-red-600">
+                  <p className="mt-1 text-xs text-red-500">
                     {errors.description}
                   </p>
                 )}
@@ -288,64 +272,38 @@ export default function CreateRoomPage() {
           </div>
 
           {/* Room Details */}
-          <div className="bg-[#FAFAFB] border border-[#E5E7EB] rounded-2xl p-6">
-            <h2 className="text-lg font-bold text-[#1A1A1A] mb-6">
+          <div className="bg-white rounded-2xl p-8">
+            <h2 className="text-2xl font-semibold text-gray-800 mb-6">
               Room Details
             </h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-              <div>
-                <label className="block text-sm font-semibold text-[#1A1A1A] mb-2">
-                  Base Price (₦) <span className="text-red-500">*</span>
-                </label>
-                <div className="relative">
-                  <DollarSign className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-[#5C5B59]" />
-                  <input
-                    type="number"
-                    name="base_price"
-                    value={form.base_price}
-                    onChange={handleInputChange}
-                    step="0.01"
-                    min="0"
-                    className={`w-full pl-10 pr-4 py-3 border rounded-xl focus:ring-2 focus:ring-[#0F75BD] focus:border-transparent ${
-                      errors.base_price ? "border-red-300" : "border-[#E5E7EB]"
-                    }`}
-                    placeholder="0.00"
-                  />
-                </div>
-                {errors.base_price && (
-                  <p className="mt-1 text-xs text-red-600">
-                    {errors.base_price}
-                  </p>
-                )}
-              </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
+              <InputField
+                label="Base Price (₦) *"
+                type="number"
+                placeholder="0.00"
+                value={form.base_price}
+                onChange={handleInputChange}
+                error={errors.base_price}
+              />
+
+              <InputField
+                label="Max Occupancy"
+                type="number"
+                placeholder="2"
+                value={form.max_occupancy.toString()}
+                onChange={handleInputChange}
+                error=""
+              />
 
               <div>
-                <label className="block text-sm font-semibold text-[#1A1A1A] mb-2">
-                  Max Occupancy
-                </label>
-                <div className="relative">
-                  <Users className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-[#5C5B59]" />
-                  <input
-                    type="number"
-                    name="max_occupancy"
-                    value={form.max_occupancy}
-                    onChange={handleInputChange}
-                    min="1"
-                    max="10"
-                    className="w-full pl-10 pr-4 py-3 border border-[#E5E7EB] rounded-xl focus:ring-2 focus:ring-[#0F75BD] focus:border-transparent"
-                  />
-                </div>
-              </div>
-
-              <div>
-                <label className="block text-sm font-semibold text-[#1A1A1A] mb-2">
+                <label className="block text-[#0B0A07] text-sm mb-1">
                   Bed Type
                 </label>
                 <select
                   name="bed_type"
                   value={form.bed_type}
                   onChange={handleInputChange}
-                  className="w-full px-4 py-3 border border-[#E5E7EB] rounded-xl focus:ring-2 focus:ring-[#0F75BD] focus:border-transparent"
+                  className="w-full rounded-xl border border-[#D3D9DD] px-3 py-2 text-sm text-gray-800 focus:outline-none focus:ring-1 focus:ring-[#8E9397] focus:border-transparent appearance-none bg-white bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHZpZXdCb3g9IjAgMCAxNiAxNiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNNCA2TDggMTBMMTIgNiIgc3Ryb2tlPSIjOEY4RThEIiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIvPjwvc3ZnPg==')] bg-[length:16px_16px] bg-[right_12px_center] bg-no-repeat pr-10"
                 >
                   {bedTypes.map((type) => (
                     <option key={type.value} value={type.value}>
@@ -355,32 +313,20 @@ export default function CreateRoomPage() {
                 </select>
               </div>
 
-              <div>
-                <label className="block text-sm font-semibold text-[#1A1A1A] mb-2">
-                  Size (sq m) <span className="text-red-500">*</span>
-                </label>
-                <input
-                  type="number"
-                  name="size_sqm"
-                  value={form.size_sqm}
-                  onChange={handleInputChange}
-                  step="0.1"
-                  min="0"
-                  className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-[#0F75BD] focus:border-transparent ${
-                    errors.size_sqm ? "border-red-300" : "border-[#E5E7EB]"
-                  }`}
-                  placeholder="e.g., 35.5"
-                />
-                {errors.size_sqm && (
-                  <p className="mt-1 text-xs text-red-600">{errors.size_sqm}</p>
-                )}
-              </div>
+              <InputField
+                label="Size (sq m) *"
+                type="number"
+                placeholder="e.g., 35.5"
+                value={form.size_sqm}
+                onChange={handleInputChange}
+                error={errors.size_sqm}
+              />
             </div>
           </div>
 
           {/* Amenities */}
-          <div className="bg-[#FAFAFB] border border-[#E5E7EB] rounded-2xl p-6">
-            <h2 className="text-lg font-bold text-[#1A1A1A] mb-6">
+          <div className="bg-white rounded-2xl p-8">
+            <h2 className="text-2xl font-semibold text-gray-800 mb-6">
               Room Amenities
             </h2>
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
@@ -392,10 +338,10 @@ export default function CreateRoomPage() {
                     key={amenity.id}
                     type="button"
                     onClick={() => toggleAmenity(amenity.id)}
-                    className={`flex items-center gap-3 px-4 py-3 rounded-xl border-2 transition-all ${
+                    className={`flex items-center gap-3 px-4 py-3 rounded-xl border transition-all ${
                       isSelected
                         ? "bg-[#0F75BD] border-[#0F75BD] text-white"
-                        : "bg-white border-[#E5E7EB] text-[#1A1A1A] hover:border-[#0F75BD]"
+                        : "bg-white border-[#D3D9DD] text-gray-800 hover:border-[#0F75BD]"
                     }`}
                   >
                     <Icon className="w-5 h-5 flex-shrink-0" />
@@ -409,8 +355,8 @@ export default function CreateRoomPage() {
           </div>
 
           {/* Availability Status */}
-          <div className="bg-[#FAFAFB] border border-[#E5E7EB] rounded-2xl p-6">
-            <h2 className="text-lg font-bold text-[#1A1A1A] mb-4">
+          <div className="bg-white rounded-2xl p-8">
+            <h2 className="text-2xl font-semibold text-gray-800 mb-4">
               Availability
             </h2>
             <label className="flex items-center gap-3 cursor-pointer">
@@ -423,13 +369,13 @@ export default function CreateRoomPage() {
                     is_available: e.target.checked,
                   }))
                 }
-                className="w-5 h-5 text-[#0F75BD] border-[#E5E7EB] rounded focus:ring-[#0F75BD]"
+                className="w-5 h-5 text-[#0F75BD] border-[#D3D9DD] rounded focus:ring-[#0F75BD]"
               />
               <div>
-                <span className="text-sm font-semibold text-[#1A1A1A]">
+                <span className="text-sm font-medium text-gray-800">
                   Room is Available for Booking
                 </span>
-                <p className="text-xs text-[#5C5B59]">
+                <p className="text-xs text-gray-500">
                   Guests can book this room immediately
                 </p>
               </div>
@@ -441,28 +387,20 @@ export default function CreateRoomPage() {
             <button
               type="button"
               onClick={() => router.back()}
-              className="flex-1 px-6 py-4 bg-white border-2 border-[#E5E7EB] text-[#1A1A1A] font-semibold rounded-xl hover:bg-[#FAFAFB] transition-colors"
+              className="px-6 py-4 bg-white border border-[#D3D9DD] text-gray-800 font-medium rounded-xl hover:bg-gray-50 transition-colors"
               disabled={loading}
             >
               Cancel
             </button>
-            <button
-              type="submit"
-              disabled={loading}
-              className="flex-1 px-6 py-4 bg-[#0F75BD] text-white font-semibold rounded-xl hover:bg-[#0050C8] transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
-            >
-              {loading ? (
-                <>
-                  <Loader2 className="w-5 h-5 animate-spin" />
-                  Creating Room...
-                </>
-              ) : (
-                <>
-                  <Plus className="w-5 h-5" />
-                  Create Room
-                </>
-              )}
-            </button>
+            <div className="flex-1">
+              <Button
+                text={loading ? "Creating Room..." : "Create Room"}
+                type="submit"
+                loading={loading}
+                disabled={loading}
+                fullWidth={true}
+              />
+            </div>
           </div>
         </form>
       </div>

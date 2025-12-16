@@ -123,13 +123,13 @@ export default function ChatsPage() {
           <h1 className="text-2xl font-bold text-[#1A1A1A] mb-4">Messages</h1>
           {/* Search */}
           <div className="relative">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-[#5C5B59]" />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-[#8F8E8D]" />
             <input
               type="text"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               placeholder="Search guests or rooms..."
-              className="w-full pl-10 pr-4 py-2.5 border border-[#E5E7EB] rounded-xl focus:ring-2 focus:ring-[#0F75BD] focus:border-transparent text-sm"
+              className="w-full pl-10 pr-3 py-2 border border-[#D3D9DD] rounded-xl text-sm text-gray-800 focus:outline-none focus:ring-1 focus:ring-[#8E9397] focus:border-transparent placeholder:text-[#8F8E8D] placeholder:text-sm"
             />
           </div>
         </div>
@@ -242,7 +242,7 @@ export default function ChatsPage() {
                 <button className="p-2 hover:bg-[#FAFAFB] rounded-lg transition-colors">
                   <Paperclip className="w-5 h-5 text-[#5C5B59]" />
                 </button>
-                <div className="flex-1 border border-[#E5E7EB] rounded-xl p-3 focus-within:ring-2 focus-within:ring-[#0F75BD] focus-within:border-transparent">
+                <div className="flex-1 border border-[#D3D9DD] rounded-xl p-3 focus-within:ring-1 focus-within:ring-[#8E9397] focus-within:border-transparent">
                   <textarea
                     value={message}
                     onChange={(e) => setMessage(e.target.value)}
@@ -253,7 +253,7 @@ export default function ChatsPage() {
                       }
                     }}
                     placeholder="Type your message..."
-                    className="w-full resize-none focus:outline-none text-sm max-h-32"
+                    className="w-full resize-none focus:outline-none text-sm max-h-32 text-gray-800 placeholder:text-[#8F8E8D]"
                     rows={1}
                   />
                 </div>

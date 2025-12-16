@@ -30,7 +30,7 @@ export default function Button({
 
   const variantStyles = {
     primary:
-      "bg-[#002968] text-white disabled:bg-[#7A8CB2] disabled:cursor-not-allowed",
+      "bg-[#0F75BD] text-white hover:bg-[#0050C8] disabled:bg-[#0F75BD]/40 disabled:hover:bg-[#0F75BD]/40 disabled:cursor-not-allowed",
     secondary:
       "bg-gray-200 text-gray-800 hover:bg-gray-300 disabled:bg-gray-100 disabled:cursor-not-allowed",
     danger:

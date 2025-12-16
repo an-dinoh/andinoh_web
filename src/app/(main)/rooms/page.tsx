@@ -414,13 +414,13 @@ export default function RoomsPage() {
         <div className="flex items-center gap-4">
             {/* Search */}
             <div className="flex-1 relative">
-              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-[#5C5B59]" />
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-[#8F8E8D]" />
               <input
                 type="text"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 placeholder="Search rooms by name or description..."
-                className="w-full pl-12 pr-4 py-3 border border-[#E5E7EB] rounded-xl focus:ring-2 focus:ring-[#0F75BD] focus:border-transparent text-[#1A1A1A] placeholder:text-[#5C5B59]"
+                className="w-full pl-10 pr-3 py-2 border border-[#D3D9DD] rounded-xl text-sm text-gray-800 focus:outline-none focus:ring-1 focus:ring-[#8E9397] focus:border-transparent placeholder:text-[#8F8E8D] placeholder:text-sm"
               />
             </div>
 
@@ -428,11 +428,11 @@ export default function RoomsPage() {
             <div className="relative">
               <button
                 onClick={() => setShowSortDropdown(!showSortDropdown)}
-                className="flex items-center gap-2 px-5 py-3 border border-[#E5E7EB] rounded-xl hover:bg-[#FAFAFB] transition-colors"
+                className="flex items-center gap-2 px-4 py-2 border border-[#D3D9DD] rounded-xl hover:bg-gray-50 transition-colors"
               >
-                <Filter className="w-5 h-5 text-[#5C5B59]" />
-                <span className="text-sm font-medium text-[#1A1A1A]">Sort By</span>
-                <ChevronDown className="w-4 h-4 text-[#5C5B59]" />
+                <Filter className="w-5 h-5 text-[#8F8E8D]" />
+                <span className="text-sm font-medium text-gray-800">Sort By</span>
+                <ChevronDown className="w-4 h-4 text-[#8F8E8D]" />
               </button>
 
               {showSortDropdown && (

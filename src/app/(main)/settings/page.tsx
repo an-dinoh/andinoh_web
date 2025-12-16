@@ -104,7 +104,7 @@ export default function SettingsPage() {
                 {!editing ? (
                   <button
                     onClick={() => setEditing(true)}
-                    className="px-6 py-2.5 bg-[#0F75BD] text-white font-medium rounded-xl hover:bg-[#0050C8] transition-colors"
+                    className="px-6 py-3 bg-[#0F75BD] text-white font-semibold rounded-xl hover:bg-[#0050C8] transition-colors"
                   >
                     Edit Profile
                   </button>
@@ -113,13 +113,13 @@ export default function SettingsPage() {
                     <button
                       onClick={handleSave}
                       disabled={saving}
-                      className="px-6 py-2.5 bg-[#0F75BD] text-white font-medium rounded-xl hover:bg-[#0050C8] transition-colors disabled:opacity-50"
+                      className="px-6 py-3 bg-[#0F75BD] text-white font-semibold rounded-xl hover:bg-[#0050C8] transition-colors disabled:opacity-50"
                     >
                       {saving ? "Saving..." : "Save Changes"}
                     </button>
                     <button
                       onClick={() => setEditing(false)}
-                      className="px-6 py-2.5 bg-[#E5E7EB] text-[#1A1A1A] font-medium rounded-xl hover:bg-[#D2D2D2] transition-colors"
+                      className="px-6 py-3 border border-[#D3D9DD] rounded-xl hover:bg-gray-50 text-gray-800 font-medium transition-colors"
                     >
                       Cancel
                     </button>
@@ -128,16 +128,16 @@ export default function SettingsPage() {
               </div>
 
               {/* Profile Picture */}
-              <div className="bg-[#FAFAFB] border border-[#E5E7EB] rounded-2xl p-6">
+              <div className="bg-white rounded-2xl p-8">
                 <div className="flex items-center gap-6">
                   <div className="w-24 h-24 bg-[#0F75BD] rounded-2xl flex items-center justify-center text-white text-3xl font-bold">
                     HM
                   </div>
                   <div className="flex-1">
-                    <h3 className="font-semibold text-[#1A1A1A] mb-1">Profile Photo</h3>
-                    <p className="text-sm text-[#5C5B59] mb-3">Update your profile picture</p>
+                    <h3 className="font-semibold text-gray-800 mb-1">Profile Photo</h3>
+                    <p className="text-sm text-gray-500 mb-3">Update your profile picture</p>
                     {editing && (
-                      <button className="px-4 py-2 bg-white border border-[#E5E7EB] text-[#1A1A1A] rounded-lg hover:bg-[#FAFAFB] transition-colors flex items-center gap-2">
+                      <button className="px-4 py-2 bg-white border border-[#D3D9DD] text-gray-800 rounded-xl hover:bg-gray-50 transition-colors flex items-center gap-2">
                         <Upload className="w-4 h-4" />
                         Upload Photo
                       </button>
@@ -147,46 +147,46 @@ export default function SettingsPage() {
               </div>
 
               {/* Profile Form */}
-              <div className="bg-[#FAFAFB] border border-[#E5E7EB] rounded-2xl p-6 space-y-4">
+              <div className="bg-white rounded-2xl p-8 space-y-5">
                 <div>
-                  <label className="block text-sm font-semibold text-[#1A1A1A] mb-2">Full Name</label>
+                  <label className="block text-[#0B0A07] text-sm mb-1">Full Name</label>
                   {editing ? (
                     <input
                       type="text"
                       value={profileForm.fullName}
                       onChange={(e) => setProfileForm({ ...profileForm, fullName: e.target.value })}
-                      className="w-full px-4 py-3 border border-[#E5E7EB] rounded-xl focus:ring-2 focus:ring-[#0F75BD] focus:border-transparent"
+                      className="w-full rounded-xl border border-[#D3D9DD] px-3 py-2 text-sm text-gray-800 focus:outline-none focus:ring-1 focus:ring-[#8E9397] focus:border-transparent"
                     />
                   ) : (
-                    <p className="text-[#1A1A1A] font-medium py-3">{profileForm.fullName}</p>
+                    <p className="text-gray-800 font-medium py-2">{profileForm.fullName}</p>
                   )}
                 </div>
 
                 <div>
-                  <label className="block text-sm font-semibold text-[#1A1A1A] mb-2">Email Address</label>
+                  <label className="block text-[#0B0A07] text-sm mb-1">Email Address</label>
                   {editing ? (
                     <input
                       type="email"
                       value={profileForm.email}
                       onChange={(e) => setProfileForm({ ...profileForm, email: e.target.value })}
-                      className="w-full px-4 py-3 border border-[#E5E7EB] rounded-xl focus:ring-2 focus:ring-[#0F75BD] focus:border-transparent"
+                      className="w-full rounded-xl border border-[#D3D9DD] px-3 py-2 text-sm text-gray-800 focus:outline-none focus:ring-1 focus:ring-[#8E9397] focus:border-transparent"
                     />
                   ) : (
-                    <p className="text-[#1A1A1A] font-medium py-3">{profileForm.email}</p>
+                    <p className="text-gray-800 font-medium py-2">{profileForm.email}</p>
                   )}
                 </div>
 
                 <div>
-                  <label className="block text-sm font-semibold text-[#1A1A1A] mb-2">Phone Number</label>
+                  <label className="block text-[#0B0A07] text-sm mb-1">Phone Number</label>
                   {editing ? (
                     <input
                       type="tel"
                       value={profileForm.phone}
                       onChange={(e) => setProfileForm({ ...profileForm, phone: e.target.value })}
-                      className="w-full px-4 py-3 border border-[#E5E7EB] rounded-xl focus:ring-2 focus:ring-[#0F75BD] focus:border-transparent"
+                      className="w-full rounded-xl border border-[#D3D9DD] px-3 py-2 text-sm text-gray-800 focus:outline-none focus:ring-1 focus:ring-[#8E9397] focus:border-transparent"
                     />
                   ) : (
-                    <p className="text-[#1A1A1A] font-medium py-3">{profileForm.phone}</p>
+                    <p className="text-gray-800 font-medium py-2">{profileForm.phone}</p>
                   )}
                 </div>
               </div>
@@ -204,7 +204,7 @@ export default function SettingsPage() {
                 {!editing ? (
                   <button
                     onClick={() => setEditing(true)}
-                    className="px-6 py-2.5 bg-[#0F75BD] text-white font-medium rounded-xl hover:bg-[#0050C8] transition-colors"
+                    className="px-6 py-3 bg-[#0F75BD] text-white font-semibold rounded-xl hover:bg-[#0050C8] transition-colors"
                   >
                     Edit Hotel
                   </button>
@@ -213,13 +213,13 @@ export default function SettingsPage() {
                     <button
                       onClick={handleSave}
                       disabled={saving}
-                      className="px-6 py-2.5 bg-[#0F75BD] text-white font-medium rounded-xl hover:bg-[#0050C8] transition-colors disabled:opacity-50"
+                      className="px-6 py-3 bg-[#0F75BD] text-white font-semibold rounded-xl hover:bg-[#0050C8] transition-colors disabled:opacity-50"
                     >
                       {saving ? "Saving..." : "Save Changes"}
                     </button>
                     <button
                       onClick={() => setEditing(false)}
-                      className="px-6 py-2.5 bg-[#E5E7EB] text-[#1A1A1A] font-medium rounded-xl hover:bg-[#D2D2D2] transition-colors"
+                      className="px-6 py-3 border border-[#D3D9DD] rounded-xl hover:bg-gray-50 text-gray-800 font-medium transition-colors"
                     >
                       Cancel
                     </button>
@@ -228,34 +228,33 @@ export default function SettingsPage() {
               </div>
 
               {/* Basic Information */}
-              <div className="bg-[#FAFAFB] border border-[#E5E7EB] rounded-2xl p-6 space-y-4">
-                <h3 className="font-semibold text-[#1A1A1A] flex items-center gap-2 mb-4">
-                  <Building2 className="w-5 h-5 text-[#0F75BD]" />
+              <div className="bg-white rounded-2xl p-8 space-y-5">
+                <h3 className="text-2xl font-semibold text-gray-800 mb-2">
                   Basic Information
                 </h3>
 
                 <div>
-                  <label className="block text-sm font-semibold text-[#1A1A1A] mb-2">Hotel Name</label>
+                  <label className="block text-[#0B0A07] text-sm mb-1">Hotel Name</label>
                   {editing ? (
                     <input
                       type="text"
                       value={hotelForm.name}
                       onChange={(e) => setHotelForm({ ...hotelForm, name: e.target.value })}
-                      className="w-full px-4 py-3 border border-[#E5E7EB] rounded-xl focus:ring-2 focus:ring-[#0F75BD] focus:border-transparent"
+                      className="w-full rounded-xl border border-[#D3D9DD] px-3 py-2 text-sm text-gray-800 focus:outline-none focus:ring-1 focus:ring-[#8E9397] focus:border-transparent"
                     />
                   ) : (
-                    <p className="text-[#1A1A1A] font-medium py-3">{hotelForm.name}</p>
+                    <p className="text-gray-800 font-medium py-2">{hotelForm.name}</p>
                   )}
                 </div>
 
                 <div>
-                  <label className="block text-sm font-semibold text-[#1A1A1A] mb-2">Description</label>
+                  <label className="block text-[#0B0A07] text-sm mb-1">Description</label>
                   {editing ? (
                     <textarea
                       value={hotelForm.description}
                       onChange={(e) => setHotelForm({ ...hotelForm, description: e.target.value })}
                       rows={4}
-                      className="w-full px-4 py-3 border border-[#E5E7EB] rounded-xl focus:ring-2 focus:ring-[#0F75BD] focus:border-transparent"
+                      className="w-full rounded-xl border border-[#D3D9DD] px-3 py-2 text-sm text-gray-800 focus:outline-none focus:ring-1 focus:ring-[#8E9397] focus:border-transparent"
                     />
                   ) : (
                     <p className="text-[#5C5B59] py-3">{hotelForm.description}</p>
@@ -264,12 +263,12 @@ export default function SettingsPage() {
 
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-sm font-semibold text-[#1A1A1A] mb-2">Hotel Type</label>
+                    <label className="block text-[#0B0A07] text-sm mb-1">Hotel Type</label>
                     {editing ? (
                       <select
                         value={hotelForm.hotelType}
                         onChange={(e) => setHotelForm({ ...hotelForm, hotelType: e.target.value })}
-                        className="w-full px-4 py-3 border border-[#E5E7EB] rounded-xl focus:ring-2 focus:ring-[#0F75BD] focus:border-transparent"
+                        className="w-full rounded-xl border border-[#D3D9DD] px-3 py-2 text-sm text-gray-800 focus:outline-none focus:ring-1 focus:ring-[#8E9397] focus:border-transparent appearance-none bg-white bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHZpZXdCb3g9IjAgMCAxNiAxNiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNNCA2TDggMTBMMTIgNiIgc3Ryb2tlPSIjOEY4RThEIiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIvPjwvc3ZnPg==')] bg-[length:16px_16px] bg-[right_12px_center] bg-no-repeat pr-10"
                       >
                         <option value="luxury">Luxury</option>
                         <option value="boutique">Boutique</option>
@@ -278,17 +277,17 @@ export default function SettingsPage() {
                         <option value="resort">Resort</option>
                       </select>
                     ) : (
-                      <p className="text-[#1A1A1A] font-medium py-3 capitalize">{hotelForm.hotelType}</p>
+                      <p className="text-gray-800 font-medium py-2 capitalize">{hotelForm.hotelType}</p>
                     )}
                   </div>
 
                   <div>
-                    <label className="block text-sm font-semibold text-[#1A1A1A] mb-2">Star Rating</label>
+                    <label className="block text-[#0B0A07] text-sm mb-1">Star Rating</label>
                     {editing ? (
                       <select
                         value={hotelForm.starRating}
                         onChange={(e) => setHotelForm({ ...hotelForm, starRating: parseInt(e.target.value) })}
-                        className="w-full px-4 py-3 border border-[#E5E7EB] rounded-xl focus:ring-2 focus:ring-[#0F75BD] focus:border-transparent"
+                        className="w-full rounded-xl border border-[#D3D9DD] px-3 py-2 text-sm text-gray-800 focus:outline-none focus:ring-1 focus:ring-[#8E9397] focus:border-transparent appearance-none bg-white bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHZpZXdCb3g9IjAgMCAxNiAxNiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNNCA2TDggMTBMMTIgNiIgc3Ryb2tlPSIjOEY4RThEIiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIvPjwvc3ZnPg==')] bg-[length:16px_16px] bg-[right_12px_center] bg-no-repeat pr-10"
                       >
                         <option value="1">1 Star</option>
                         <option value="2">2 Stars</option>
@@ -306,97 +305,97 @@ export default function SettingsPage() {
                   </div>
 
                   <div>
-                    <label className="block text-sm font-semibold text-[#1A1A1A] mb-2">Total Rooms</label>
+                    <label className="block text-[#0B0A07] text-sm mb-1">Total Rooms</label>
                     {editing ? (
                       <input
                         type="number"
                         value={hotelForm.totalRooms}
                         onChange={(e) => setHotelForm({ ...hotelForm, totalRooms: parseInt(e.target.value) })}
-                        className="w-full px-4 py-3 border border-[#E5E7EB] rounded-xl focus:ring-2 focus:ring-[#0F75BD] focus:border-transparent"
+                        className="w-full rounded-xl border border-[#D3D9DD] px-3 py-2 text-sm text-gray-800 focus:outline-none focus:ring-1 focus:ring-[#8E9397] focus:border-transparent"
                       />
                     ) : (
-                      <p className="text-[#1A1A1A] font-medium py-3">{hotelForm.totalRooms}</p>
+                      <p className="text-gray-800 font-medium py-2">{hotelForm.totalRooms}</p>
                     )}
                   </div>
                 </div>
               </div>
 
               {/* Location */}
-              <div className="bg-[#FAFAFB] border border-[#E5E7EB] rounded-2xl p-6 space-y-4">
-                <h3 className="font-semibold text-[#1A1A1A] flex items-center gap-2 mb-4">
+              <div className="bg-white rounded-2xl p-8 space-y-5">
+                <h3 className="text-2xl font-semibold text-gray-800 mb-2">
                   <MapPin className="w-5 h-5 text-[#0F75BD]" />
                   Location
                 </h3>
 
                 <div>
-                  <label className="block text-sm font-semibold text-[#1A1A1A] mb-2">Address</label>
+                  <label className="block text-[#0B0A07] text-sm mb-1">Address</label>
                   {editing ? (
                     <input
                       type="text"
                       value={hotelForm.address}
                       onChange={(e) => setHotelForm({ ...hotelForm, address: e.target.value })}
-                      className="w-full px-4 py-3 border border-[#E5E7EB] rounded-xl focus:ring-2 focus:ring-[#0F75BD] focus:border-transparent"
+                      className="w-full rounded-xl border border-[#D3D9DD] px-3 py-2 text-sm text-gray-800 focus:outline-none focus:ring-1 focus:ring-[#8E9397] focus:border-transparent"
                     />
                   ) : (
-                    <p className="text-[#1A1A1A] font-medium py-3">{hotelForm.address}</p>
+                    <p className="text-gray-800 font-medium py-2">{hotelForm.address}</p>
                   )}
                 </div>
 
                 <div className="grid grid-cols-3 gap-4">
                   <div>
-                    <label className="block text-sm font-semibold text-[#1A1A1A] mb-2">City</label>
+                    <label className="block text-[#0B0A07] text-sm mb-1">City</label>
                     {editing ? (
                       <input
                         type="text"
                         value={hotelForm.city}
                         onChange={(e) => setHotelForm({ ...hotelForm, city: e.target.value })}
-                        className="w-full px-4 py-3 border border-[#E5E7EB] rounded-xl focus:ring-2 focus:ring-[#0F75BD] focus:border-transparent"
+                        className="w-full rounded-xl border border-[#D3D9DD] px-3 py-2 text-sm text-gray-800 focus:outline-none focus:ring-1 focus:ring-[#8E9397] focus:border-transparent"
                       />
                     ) : (
-                      <p className="text-[#1A1A1A] font-medium py-3">{hotelForm.city}</p>
+                      <p className="text-gray-800 font-medium py-2">{hotelForm.city}</p>
                     )}
                   </div>
 
                   <div>
-                    <label className="block text-sm font-semibold text-[#1A1A1A] mb-2">State</label>
+                    <label className="block text-[#0B0A07] text-sm mb-1">State</label>
                     {editing ? (
                       <input
                         type="text"
                         value={hotelForm.state}
                         onChange={(e) => setHotelForm({ ...hotelForm, state: e.target.value })}
-                        className="w-full px-4 py-3 border border-[#E5E7EB] rounded-xl focus:ring-2 focus:ring-[#0F75BD] focus:border-transparent"
+                        className="w-full rounded-xl border border-[#D3D9DD] px-3 py-2 text-sm text-gray-800 focus:outline-none focus:ring-1 focus:ring-[#8E9397] focus:border-transparent"
                       />
                     ) : (
-                      <p className="text-[#1A1A1A] font-medium py-3">{hotelForm.state}</p>
+                      <p className="text-gray-800 font-medium py-2">{hotelForm.state}</p>
                     )}
                   </div>
 
                   <div>
-                    <label className="block text-sm font-semibold text-[#1A1A1A] mb-2">Country</label>
+                    <label className="block text-[#0B0A07] text-sm mb-1">Country</label>
                     {editing ? (
                       <input
                         type="text"
                         value={hotelForm.country}
                         onChange={(e) => setHotelForm({ ...hotelForm, country: e.target.value })}
-                        className="w-full px-4 py-3 border border-[#E5E7EB] rounded-xl focus:ring-2 focus:ring-[#0F75BD] focus:border-transparent"
+                        className="w-full rounded-xl border border-[#D3D9DD] px-3 py-2 text-sm text-gray-800 focus:outline-none focus:ring-1 focus:ring-[#8E9397] focus:border-transparent"
                       />
                     ) : (
-                      <p className="text-[#1A1A1A] font-medium py-3">{hotelForm.country}</p>
+                      <p className="text-gray-800 font-medium py-2">{hotelForm.country}</p>
                     )}
                   </div>
                 </div>
 
                 <div className="w-1/3">
-                  <label className="block text-sm font-semibold text-[#1A1A1A] mb-2">Postal Code</label>
+                  <label className="block text-[#0B0A07] text-sm mb-1">Postal Code</label>
                   {editing ? (
                     <input
                       type="text"
                       value={hotelForm.postalCode}
                       onChange={(e) => setHotelForm({ ...hotelForm, postalCode: e.target.value })}
-                      className="w-full px-4 py-3 border border-[#E5E7EB] rounded-xl focus:ring-2 focus:ring-[#0F75BD] focus:border-transparent"
+                      className="w-full rounded-xl border border-[#D3D9DD] px-3 py-2 text-sm text-gray-800 focus:outline-none focus:ring-1 focus:ring-[#8E9397] focus:border-transparent"
                     />
                   ) : (
-                    <p className="text-[#1A1A1A] font-medium py-3">{hotelForm.postalCode}</p>
+                    <p className="text-gray-800 font-medium py-2">{hotelForm.postalCode}</p>
                   )}
                 </div>
               </div>
@@ -404,87 +403,87 @@ export default function SettingsPage() {
               {/* Contact & Operating Hours */}
               <div className="grid grid-cols-2 gap-6">
                 {/* Contact */}
-                <div className="bg-[#FAFAFB] border border-[#E5E7EB] rounded-2xl p-6 space-y-4">
-                  <h3 className="font-semibold text-[#1A1A1A] flex items-center gap-2 mb-4">
+                <div className="bg-white rounded-2xl p-8 space-y-5">
+                  <h3 className="text-2xl font-semibold text-gray-800 mb-2">
                     <Phone className="w-5 h-5 text-[#0F75BD]" />
                     Contact
                   </h3>
 
                   <div>
-                    <label className="block text-sm font-semibold text-[#1A1A1A] mb-2">Phone</label>
+                    <label className="block text-[#0B0A07] text-sm mb-1">Phone</label>
                     {editing ? (
                       <input
                         type="tel"
                         value={hotelForm.phone}
                         onChange={(e) => setHotelForm({ ...hotelForm, phone: e.target.value })}
-                        className="w-full px-4 py-3 border border-[#E5E7EB] rounded-xl focus:ring-2 focus:ring-[#0F75BD] focus:border-transparent"
+                        className="w-full rounded-xl border border-[#D3D9DD] px-3 py-2 text-sm text-gray-800 focus:outline-none focus:ring-1 focus:ring-[#8E9397] focus:border-transparent"
                       />
                     ) : (
-                      <p className="text-[#1A1A1A] font-medium py-3">{hotelForm.phone}</p>
+                      <p className="text-gray-800 font-medium py-2">{hotelForm.phone}</p>
                     )}
                   </div>
 
                   <div>
-                    <label className="block text-sm font-semibold text-[#1A1A1A] mb-2">Email</label>
+                    <label className="block text-[#0B0A07] text-sm mb-1">Email</label>
                     {editing ? (
                       <input
                         type="email"
                         value={hotelForm.email}
                         onChange={(e) => setHotelForm({ ...hotelForm, email: e.target.value })}
-                        className="w-full px-4 py-3 border border-[#E5E7EB] rounded-xl focus:ring-2 focus:ring-[#0F75BD] focus:border-transparent"
+                        className="w-full rounded-xl border border-[#D3D9DD] px-3 py-2 text-sm text-gray-800 focus:outline-none focus:ring-1 focus:ring-[#8E9397] focus:border-transparent"
                       />
                     ) : (
-                      <p className="text-[#1A1A1A] font-medium py-3">{hotelForm.email}</p>
+                      <p className="text-gray-800 font-medium py-2">{hotelForm.email}</p>
                     )}
                   </div>
 
                   <div>
-                    <label className="block text-sm font-semibold text-[#1A1A1A] mb-2">Website</label>
+                    <label className="block text-[#0B0A07] text-sm mb-1">Website</label>
                     {editing ? (
                       <input
                         type="url"
                         value={hotelForm.website}
                         onChange={(e) => setHotelForm({ ...hotelForm, website: e.target.value })}
-                        className="w-full px-4 py-3 border border-[#E5E7EB] rounded-xl focus:ring-2 focus:ring-[#0F75BD] focus:border-transparent"
+                        className="w-full rounded-xl border border-[#D3D9DD] px-3 py-2 text-sm text-gray-800 focus:outline-none focus:ring-1 focus:ring-[#8E9397] focus:border-transparent"
                       />
                     ) : (
-                      <p className="text-[#1A1A1A] font-medium py-3">{hotelForm.website}</p>
+                      <p className="text-gray-800 font-medium py-2">{hotelForm.website}</p>
                     )}
                   </div>
                 </div>
 
                 {/* Operating Hours */}
-                <div className="bg-[#FAFAFB] border border-[#E5E7EB] rounded-2xl p-6 space-y-4">
-                  <h3 className="font-semibold text-[#1A1A1A] flex items-center gap-2 mb-4">
+                <div className="bg-white rounded-2xl p-8 space-y-5">
+                  <h3 className="text-2xl font-semibold text-gray-800 mb-2">
                     <Clock className="w-5 h-5 text-[#0F75BD]" />
                     Operating Hours
                   </h3>
 
                   <div>
-                    <label className="block text-sm font-semibold text-[#1A1A1A] mb-2">Check-in Time</label>
+                    <label className="block text-[#0B0A07] text-sm mb-1">Check-in Time</label>
                     {editing ? (
                       <input
                         type="time"
                         value={hotelForm.checkInTime}
                         onChange={(e) => setHotelForm({ ...hotelForm, checkInTime: e.target.value })}
-                        className="w-full px-4 py-3 border border-[#E5E7EB] rounded-xl focus:ring-2 focus:ring-[#0F75BD] focus:border-transparent"
+                        className="w-full rounded-xl border border-[#D3D9DD] px-3 py-2 text-sm text-gray-800 focus:outline-none focus:ring-1 focus:ring-[#8E9397] focus:border-transparent"
                       />
                     ) : (
-                      <p className="text-[#1A1A1A] font-medium py-3">{hotelForm.checkInTime}</p>
+                      <p className="text-gray-800 font-medium py-2">{hotelForm.checkInTime}</p>
                     )}
                   </div>
 
                   <div>
-                    <label className="block text-sm font-semibold text-[#1A1A1A] mb-2">Check-out Time</label>
+                    <label className="block text-[#0B0A07] text-sm mb-1">Check-out Time</label>
                     {editing ? (
                       <input
                         type="time"
                         value={hotelForm.checkOutTime}
                         onChange={(e) => setHotelForm({ ...hotelForm, checkOutTime: e.target.value })}
-                        className="w-full px-4 py-3 border border-[#E5E7EB] rounded-xl focus:ring-2 focus:ring-[#0F75BD] focus:border-transparent"
+                        className="w-full rounded-xl border border-[#D3D9DD] px-3 py-2 text-sm text-gray-800 focus:outline-none focus:ring-1 focus:ring-[#8E9397] focus:border-transparent"
                       />
                     ) : (
-                      <p className="text-[#1A1A1A] font-medium py-3">{hotelForm.checkOutTime}</p>
+                      <p className="text-gray-800 font-medium py-2">{hotelForm.checkOutTime}</p>
                     )}
                   </div>
                 </div>
@@ -500,7 +499,7 @@ export default function SettingsPage() {
                 <p className="text-[#5C5B59] text-sm mt-1">Choose how you want to be notified</p>
               </div>
 
-              <div className="bg-[#FAFAFB] border border-[#E5E7EB] rounded-2xl p-6 space-y-4">
+              <div className="bg-white rounded-2xl p-8 space-y-5">
                 {[
                   { label: "Email notifications for new bookings", description: "Get notified when new bookings are made" },
                   { label: "SMS alerts for check-ins", description: "Receive SMS when guests check in" },
@@ -534,14 +533,14 @@ export default function SettingsPage() {
               </div>
 
               {/* Change Password */}
-              <div className="bg-[#FAFAFB] border border-[#E5E7EB] rounded-2xl p-6 space-y-4">
-                <h3 className="font-semibold text-[#1A1A1A] flex items-center gap-2 mb-4">
+              <div className="bg-white rounded-2xl p-8 space-y-5">
+                <h3 className="text-2xl font-semibold text-gray-800 mb-2">
                   <Lock className="w-5 h-5 text-[#0F75BD]" />
                   Change Password
                 </h3>
 
                 <div>
-                  <label className="block text-sm font-semibold text-[#1A1A1A] mb-2">Current Password</label>
+                  <label className="block text-[#0B0A07] text-sm mb-1">Current Password</label>
                   <input
                     type="password"
                     className="w-full px-4 py-3 border border-[#E5E7EB] rounded-xl focus:ring-2 focus:ring-[#0F75BD] focus:border-transparent"
@@ -550,7 +549,7 @@ export default function SettingsPage() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-semibold text-[#1A1A1A] mb-2">New Password</label>
+                  <label className="block text-[#0B0A07] text-sm mb-1">New Password</label>
                   <input
                     type="password"
                     className="w-full px-4 py-3 border border-[#E5E7EB] rounded-xl focus:ring-2 focus:ring-[#0F75BD] focus:border-transparent"
@@ -559,7 +558,7 @@ export default function SettingsPage() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-semibold text-[#1A1A1A] mb-2">Confirm New Password</label>
+                  <label className="block text-[#0B0A07] text-sm mb-1">Confirm New Password</label>
                   <input
                     type="password"
                     className="w-full px-4 py-3 border border-[#E5E7EB] rounded-xl focus:ring-2 focus:ring-[#0F75BD] focus:border-transparent"

@@ -128,10 +128,10 @@ function ResetPasswordForm() {
       <div className="rounded-2xl p-8">
         <Link
           href="/login"
-          className="inline-flex items-center justify-center w-10 h-10 rounded-full border border-[#002968] hover:bg-gray-50 transition-colors mb-6"
+          className="inline-flex items-center justify-center w-10 h-10 rounded-full border border-[#0F75BD] hover:bg-gray-50 transition-colors mb-6"
         >
           <svg
-            className="w-6 h-6 text-[#002968]"
+            className="w-6 h-6 text-[#0F75BD]"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -215,10 +215,10 @@ function ResetPasswordForm() {
     <div className="rounded-2xl p-8">
       <Link
         href="/verify-otp"
-        className="inline-flex items-center justify-center w-10 h-10 rounded-full border border-[#002968] hover:bg-gray-50 transition-colors mb-6"
+        className="inline-flex items-center justify-center w-10 h-10 rounded-full border border-[#0F75BD] hover:bg-gray-50 transition-colors mb-6"
       >
         <svg
-          className="w-6 h-6 text-[#002968]"
+          className="w-6 h-6 text-[#0F75BD]"
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"

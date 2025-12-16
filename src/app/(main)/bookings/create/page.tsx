@@ -20,6 +20,8 @@ import {
 } from "lucide-react";
 import { hotelService } from "@/services/hotel.service";
 import { Room, BookingSource } from "@/types/hotel.types";
+import InputField from "@/components/ui/InputField";
+import Button from "@/components/ui/Button";
 
 interface BookingForm {
   room_id: string;
@@ -181,20 +183,22 @@ export default function CreateBookingPage() {
   return (
     <div className="h-full bg-white overflow-y-auto scrollbar-hide pt-8 pb-8">
       <div className="max-w-4xl mx-auto space-y-6">
+        {/* Back Button */}
+        <button
+          onClick={() => router.back()}
+          className="inline-flex items-center justify-center w-10 h-10 rounded-full border border-[#0F75BD] hover:bg-gray-50 transition-colors"
+        >
+          <ArrowLeft className="w-5 h-5 text-[#0F75BD]" />
+        </button>
+
         {/* Header */}
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <button
-              onClick={() => router.back()}
-              className="p-2 hover:bg-[#FAFAFB] rounded-lg transition-colors"
-            >
-              <ArrowLeft className="w-5 h-5 text-[#5C5B59]" />
-            </button>
-            <div>
-              <h1 className="text-3xl font-bold text-[#1A1A1A]">Create New Booking</h1>
-              <p className="text-[#5C5B59] mt-1">Fill in the booking details</p>
-            </div>
-          </div>
+        <div className="text-left">
+          <h1 className="text-2xl font-semibold text-gray-800 mb-2">
+            Create New Booking
+          </h1>
+          <p className="text-gray-500 text-sm">
+            Fill in the booking details
+          </p>
         </div>
 
         {/* Success/Error Messages */}
@@ -214,80 +218,45 @@ export default function CreateBookingPage() {
 
         <form onSubmit={handleSubmit} className="space-y-6">
           {/* Guest Information */}
-          <div className="bg-[#FAFAFB] border border-[#E5E7EB] rounded-2xl p-8">
-            <div className="flex items-center gap-3 mb-6">
-              <div className="w-10 h-10 bg-[#0F75BD] rounded-xl flex items-center justify-center">
-                <User className="w-5 h-5 text-white" />
-              </div>
-              <h2 className="text-xl font-bold text-[#1A1A1A]">Guest Information</h2>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <label className="block text-sm font-medium text-[#1A1A1A] mb-2">
-                  Full Name <span className="text-red-500">*</span>
-                </label>
-                <input
-                  type="text"
-                  name="customer_name"
-                  value={form.customer_name}
-                  onChange={handleInputChange}
-                  className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-[#0F75BD] focus:border-transparent ${
-                    errors.customer_name ? "border-red-300" : "border-[#E5E7EB]"
-                  }`}
-                  placeholder="John Doe"
-                />
-                {errors.customer_name && (
-                  <p className="mt-1 text-xs text-red-600">{errors.customer_name}</p>
-                )}
-              </div>
+          <div className="bg-white rounded-2xl p-8">
+            <h2 className="text-2xl font-semibold text-gray-800 mb-6">Guest Information</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+              <InputField
+                label="Full Name *"
+                type="text"
+                placeholder="John Doe"
+                value={form.customer_name}
+                onChange={handleInputChange}
+                error={errors.customer_name}
+              />
+
+              <InputField
+                label="Email *"
+                type="email"
+                placeholder="john@example.com"
+                value={form.customer_email}
+                onChange={handleInputChange}
+                error={errors.customer_email}
+              />
+
+              <InputField
+                label="Phone *"
+                type="tel"
+                placeholder="+234 123 456 7890"
+                value={form.customer_phone}
+                onChange={handleInputChange}
+                error={errors.customer_phone}
+              />
 
               <div>
-                <label className="block text-sm font-medium text-[#1A1A1A] mb-2">
-                  Email <span className="text-red-500">*</span>
-                </label>
-                <input
-                  type="email"
-                  name="customer_email"
-                  value={form.customer_email}
-                  onChange={handleInputChange}
-                  className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-[#0F75BD] focus:border-transparent ${
-                    errors.customer_email ? "border-red-300" : "border-[#E5E7EB]"
-                  }`}
-                  placeholder="john@example.com"
-                />
-                {errors.customer_email && (
-                  <p className="mt-1 text-xs text-red-600">{errors.customer_email}</p>
-                )}
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-[#1A1A1A] mb-2">
-                  Phone <span className="text-red-500">*</span>
-                </label>
-                <input
-                  type="tel"
-                  name="customer_phone"
-                  value={form.customer_phone}
-                  onChange={handleInputChange}
-                  className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-[#0F75BD] focus:border-transparent ${
-                    errors.customer_phone ? "border-red-300" : "border-[#E5E7EB]"
-                  }`}
-                  placeholder="+234 123 456 7890"
-                />
-                {errors.customer_phone && (
-                  <p className="mt-1 text-xs text-red-600">{errors.customer_phone}</p>
-                )}
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-[#1A1A1A] mb-2">
+                <label className="block text-[#0B0A07] text-sm mb-1">
                   Booking Source
                 </label>
                 <select
                   name="booking_source"
                   value={form.booking_source}
                   onChange={handleInputChange}
-                  className="w-full px-4 py-3 border border-[#E5E7EB] rounded-xl focus:ring-2 focus:ring-[#0F75BD] focus:border-transparent"
+                  className="w-full rounded-xl border border-[#D3D9DD] px-3 py-2 text-sm text-gray-800 focus:outline-none focus:ring-1 focus:ring-[#8E9397] focus:border-transparent appearance-none bg-white bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHZpZXdCb3g9IjAgMCAxNiAxNiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNNCA2TDggMTBMMTIgNiIgc3Ryb2tlPSIjOEY4RThEIiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIvPjwvc3ZnPg==')] bg-[length:16px_16px] bg-[right_12px_center] bg-no-repeat pr-10"
                 >
                   <option value="walk_in">Walk-in</option>
                   <option value="online">Online</option>
@@ -299,16 +268,11 @@ export default function CreateBookingPage() {
           </div>
 
           {/* Stay Details */}
-          <div className="bg-[#FAFAFB] border border-[#E5E7EB] rounded-2xl p-8">
-            <div className="flex items-center gap-3 mb-6">
-              <div className="w-10 h-10 bg-[#0F75BD] rounded-xl flex items-center justify-center">
-                <Calendar className="w-5 h-5 text-white" />
-              </div>
-              <h2 className="text-xl font-bold text-[#1A1A1A]">Stay Details</h2>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="bg-white rounded-2xl p-8">
+            <h2 className="text-2xl font-semibold text-gray-800 mb-6">Stay Details</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
               <div>
-                <label className="block text-sm font-medium text-[#1A1A1A] mb-2">
+                <label className="block text-[#0B0A07] text-sm mb-1">
                   Check-in Date <span className="text-red-500">*</span>
                 </label>
                 <input
@@ -317,17 +281,17 @@ export default function CreateBookingPage() {
                   value={form.check_in_date}
                   onChange={handleInputChange}
                   min={new Date().toISOString().split("T")[0]}
-                  className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-[#0F75BD] focus:border-transparent ${
-                    errors.check_in_date ? "border-red-300" : "border-[#E5E7EB]"
+                  className={`w-full rounded-xl border px-3 py-2 text-sm text-gray-800 focus:outline-none focus:ring-1 focus:border-transparent ${
+                    errors.check_in_date ? "border-red-500 focus:ring-red-500" : "border-[#D3D9DD] focus:ring-[#8E9397]"
                   }`}
                 />
                 {errors.check_in_date && (
-                  <p className="mt-1 text-xs text-red-600">{errors.check_in_date}</p>
+                  <p className="mt-1 text-xs text-red-500">{errors.check_in_date}</p>
                 )}
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-[#1A1A1A] mb-2">
+                <label className="block text-[#0B0A07] text-sm mb-1">
                   Check-out Date <span className="text-red-500">*</span>
                 </label>
                 <input
@@ -336,49 +300,32 @@ export default function CreateBookingPage() {
                   value={form.check_out_date}
                   onChange={handleInputChange}
                   min={form.check_in_date || new Date().toISOString().split("T")[0]}
-                  className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-[#0F75BD] focus:border-transparent ${
-                    errors.check_out_date ? "border-red-300" : "border-[#E5E7EB]"
+                  className={`w-full rounded-xl border px-3 py-2 text-sm text-gray-800 focus:outline-none focus:ring-1 focus:border-transparent ${
+                    errors.check_out_date ? "border-red-500 focus:ring-red-500" : "border-[#D3D9DD] focus:ring-[#8E9397]"
                   }`}
                 />
                 {errors.check_out_date && (
-                  <p className="mt-1 text-xs text-red-600">{errors.check_out_date}</p>
+                  <p className="mt-1 text-xs text-red-500">{errors.check_out_date}</p>
                 )}
               </div>
 
-              <div>
-                <label className="block text-sm font-medium text-[#1A1A1A] mb-2">
-                  Adults <span className="text-red-500">*</span>
-                </label>
-                <input
-                  type="number"
-                  name="number_of_adults"
-                  value={form.number_of_adults}
-                  onChange={handleInputChange}
-                  min="1"
-                  max="10"
-                  className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-[#0F75BD] focus:border-transparent ${
-                    errors.number_of_adults ? "border-red-300" : "border-[#E5E7EB]"
-                  }`}
-                />
-                {errors.number_of_adults && (
-                  <p className="mt-1 text-xs text-red-600">{errors.number_of_adults}</p>
-                )}
-              </div>
+              <InputField
+                label="Adults *"
+                type="number"
+                placeholder="1"
+                value={form.number_of_adults.toString()}
+                onChange={handleInputChange}
+                error={errors.number_of_adults}
+              />
 
-              <div>
-                <label className="block text-sm font-medium text-[#1A1A1A] mb-2">
-                  Children
-                </label>
-                <input
-                  type="number"
-                  name="number_of_children"
-                  value={form.number_of_children}
-                  onChange={handleInputChange}
-                  min="0"
-                  max="10"
-                  className="w-full px-4 py-3 border border-[#E5E7EB] rounded-xl focus:ring-2 focus:ring-[#0F75BD] focus:border-transparent"
-                />
-              </div>
+              <InputField
+                label="Children"
+                type="number"
+                placeholder="0"
+                value={form.number_of_children.toString()}
+                onChange={handleInputChange}
+                error=""
+              />
 
               {nights > 0 && (
                 <div className="md:col-span-2">
@@ -394,23 +341,18 @@ export default function CreateBookingPage() {
           </div>
 
           {/* Room Selection */}
-          <div className="bg-[#FAFAFB] border border-[#E5E7EB] rounded-2xl p-8">
-            <div className="flex items-center gap-3 mb-6">
-              <div className="w-10 h-10 bg-[#0F75BD] rounded-xl flex items-center justify-center">
-                <Bed className="w-5 h-5 text-white" />
-              </div>
-              <h2 className="text-xl font-bold text-[#1A1A1A]">Room Selection</h2>
-            </div>
+          <div className="bg-white rounded-2xl p-8">
+            <h2 className="text-2xl font-semibold text-gray-800 mb-6">Room Selection</h2>
             <div>
-              <label className="block text-sm font-medium text-[#1A1A1A] mb-2">
+              <label className="block text-[#0B0A07] text-sm mb-1">
                 Select Room <span className="text-red-500">*</span>
               </label>
               <select
                 name="room_id"
                 value={form.room_id}
                 onChange={handleInputChange}
-                className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-[#0F75BD] focus:border-transparent ${
-                  errors.room_id ? "border-red-300" : "border-[#E5E7EB]"
+                className={`w-full rounded-xl border px-3 py-2 text-sm text-gray-800 focus:outline-none focus:ring-1 focus:border-transparent appearance-none bg-white bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHZpZXdCb3g9IjAgMCAxNiAxNiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJNNCA2TDggMTBMMTIgNiIgc3Ryb2tlPSIjOEY4RThEIiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIvPjwvc3ZnPg==')] bg-[length:16px_16px] bg-[right_12px_center] bg-no-repeat pr-10 ${
+                  errors.room_id ? "border-red-500 focus:ring-red-500" : "border-[#D3D9DD] focus:ring-[#8E9397]"
                 }`}
               >
                 <option value="">Select a room</option>
@@ -420,50 +362,31 @@ export default function CreateBookingPage() {
                   </option>
                 ))}
               </select>
-              {errors.room_id && <p className="mt-1 text-xs text-red-600">{errors.room_id}</p>}
+              {errors.room_id && <p className="mt-1 text-xs text-red-500">{errors.room_id}</p>}
             </div>
           </div>
 
           {/* Payment Information */}
-          <div className="bg-[#FAFAFB] border border-[#E5E7EB] rounded-2xl p-8">
-            <div className="flex items-center gap-3 mb-6">
-              <div className="w-10 h-10 bg-[#0F75BD] rounded-xl flex items-center justify-center">
-                <CreditCard className="w-5 h-5 text-white" />
-              </div>
-              <h2 className="text-xl font-bold text-[#1A1A1A]">Payment Information</h2>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-              <div>
-                <label className="block text-sm font-medium text-[#1A1A1A] mb-2">
-                  Total Amount
-                </label>
-                <input
-                  type="number"
-                  name="total_amount"
-                  value={form.total_amount}
-                  onChange={handleInputChange}
-                  step="0.01"
-                  min="0"
-                  className="w-full px-4 py-3 bg-white/50 border border-[#E5E7EB] rounded-xl"
-                  readOnly
-                />
-              </div>
+          <div className="bg-white rounded-2xl p-8">
+            <h2 className="text-2xl font-semibold text-gray-800 mb-6">Payment Information</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mb-4">
+              <InputField
+                label="Total Amount"
+                type="number"
+                placeholder="0.00"
+                value={form.total_amount}
+                onChange={handleInputChange}
+                error=""
+              />
 
-              <div>
-                <label className="block text-sm font-medium text-[#1A1A1A] mb-2">
-                  Amount Paid
-                </label>
-                <input
-                  type="number"
-                  name="amount_paid"
-                  value={form.amount_paid}
-                  onChange={handleInputChange}
-                  step="0.01"
-                  min="0"
-                  max={form.total_amount}
-                  className="w-full px-4 py-3 border border-[#E5E7EB] rounded-xl focus:ring-2 focus:ring-[#0F75BD] focus:border-transparent"
-                />
-              </div>
+              <InputField
+                label="Amount Paid"
+                type="number"
+                placeholder="0.00"
+                value={form.amount_paid}
+                onChange={handleInputChange}
+                error=""
+              />
             </div>
 
             {/* Payment Summary */}
@@ -486,50 +409,37 @@ export default function CreateBookingPage() {
           </div>
 
           {/* Special Requests */}
-          <div className="bg-[#FAFAFB] border border-[#E5E7EB] rounded-2xl p-8">
-            <div className="flex items-center gap-3 mb-6">
-              <div className="w-10 h-10 bg-[#0F75BD] rounded-xl flex items-center justify-center">
-                <FileText className="w-5 h-5 text-white" />
-              </div>
-              <h2 className="text-xl font-bold text-[#1A1A1A]">Special Requests <span className="text-sm font-normal text-[#5C5B59]">(Optional)</span></h2>
-            </div>
+          <div className="bg-white rounded-2xl p-8">
+            <h2 className="text-2xl font-semibold text-gray-800 mb-6">Special Requests <span className="text-sm font-normal text-gray-500">(Optional)</span></h2>
             <textarea
               name="special_requests"
               value={form.special_requests}
               onChange={handleInputChange}
               rows={4}
-              className="w-full px-4 py-3 border border-[#E5E7EB] rounded-xl focus:ring-2 focus:ring-[#0F75BD] focus:border-transparent resize-none"
+              className="w-full rounded-xl border border-[#D3D9DD] px-3 py-2 text-sm text-gray-800 focus:outline-none focus:ring-1 focus:ring-[#8E9397] focus:border-transparent placeholder:text-[#8F8E8D] placeholder:text-sm resize-none"
               placeholder="Enter any special requests or notes..."
             />
           </div>
 
           {/* Action Buttons */}
-          <div className="flex gap-4 pt-4">
+          <div className="flex gap-4">
             <button
               type="button"
               onClick={() => router.back()}
-              className="flex-1 px-8 py-4 bg-white border-2 border-[#E5E7EB] text-[#1A1A1A] font-bold rounded-2xl hover:bg-[#FAFAFB] hover:border-[#0F75BD] transition-all"
+              className="px-6 py-4 bg-white border border-[#D3D9DD] text-gray-800 font-medium rounded-xl hover:bg-gray-50 transition-colors"
               disabled={loading}
             >
               Cancel
             </button>
-            <button
-              type="submit"
-              disabled={loading}
-              className="flex-1 px-8 py-4 bg-[#0F75BD] text-white font-bold rounded-2xl hover:bg-[#0050C8] transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-3 text-lg"
-            >
-              {loading ? (
-                <>
-                  <Loader2 className="w-6 h-6 animate-spin" />
-                  Creating Booking...
-                </>
-              ) : (
-                <>
-                  <Plus className="w-6 h-6" />
-                  Create Booking
-                </>
-              )}
-            </button>
+            <div className="flex-1">
+              <Button
+                text={loading ? "Creating Booking..." : "Create Booking"}
+                type="submit"
+                loading={loading}
+                disabled={loading}
+                fullWidth={true}
+              />
+            </div>
           </div>
         </form>
       </div>

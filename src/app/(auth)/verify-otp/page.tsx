@@ -124,10 +124,10 @@ function VerifyOTPForm() {
     <div className="rounded-2xl p-8">
       <Link
         href="/forgot-password"
-        className="inline-flex items-center justify-center w-10 h-10 rounded-full border border-[#002968] hover:bg-gray-50 transition-colors mb-6"
+        className="inline-flex items-center justify-center w-10 h-10 rounded-full border border-[#0F75BD] hover:bg-gray-50 transition-colors mb-6"
       >
         <svg
-          className="w-6 h-6 text-[#002968]"
+          className="w-6 h-6 text-[#0F75BD]"
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
@@ -165,10 +165,10 @@ function VerifyOTPForm() {
               className={`
                 w-full h-14 text-center text-2xl font-semibold
                 border-2 rounded-lg
-                focus:outline-none focus:ring-2 focus:ring-[#002968]
+                focus:outline-none focus:ring-2 focus:ring-[#0F75BD]
                 transition-all
                 ${error ? "border-red-500" : "border-gray-300"}
-                ${digit ? "border-[#002968]" : ""}
+                ${digit ? "border-[#0F75BD]" : ""}
               `}
             />
           ))}
@@ -193,7 +193,7 @@ function VerifyOTPForm() {
             <button
               onClick={handleResend}
               disabled={isResending}
-              className="text-[#002968] font-semibold hover:underline disabled:opacity-50"
+              className="text-[#0F75BD] font-semibold hover:underline disabled:opacity-50"
             >
               {isResending ? "Sending..." : "Resend OTP"}
             </button>

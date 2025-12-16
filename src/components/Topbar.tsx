@@ -87,13 +87,13 @@ export default function Topbar() {
       {/* Search Bar */}
       <div className="flex-1 max-w-xl">
         <div className="relative">
-          <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-[#5C5B59]" />
+          <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-[#8F8E8D]" />
           <input
             type="text"
             placeholder="Search bookings, rooms, guests..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-12 pr-4 h-11 border border-[#E5E7EB] rounded-2xl text-sm focus:outline-none focus:ring-2 focus:ring-[#0F75BD] focus:border-transparent text-[#1A1A1A] placeholder:text-[#5C5B59]"
+            className="w-full pl-12 pr-4 h-11 border border-[#D3D9DD] rounded-2xl text-sm focus:outline-none focus:ring-1 focus:ring-[#8E9397] focus:border-transparent text-gray-800 placeholder:text-[#8F8E8D] placeholder:text-sm"
           />
         </div>
       </div>

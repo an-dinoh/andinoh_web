@@ -83,10 +83,10 @@ export default function ForgotPasswordPage() {
       <div className="rounded-2xl p-8">
         <Link
           href="/login"
-          className="inline-flex items-center justify-center w-10 h-10 rounded-full border border-[#002968] hover:bg-gray-50 transition-colors mb-6"
+          className="inline-flex items-center justify-center w-10 h-10 rounded-full border border-[#0F75BD] hover:bg-gray-50 transition-colors mb-6"
         >
           <svg
-            className="w-6 h-6 text-[#002968]"
+            className="w-6 h-6 text-[#0F75BD]"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -115,7 +115,7 @@ export default function ForgotPasswordPage() {
             Didn't receive the email? Check your spam folder or{" "}
             <button
               onClick={() => setIsSubmitted(false)}
-              className="text-[#002968] font-semibold hover:underline"
+              className="text-[#0F75BD] font-semibold hover:underline"
             >
               try again
             </button>
@@ -131,10 +131,10 @@ export default function ForgotPasswordPage() {
     <div className="rounded-2xl p-8">
       <Link
         href="/login"
-        className="inline-flex items-center justify-center w-10 h-10 rounded-full border border-[#002968] hover:bg-gray-50 transition-colors mb-6"
+        className="inline-flex items-center justify-center w-10 h-10 rounded-full border border-[#0F75BD] hover:bg-gray-50 transition-colors mb-6"
       >
         <svg
-          className="w-6 h-6 text-[#002968]"
+          className="w-6 h-6 text-[#0F75BD]"
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
@@ -183,7 +183,7 @@ export default function ForgotPasswordPage() {
         Remember your password?{" "}
         <Link
           href="/login"
-          className="text-[#002968] hover:underline font-semibold"
+          className="text-[#0F75BD] hover:underline font-semibold"
         >
           Sign in
         </Link>

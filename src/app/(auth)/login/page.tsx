@@ -125,7 +125,7 @@ export default function LoginPage() {
         <div className="flex flex-row-reverse items-center justify-between text-sm">
           <Link
             href="/forgot-password"
-            className="text-[#002968] hover:underline font-sm font-medium"
+            className="text-[#0F75BD] hover:underline font-sm font-medium"
           >
             Forgot password?
           </Link>
@@ -147,7 +147,7 @@ export default function LoginPage() {
         Don't have an account?{" "}
         <Link
           href="/register"
-          className="text-[#002968] hover:underline font-semibold"
+          className="text-[#0F75BD] hover:underline font-semibold"
         >
           Sign up
         </Link>

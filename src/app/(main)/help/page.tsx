@@ -169,21 +169,21 @@ export default function HelpPage() {
           {/* Search Bar */}
           <div className="max-w-3xl mx-auto">
             <div className="relative">
-              <Search className="absolute left-6 top-1/2 -translate-y-1/2 w-6 h-6 text-[#5C5B59]" />
+              <Search className="absolute left-6 top-1/2 -translate-y-1/2 w-6 h-6 text-[#8F8E8D]" />
               <input
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Search for help articles, guides, FAQs..."
-                className="w-full pl-16 pr-6 py-5 bg-white rounded-2xl border border-[#E5E7EB] text-lg focus:ring-2 focus:ring-[#0F75BD] focus:border-transparent text-[#1A1A1A] placeholder:text-[#5C5B59]"
+                className="w-full pl-16 pr-6 py-5 bg-white rounded-2xl border border-[#D3D9DD] text-lg focus:outline-none focus:ring-1 focus:ring-[#8E9397] focus:border-transparent text-gray-800 placeholder:text-[#8F8E8D]"
               />
             </div>
             <div className="flex items-center gap-3 mt-4 justify-center flex-wrap">
-              <span className="text-[#5C5B59] text-sm">Popular:</span>
+              <span className="text-gray-500 text-sm">Popular:</span>
               {["Add rooms", "Check-in guests", "Process payments", "View reports"].map((tag, i) => (
                 <button
                   key={i}
-                  className="px-4 py-1.5 bg-white border border-[#E5E7EB] hover:bg-[#FAFAFB] text-[#1A1A1A] text-sm rounded-full transition-all"
+                  className="px-4 py-1.5 bg-white border border-[#D3D9DD] hover:bg-gray-50 text-gray-800 text-sm rounded-full transition-all"
                 >
                   {tag}
                 </button>
@@ -195,19 +195,19 @@ export default function HelpPage() {
 
       {/* Quick Actions */}
       <div className="max-w-6xl mx-auto px-8 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
           {quickActions.map((action, index) => {
             const Icon = action.icon;
             return (
               <button
                 key={index}
-                className="bg-white rounded-2xl p-6 transition-all border border-[#E5E7EB] hover:border-[#0F75BD] group text-left"
+                className="bg-white rounded-2xl p-6 transition-all border border-[#D3D9DD] hover:border-[#0F75BD] hover:shadow-lg group text-left"
               >
                 <div className={`w-14 h-14 ${action.bg} rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform`}>
                   <Icon className={`w-7 h-7 ${action.iconColor}`} />
                 </div>
-                <h3 className="font-semibold text-[#1A1A1A] text-lg mb-2">{action.title}</h3>
-                <p className="text-[#5C5B59] text-sm mb-4">{action.description}</p>
+                <h3 className="font-semibold text-gray-800 text-lg mb-2">{action.title}</h3>
+                <p className="text-gray-500 text-sm mb-4">{action.description}</p>
                 <div className="flex items-center gap-2 text-[#0F75BD] font-medium text-sm group-hover:gap-3 transition-all">
                   <span>Learn more</span>
                   <ArrowRight className="w-4 h-4" />
@@ -237,21 +237,21 @@ export default function HelpPage() {
             {popularTopics.map((topic, index) => (
               <button
                 key={index}
-                className="flex items-start gap-4 p-5 bg-white rounded-xl border border-[#E5E7EB] hover:border-[#0F75BD] transition-all text-left group"
+                className="flex items-start gap-4 p-5 bg-white rounded-xl border border-[#D3D9DD] hover:border-[#0F75BD] hover:shadow-md transition-all text-left group"
               >
                 <div className="w-10 h-10 bg-[#0F75BD]/10 rounded-lg flex items-center justify-center flex-shrink-0 group-hover:bg-[#0F75BD]/20 transition-colors">
                   <CheckCircle2 className="w-5 h-5 text-[#0F75BD]" />
                 </div>
                 <div className="flex-1 min-w-0">
-                  <h3 className="font-semibold text-[#1A1A1A] mb-1 group-hover:text-[#0F75BD] transition-colors">
+                  <h3 className="font-semibold text-gray-800 mb-1 group-hover:text-[#0F75BD] transition-colors">
                     {topic.title}
                   </h3>
-                  <div className="flex items-center gap-3 text-xs text-[#5C5B59]">
-                    <span className="px-2 py-1 bg-[#FAFAFB] rounded">{topic.category}</span>
+                  <div className="flex items-center gap-3 text-xs text-gray-500">
+                    <span className="px-2 py-1 bg-gray-100 rounded">{topic.category}</span>
                     <span>{topic.views}</span>
                   </div>
                 </div>
-                <ArrowRight className="w-5 h-5 text-[#5C5B59] group-hover:text-[#0F75BD] transition-colors flex-shrink-0" />
+                <ArrowRight className="w-5 h-5 text-gray-400 group-hover:text-[#0F75BD] transition-colors flex-shrink-0" />
               </button>
             ))}
           </div>
@@ -264,27 +264,27 @@ export default function HelpPage() {
             <p className="text-[#5C5B59]">Explore help articles organized by topic</p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
             {helpCategories.map((category, index) => (
               <div
                 key={index}
-                className="bg-white rounded-2xl p-6 border border-[#E5E7EB] hover:border-[#0F75BD] transition-all group cursor-pointer"
+                className="bg-white rounded-2xl p-6 border border-[#D3D9DD] hover:border-[#0F75BD] hover:shadow-lg transition-all group cursor-pointer"
               >
                 <div className="text-4xl mb-4">{category.icon}</div>
-                <h3 className="font-bold text-[#1A1A1A] text-lg mb-2 group-hover:text-[#0F75BD] transition-colors">
+                <h3 className="font-bold text-gray-800 text-lg mb-2 group-hover:text-[#0F75BD] transition-colors">
                   {category.title}
                 </h3>
-                <p className="text-[#5C5B59] text-sm mb-4">{category.description}</p>
+                <p className="text-gray-500 text-sm mb-4">{category.description}</p>
                 <div className="space-y-2 mb-4">
                   {category.topics.slice(0, 3).map((topic, i) => (
-                    <div key={i} className="flex items-center gap-2 text-sm text-[#5C5B59]">
+                    <div key={i} className="flex items-center gap-2 text-sm text-gray-500">
                       <div className="w-1 h-1 bg-[#0F75BD] rounded-full"></div>
                       <span>{topic}</span>
                     </div>
                   ))}
                 </div>
-                <div className="flex items-center justify-between pt-4 border-t border-[#E5E7EB]">
-                  <span className="text-sm text-[#5C5B59]">{category.articleCount} articles</span>
+                <div className="flex items-center justify-between pt-4 border-t border-[#D3D9DD]">
+                  <span className="text-sm text-gray-500">{category.articleCount} articles</span>
                   <ArrowRight className="w-4 h-4 text-[#0F75BD] group-hover:translate-x-1 transition-transform" />
                 </div>
               </div>
@@ -299,13 +299,13 @@ export default function HelpPage() {
             <p className="text-[#5C5B59] text-lg">Our support team is ready to assist you</p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
             {supportChannels.map((channel, index) => {
               const Icon = channel.icon;
               return (
                 <div
                   key={index}
-                  className={`${channel.bg} rounded-2xl p-8 border border-[#E5E7EB] relative overflow-hidden group cursor-pointer hover:border-[#0F75BD] transition-all`}
+                  className={`${channel.bg} rounded-2xl p-8 border border-[#D3D9DD] relative overflow-hidden group cursor-pointer hover:border-[#0F75BD] hover:shadow-lg transition-all`}
                 >
                   <div className="relative">
                     {channel.available && (
@@ -316,10 +316,10 @@ export default function HelpPage() {
                     )}
 
                     <Icon className={`w-12 h-12 mb-4 ${channel.iconColor}`} />
-                    <h3 className="font-bold text-xl mb-2 text-[#1A1A1A]">{channel.title}</h3>
-                    <p className="text-[#5C5B59] text-sm mb-4">{channel.description}</p>
+                    <h3 className="font-bold text-xl mb-2 text-gray-800">{channel.title}</h3>
+                    <p className="text-gray-500 text-sm mb-4">{channel.description}</p>
 
-                    <div className="flex items-center gap-2 text-sm mb-6 text-[#5C5B59]">
+                    <div className="flex items-center gap-2 text-sm mb-6 text-gray-500">
                       <Clock className="w-4 h-4" />
                       <span>{channel.availability}</span>
                     </div>
@@ -336,13 +336,13 @@ export default function HelpPage() {
         </div>
 
         {/* Bottom CTA */}
-        <div className="mt-16 bg-gradient-to-br from-[#FAFAFB] to-white border border-[#E5E7EB] rounded-2xl p-10 text-center">
+        <div className="mt-16 bg-gradient-to-br from-[#FAFAFB] to-white border border-[#D3D9DD] rounded-2xl p-10 text-center">
           <div className="max-w-2xl mx-auto">
             <div className="w-16 h-16 bg-gradient-to-br from-[#0F75BD] to-[#02A5E6] rounded-2xl flex items-center justify-center mx-auto mb-6">
               <Book className="w-8 h-8 text-white" />
             </div>
-            <h3 className="text-2xl font-bold text-[#1A1A1A] mb-3">Want to learn more?</h3>
-            <p className="text-[#5C5B59] mb-6">
+            <h3 className="text-2xl font-bold text-gray-800 mb-3">Want to learn more?</h3>
+            <p className="text-gray-500 mb-6">
               Check out our comprehensive knowledge base with detailed guides and tutorials to help you master your hotel management system
             </p>
             <button className="px-8 py-3 bg-[#0F75BD] text-white font-semibold rounded-xl hover:bg-[#0050C8] transition-colors inline-flex items-center gap-2">
