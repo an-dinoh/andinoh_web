@@ -67,7 +67,7 @@ export default function ForgotPasswordPage() {
       console.log("✅ OTP sent to:", email);
       await new Promise((resolve) => setTimeout(resolve, 1000));
       setIsSubmitted(true);
-    } catch (error) {
+    } catch {
       setErrors((prev) => ({ ...prev, global: "Failed to send OTP. Please try again." }));
     } finally {
       setLoading(false);
@@ -105,14 +105,14 @@ export default function ForgotPasswordPage() {
             Check Your Email
           </h1>
           <p className="text-gray-500 text-sm">
-            We've sent a 6-digit OTP to{" "}
+            We&apos;ve sent a 6-digit OTP to{" "}
             <span className="font-semibold text-gray-700">{email}</span>
           </p>
         </div>
 
         <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
           <p className="text-sm text-gray-700">
-            Didn't receive the email? Check your spam folder or{" "}
+            Didn&apos;t receive the email? Check your spam folder or{" "}
             <button
               onClick={() => setIsSubmitted(false)}
               className="text-[#0F75BD] font-semibold hover:underline"
@@ -153,7 +153,7 @@ export default function ForgotPasswordPage() {
           Forgot Password?
         </h1>
         <p className="text-gray-500 text-sm">
-          No worries, we'll send you reset instructions
+          No worries, we&apos;ll send you reset instructions
         </p>
       </div>
 

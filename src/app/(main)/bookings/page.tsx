@@ -5,39 +5,22 @@ import { useRouter } from "next/navigation";
 import {
   Plus,
   Search,
-  Filter,
   Calendar as CalendarIcon,
-  Download,
-  Users,
   LogIn,
   LogOut,
-  TrendingUp,
-  Eye,
   CheckCircle,
   XCircle,
   Clock,
-  DollarSign,
-  User,
-  Mail,
-  Phone,
-  Bed,
-  MapPin,
-  ChevronDown,
 } from "lucide-react";
-import Loading from "@/components/ui/Loading";
-import { Skeleton, SkeletonCard, SkeletonTable } from "@/components/ui/Skeleton";
-import { hotelService } from "@/services/hotel.service";
-import { Booking, BookingStatus, PaymentStatus, BookingSource } from "@/types/hotel.types";
+import { Booking, BookingStatus } from "@/types/hotel.types";
 
 export default function BookingsPage() {
   const router = useRouter();
-  const [loading, setLoading] = useState(true);
   const [bookings, setBookings] = useState<Booking[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState<BookingStatus | "all">("all");
-  const [paymentFilter, setPaymentFilter] = useState<PaymentStatus | "all">("all");
-  const [sourceFilter, setSourceFilter] = useState<BookingSource | "all">("all");
-  const [showFilters, setShowFilters] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
 
   useEffect(() => {
     fetchBookings();
@@ -45,15 +28,128 @@ export default function BookingsPage() {
 
   const fetchBookings = async () => {
     try {
-      setLoading(true);
-
       // Mock data for UI development
-      setBookings([]);
+      // TODO: Replace with actual API call when integrating backend
+      const mockBookings: Booking[] = [
+        {
+          id: "1",
+          hotel: "hotel-1",
+          room: "room-1",
+          customer_name: "John Doe",
+          customer_email: "john.doe@example.com",
+          customer_phone: "+234 801 234 5678",
+          booking_reference: "BK-2024-001",
+          check_in_date: "2024-12-20",
+          check_out_date: "2024-12-23",
+          number_of_nights: 3,
+          number_of_adults: 2,
+          number_of_children: 0,
+          total_amount: "450000",
+          amount_paid: "450000",
+          balance_due: "0",
+          booking_status: "confirmed",
+          payment_status: "paid",
+          booking_source: "online",
+          created_at: new Date().toISOString(),
+          updated_at: new Date().toISOString(),
+        },
+        {
+          id: "2",
+          hotel: "hotel-1",
+          room: "room-2",
+          customer_name: "Sarah Johnson",
+          customer_email: "sarah.j@example.com",
+          customer_phone: "+234 802 345 6789",
+          booking_reference: "BK-2024-002",
+          check_in_date: "2024-12-18",
+          check_out_date: "2024-12-22",
+          number_of_nights: 4,
+          number_of_adults: 2,
+          number_of_children: 1,
+          total_amount: "800000",
+          amount_paid: "400000",
+          balance_due: "400000",
+          booking_status: "checked_in",
+          payment_status: "partial",
+          booking_source: "walk_in",
+          created_at: new Date().toISOString(),
+          updated_at: new Date().toISOString(),
+        },
+        {
+          id: "3",
+          hotel: "hotel-1",
+          room: "room-3",
+          customer_name: "Michael Brown",
+          customer_email: "m.brown@example.com",
+          customer_phone: "+234 803 456 7890",
+          booking_reference: "BK-2024-003",
+          check_in_date: "2024-12-25",
+          check_out_date: "2024-12-28",
+          number_of_nights: 3,
+          number_of_adults: 1,
+          number_of_children: 0,
+          total_amount: "300000",
+          amount_paid: "0",
+          balance_due: "300000",
+          booking_status: "pending",
+          payment_status: "pending",
+          booking_source: "phone",
+          created_at: new Date().toISOString(),
+          updated_at: new Date().toISOString(),
+        },
+        {
+          id: "4",
+          hotel: "hotel-1",
+          room: "room-4",
+          customer_name: "Emily Davis",
+          customer_email: "emily.d@example.com",
+          customer_phone: "+234 804 567 8901",
+          booking_reference: "BK-2024-004",
+          check_in_date: "2024-12-15",
+          check_out_date: "2024-12-17",
+          number_of_nights: 2,
+          number_of_adults: 2,
+          number_of_children: 0,
+          total_amount: "400000",
+          amount_paid: "400000",
+          balance_due: "0",
+          booking_status: "checked_out",
+          payment_status: "paid",
+          booking_source: "email",
+          created_at: new Date().toISOString(),
+          updated_at: new Date().toISOString(),
+        },
+        {
+          id: "5",
+          hotel: "hotel-1",
+          room: "room-5",
+          customer_name: "David Wilson",
+          customer_email: "d.wilson@example.com",
+          customer_phone: "+234 805 678 9012",
+          booking_reference: "BK-2024-005",
+          check_in_date: "2024-12-30",
+          check_out_date: "2025-01-02",
+          number_of_nights: 3,
+          number_of_adults: 3,
+          number_of_children: 2,
+          total_amount: "600000",
+          amount_paid: "300000",
+          balance_due: "300000",
+          booking_status: "confirmed",
+          payment_status: "partial",
+          booking_source: "online",
+          created_at: new Date().toISOString(),
+          updated_at: new Date().toISOString(),
+        },
+      ];
+
+      setBookings(mockBookings);
+      // When integrating with API, replace above with:
+      // const response = await hotelService.getBookings();
+      // setBookings(response.data);
     } catch (error) {
       console.error("Error fetching bookings:", error);
       setBookings([]);
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -61,9 +157,6 @@ export default function BookingsPage() {
   const today = new Date().toISOString().split("T")[0];
   const arrivalsToday = bookings.filter((b) => b.check_in_date === today);
   const departuresToday = bookings.filter((b) => b.check_out_date === today);
-  const totalBookingsToday = bookings.filter(
-    (b) => b.check_in_date === today || b.check_out_date === today
-  );
 
   // Calculate occupancy (mock calculation - adjust based on actual logic)
   const occupancyRate = bookings.filter((b) => b.booking_status === "checked_in").length;
@@ -104,27 +197,8 @@ export default function BookingsPage() {
     return configs[status];
   };
 
-  const getPaymentConfig = (status: PaymentStatus) => {
-    const configs = {
-      paid: { color: "bg-emerald-100 text-emerald-700 border-emerald-200", label: "Paid" },
-      partial: { color: "bg-amber-100 text-amber-700 border-amber-200", label: "Partial" },
-      pending: { color: "bg-orange-100 text-orange-700 border-orange-200", label: "Pending" },
-      refunded: { color: "bg-gray-100 text-gray-700 border-gray-200", label: "Refunded" },
-    };
-    return configs[status];
-  };
 
-  const getSourceBadge = (source: BookingSource) => {
-    const sources = {
-      online: { color: "bg-blue-50 text-blue-700", label: "Online" },
-      walk_in: { color: "bg-purple-50 text-purple-700", label: "Walk-in" },
-      phone: { color: "bg-green-50 text-green-700", label: "Phone" },
-      email: { color: "bg-pink-50 text-pink-700", label: "Email" },
-    };
-    return sources[source];
-  };
-
-  // Filter bookings
+  // Filter bookings based on search and status
   const filteredBookings = bookings.filter((booking) => {
     const matchesSearch =
       booking.customer_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -133,11 +207,20 @@ export default function BookingsPage() {
       booking.customer_phone?.toLowerCase().includes(searchTerm.toLowerCase());
 
     const matchesStatus = statusFilter === "all" || booking.booking_status === statusFilter;
-    const matchesPayment = paymentFilter === "all" || booking.payment_status === paymentFilter;
-    const matchesSource = sourceFilter === "all" || booking.booking_source === sourceFilter;
 
-    return matchesSearch && matchesStatus && matchesPayment && matchesSource;
+    return matchesSearch && matchesStatus;
   });
+
+  // Pagination calculations
+  const totalPages = Math.ceil(filteredBookings.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const paginatedBookings = filteredBookings.slice(startIndex, endIndex);
+
+  // Reset to page 1 when filters change
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchTerm, statusFilter]);
 
   return (
     <div className="h-full bg-white overflow-y-auto scrollbar-hide pt-8 pb-8">
@@ -251,11 +334,8 @@ export default function BookingsPage() {
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-200">
-                  {filteredBookings.map((booking) => {
+                  {paginatedBookings.map((booking) => {
                     const statusConfig = getStatusConfig(booking.booking_status);
-                    const paymentConfig = getPaymentConfig(booking.payment_status);
-                    const sourceConfig = getSourceBadge(booking.booking_source);
-                    const StatusIcon = statusConfig.icon;
 
                     return (
                       <tr
@@ -331,6 +411,58 @@ export default function BookingsPage() {
                 </tbody>
               </table>
             </div>
+
+            {/* Pagination */}
+            {totalPages > 1 && (
+              <div className="flex items-center justify-between px-6 py-4 border-t border-[#E5E7EB]">
+                <p className="text-sm text-[#5C5B59]">
+                  Showing {startIndex + 1} to {Math.min(endIndex, filteredBookings.length)} of {filteredBookings.length} results
+                </p>
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={() => setCurrentPage((prev) => Math.max(1, prev - 1))}
+                    disabled={currentPage === 1}
+                    className="px-3 py-1.5 text-sm font-medium text-[#1A1A1A] border border-[#E5E7EB] rounded-lg hover:bg-[#FAFAFB] disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                  >
+                    Previous
+                  </button>
+                  <div className="flex items-center gap-1">
+                    {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
+                      let pageNum;
+                      if (totalPages <= 5) {
+                        pageNum = i + 1;
+                      } else if (currentPage <= 3) {
+                        pageNum = i + 1;
+                      } else if (currentPage >= totalPages - 2) {
+                        pageNum = totalPages - 4 + i;
+                      } else {
+                        pageNum = currentPage - 2 + i;
+                      }
+                      return (
+                        <button
+                          key={pageNum}
+                          onClick={() => setCurrentPage(pageNum)}
+                          className={`px-3 py-1.5 text-sm font-medium rounded-lg transition-colors ${
+                            currentPage === pageNum
+                              ? "bg-[#0F75BD] text-white"
+                              : "text-[#1A1A1A] border border-[#E5E7EB] hover:bg-[#FAFAFB]"
+                          }`}
+                        >
+                          {pageNum}
+                        </button>
+                      );
+                    })}
+                  </div>
+                  <button
+                    onClick={() => setCurrentPage((prev) => Math.min(totalPages, prev + 1))}
+                    disabled={currentPage === totalPages}
+                    className="px-3 py-1.5 text-sm font-medium text-[#1A1A1A] border border-[#E5E7EB] rounded-lg hover:bg-[#FAFAFB] disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                  >
+                    Next
+                  </button>
+                </div>
+              </div>
+            )}
           </div>
         )}
       </div>

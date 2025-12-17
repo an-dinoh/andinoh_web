@@ -105,7 +105,7 @@ function VerifyOTPForm() {
         setOtp(["", "", "", "", "", ""]);
         inputRefs.current[0]?.focus();
       }
-    } catch (error) {
+    } catch {
       setError("Verification failed. Please try again.");
     } finally {
       setLoading(false);
@@ -186,7 +186,7 @@ function VerifyOTPForm() {
 
       <div className="mt-4 text-left">
         <p className="text-sm text-gray-600">
-          Didn't receive the code?{" "}
+          Didn&apos;t receive the code?{" "}
           {resendTimer > 0 ? (
             <span className="text-gray-500">Resend in {resendTimer}s</span>
           ) : (

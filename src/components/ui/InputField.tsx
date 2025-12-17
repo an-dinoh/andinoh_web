@@ -9,6 +9,11 @@ interface InputFieldProps {
   value?: string;
   error?: string;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  required?: boolean;
+  icon?: React.ReactNode;
+  min?: string;
+  step?: string;
+  helpText?: string;
 }
 
 export default function InputField({
@@ -18,6 +23,11 @@ export default function InputField({
   value,
   error,
   onChange,
+  required = false,
+  icon,
+  min,
+  step,
+  helpText,
 }: InputFieldProps) {
   const [showPassword, setShowPassword] = useState(false);
   const isPassword = type === "password";
@@ -26,16 +36,24 @@ export default function InputField({
     <div className="w-full">
       <label className="block text-[#0B0A07] text-xs sm:text-sm mb-1">
         {label}
+        {required && <span className="text-red-500 ml-1">*</span>}
       </label>
 
       <div className="relative">
+        {icon && (
+          <div className="absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none">
+            {icon}
+          </div>
+        )}
         <input
-          type={isPassword && !showPassword ? "password" : "text"}
+          type={isPassword && !showPassword ? "password" : type}
           placeholder={placeholder}
           value={value}
           onChange={onChange}
-          className={`w-full rounded-xl border px-3 py-2 pr-9 text-sm text-gray-800 
-    focus:outline-none focus:ring-1 focus:border-transparent 
+          min={min}
+          step={step}
+          className={`w-full rounded-xl border ${icon ? "pl-10" : "px-3"} ${isPassword ? "pr-14" : "pr-3"} py-2 text-sm text-gray-800
+    focus:outline-none focus:ring-1 focus:border-transparent
     placeholder:text-[#8F8E8D] placeholder:text-sm
     ${
       error
@@ -56,13 +74,12 @@ export default function InputField({
           </button>
         )}
       </div>
-      <p
-        className={`mt-1 text-xs text-red-500 transition-all duration-150 ${
-          error ? "h-auto opacity-100" : "h-0 opacity-0"
-        }`}
-      >
-        {error || " "}
-      </p>
+      {helpText && !error && (
+        <p className="mt-1 text-xs text-gray-500">{helpText}</p>
+      )}
+      {error && (
+        <p className="mt-1 text-xs text-red-500">{error}</p>
+      )}
     </div>
   );
 }

@@ -29,7 +29,6 @@ export default function RegisterPage() {
   });
 
   const [emailError, setEmailError] = useState("");
-  const [passwordStrength, setPasswordStrength] = useState(0);
   const [confirmPasswordError, setConfirmPasswordError] = useState("");
   const [loading, setLoading] = useState(false);
   const [acceptedTerms, setAcceptedTerms] = useState(false);
@@ -50,9 +49,6 @@ export default function RegisterPage() {
       setErrors((prev) => ({ ...prev, confirmPassword: fieldError }));
     }
 
-    if (field === "password") {
-      setPasswordStrength(validator.getPasswordStrength(value));
-    }
 
     if (errors.global) {
       setErrors((prev) => ({ ...prev, global: "" }));
@@ -164,8 +160,6 @@ export default function RegisterPage() {
           onChange={(e) => {
             const value = e.target.value;
             handleChange("password", value);
-            const validator = new FormValidator({ ...form, password: value });
-            setPasswordStrength(validator.getPasswordStrength(value));
           }}
         />
 

@@ -1,11 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
-
-import { authService } from "@/services/auth.service";
-import { hotelService } from "@/services/hotel.service";
-import { Booking } from "@/types/hotel.types";
 
 // Import dashboard components
 import WelcomeHeader from "@/components/dashboard/WelcomeHeader";
@@ -17,17 +12,13 @@ import PerformanceCard from "@/components/dashboard/PerformanceCard";
 import ReviewsCard from "@/components/dashboard/ReviewsCard";
 
 export default function DashboardPage() {
-  const router = useRouter();
-  const [loading, setLoading] = useState(true);
-  const [bookings, setBookings] = useState<Booking[]>([]);
-
   // Chart data - replace with real data later
   const [revenueData] = useState([0, 0, 0, 0, 0, 0, 0]);
   const [gigsData] = useState([0, 0, 0, 0, 0, 0, 0]);
   const [completionPercentage] = useState(0);
   const [averageRating] = useState(0);
 
-  const [stats, setStats] = useState({
+  const [stats] = useState({
     todayCheckIns: 0,
     todayCheckOuts: 0,
     totalBookingsToday: 0,
@@ -39,58 +30,8 @@ export default function DashboardPage() {
   });
 
   useEffect(() => {
-    setLoading(false);
+    // Component mounted
   }, []);
-
-  const fetchDashboardData = async () => {
-    try {
-      setLoading(true);
-
-      const bookingsData = await hotelService.getBookings({});
-      console.log("✅ Bookings response:", bookingsData);
-
-      const bookingsArray = Array.isArray(bookingsData) ? bookingsData : [];
-      setBookings(bookingsArray.slice(0, 10));
-
-      const today = new Date().toISOString().split("T")[0];
-      const todayCheckIns = bookingsArray.filter(
-        (b) => b.check_in_date === today
-      ).length;
-      const todayCheckOuts = bookingsArray.filter(
-        (b) => b.check_out_date === today
-      ).length;
-      const todayBookings = bookingsArray.filter(
-        (b) => b.created_at.split("T")[0] === today
-      ).length;
-
-      const totalRevenue = bookingsArray
-        .filter((b) => b.booking_status !== "cancelled")
-        .reduce((sum, b) => sum + parseFloat(b.total_amount), 0);
-
-      const pendingBookings = bookingsArray.filter(
-        (b) => b.booking_status === "pending"
-      ).length;
-
-      const confirmedBookings = bookingsArray.filter(
-        (b) => b.booking_status === "confirmed"
-      ).length;
-
-      setStats({
-        todayCheckIns,
-        todayCheckOuts,
-        totalBookingsToday: todayBookings,
-        occupancyRate: 75,
-        revenueToday: totalRevenue.toFixed(2),
-        revenueThisWeek: totalRevenue.toFixed(2),
-        pendingBookings,
-        confirmedBookings,
-      });
-    } catch (error) {
-      console.error("Error fetching dashboard data:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
 
   // Prepare data for components
   const welcomeActionCards = [

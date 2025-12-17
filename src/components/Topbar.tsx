@@ -1,14 +1,18 @@
 "use client";
 
 import Image from "next/image";
-import { Search, ChevronDown, Bell, Calendar, CheckCircle, AlertCircle, User, DollarSign, Clock, X } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { Search, ChevronDown, Bell, Calendar, CheckCircle, AlertCircle, User, DollarSign, Clock, X, Settings, LogOut, UserCircle, Building2, Shield } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
 import NotificationIcon from "@/icons/NotificationIcon";
 
 export default function Topbar() {
+  const router = useRouter();
   const [searchQuery, setSearchQuery] = useState("");
   const [showNotifications, setShowNotifications] = useState(false);
+  const [showProfileMenu, setShowProfileMenu] = useState(false);
   const notificationRef = useRef<HTMLDivElement>(null);
+  const profileRef = useRef<HTMLDivElement>(null);
 
   // Mock notifications data
   const notifications = [
@@ -71,11 +75,14 @@ export default function Topbar() {
 
   const unreadCount = notifications.filter(n => !n.read).length;
 
-  // Close notifications when clicking outside
+  // Close dropdowns when clicking outside
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       if (notificationRef.current && !notificationRef.current.contains(event.target as Node)) {
         setShowNotifications(false);
+      }
+      if (profileRef.current && !profileRef.current.contains(event.target as Node)) {
+        setShowProfileMenu(false);
       }
     }
     document.addEventListener("mousedown", handleClickOutside);
@@ -100,9 +107,10 @@ export default function Topbar() {
 
       {/* Right Section */}
       <div className="flex items-center gap-4 ml-6">
-        {/* Verified badge */}
-        <div className="flex items-center justify-center border border-[#117C35] rounded-2xl h-10 px-4 bg-[#E7F2EB]">
-          <span className="text-[#117C35] text-sm font-semibold">Verified</span>
+        {/* Verified Badge */}
+        <div className="flex items-center gap-2 px-3 py-2 bg-[#ECFDF5] border border-[#A7F3D0] rounded-xl">
+          <Shield className="w-4 h-4 text-[#059669]" />
+          <span className="text-sm font-semibold text-[#059669]">Verified</span>
         </div>
 
         {/* Notification Icon */}
@@ -111,9 +119,9 @@ export default function Topbar() {
             onClick={() => setShowNotifications(!showNotifications)}
             className="relative w-11 h-11 flex items-center justify-center hover:bg-[#FAFAFB] rounded-xl transition-colors"
           >
-            <Bell className="w-5 h-5 text-[#5C5B59]" />
+            <NotificationIcon className="w-6 h-6 text-[#5C5B59]" />
             {unreadCount > 0 && (
-              <span className="absolute top-2 right-2 w-5 h-5 bg-[#0F75BD] text-white text-xs font-bold rounded-full flex items-center justify-center">
+              <span className="absolute top-2 right-2 w-3.5 h-3.5 bg-[#0F75BD] text-white text-xs font-medium rounded-full flex items-center justify-center">
                 {unreadCount}
               </span>
             )}
@@ -183,13 +191,96 @@ export default function Topbar() {
         </div>
 
         {/* Profile Section */}
-        <button className="flex items-center gap-3 hover:bg-[#FAFAFB] rounded-xl transition-colors h-11 px-3">
-          <div className="w-9 h-9 bg-[#0F75BD] rounded-full flex items-center justify-center">
-            <span className="text-white text-sm font-semibold">AP</span>
-          </div>
-          <span className="text-sm font-semibold text-[#1A1A1A]">Adeyanju</span>
-          <ChevronDown className="w-4 h-4 text-[#5C5B59]" />
-        </button>
+        <div className="relative" ref={profileRef}>
+          <button
+            onClick={() => setShowProfileMenu(!showProfileMenu)}
+            className="flex items-center gap-3 hover:bg-[#F9FAFB] rounded-2xl transition-all h-12 px-3 border border-transparent hover:border-[#E5E7EB]"
+          >
+            <div className="relative">
+              <div className="w-10 h-10 bg-gradient-to-br from-[#0F75BD] to-[#02A5E6] rounded-full flex items-center justify-center ring-2 ring-white shadow-sm">
+                <span className="text-white text-sm font-bold">AP</span>
+              </div>
+              <div className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 border-2 border-white rounded-full"></div>
+            </div>
+            <div className="text-left">
+              <p className="text-sm font-semibold text-[#1A1A1A]">Adeyanju</p>
+              <p className="text-xs text-[#5C5B59]">Hotel Owner</p>
+            </div>
+            <ChevronDown className={`w-4 h-4 text-[#5C5B59] transition-transform ${showProfileMenu ? 'rotate-180' : ''}`} />
+          </button>
+
+          {/* Profile Dropdown */}
+          {showProfileMenu && (
+            <div className="absolute right-0 mt-2 w-64 bg-white border border-[#E5E7EB] rounded-2xl overflow-hidden z-50 shadow-xl">
+              {/* Profile Header */}
+              <div className="px-4 py-4 bg-gradient-to-br from-[#0F75BD] to-[#02A5E6]">
+                <div className="flex items-center gap-3">
+                  <div className="relative">
+                    <div className="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center ring-2 ring-white/30">
+                      <span className="text-white text-base font-bold">AP</span>
+                    </div>
+                    <div className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 border-2 border-white rounded-full"></div>
+                  </div>
+                  <div>
+                    <p className="text-sm font-bold text-white">Adeyanju</p>
+                    <p className="text-xs text-white/80">adeyanju@andinoh.com</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Menu Items */}
+              <div className="py-2">
+                <button
+                  onClick={() => {
+                    router.push('/settings');
+                    setShowProfileMenu(false);
+                  }}
+                  className="w-full px-4 py-3 hover:bg-[#FAFAFB] transition-colors flex items-center gap-3 text-left group"
+                >
+                  <div className="w-9 h-9 bg-[#F0F9FF] rounded-xl flex items-center justify-center group-hover:bg-[#0F75BD] transition-colors">
+                    <UserCircle className="w-5 h-5 text-[#0F75BD] group-hover:text-white transition-colors" />
+                  </div>
+                  <div>
+                    <p className="text-sm font-semibold text-[#1A1A1A]">My Profile</p>
+                    <p className="text-xs text-[#5C5B59]">View and edit profile</p>
+                  </div>
+                </button>
+
+                <button
+                  onClick={() => {
+                    router.push('/settings');
+                    setShowProfileMenu(false);
+                  }}
+                  className="w-full px-4 py-3 hover:bg-[#FAFAFB] transition-colors flex items-center gap-3 text-left group"
+                >
+                  <div className="w-9 h-9 bg-[#F5F3FF] rounded-xl flex items-center justify-center group-hover:bg-[#0F75BD] transition-colors">
+                    <Building2 className="w-5 h-5 text-purple-600 group-hover:text-white transition-colors" />
+                  </div>
+                  <div>
+                    <p className="text-sm font-semibold text-[#1A1A1A]">Hotel Settings</p>
+                    <p className="text-xs text-[#5C5B59]">Manage your property</p>
+                  </div>
+                </button>
+
+                <button
+                  onClick={() => {
+                    router.push('/settings');
+                    setShowProfileMenu(false);
+                  }}
+                  className="w-full px-4 py-3 hover:bg-[#FAFAFB] transition-colors flex items-center gap-3 text-left group"
+                >
+                  <div className="w-9 h-9 bg-[#FEF3C7] rounded-xl flex items-center justify-center group-hover:bg-[#0F75BD] transition-colors">
+                    <Settings className="w-5 h-5 text-orange-600 group-hover:text-white transition-colors" />
+                  </div>
+                  <div>
+                    <p className="text-sm font-semibold text-[#1A1A1A]">Account Settings</p>
+                    <p className="text-xs text-[#5C5B59]">Privacy and security</p>
+                  </div>
+                </button>
+              </div>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

@@ -116,7 +116,7 @@ function ResetPasswordForm() {
       // TODO: Call API to reset password
       await new Promise((resolve) => setTimeout(resolve, 1000));
       setIsSubmitted(true);
-    } catch (error) {
+    } catch {
       setErrors((prev) => ({ ...prev, global: "Failed to reset password. Please try again." }));
     } finally {
       setLoading(false);

@@ -1,5 +1,6 @@
 interface ButtonProps {
-  text: string;
+  text?: string;
+  children?: React.ReactNode;
   onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
   type?: "button" | "submit" | "reset";
   loading?: boolean;
@@ -7,10 +8,12 @@ interface ButtonProps {
   variant?: "primary" | "secondary" | "danger" | "success";
   fullWidth?: boolean;
   size?: "sm" | "md" | "lg";
+  className?: string;
 }
 
 export default function Button({
   text,
+  children,
   onClick,
   type = "submit",
   loading = false,
@@ -18,6 +21,7 @@ export default function Button({
   variant = "primary",
   fullWidth = true,
   size = "md",
+  className = "",
 }: ButtonProps) {
   const baseStyles =
     "rounded-xl font-semibold text-sm transition-all duration-200 flex items-center justify-center gap-2";
@@ -46,7 +50,7 @@ export default function Button({
       type={type}
       onClick={onClick}
       disabled={disabled || loading}
-      className={`${baseStyles} ${sizeStyles[size]} ${variantStyles[variant]} ${widthStyle}`}
+      className={`${baseStyles} ${sizeStyles[size]} ${variantStyles[variant]} ${widthStyle} ${className}`}
     >
       {loading && (
         <svg
@@ -70,7 +74,7 @@ export default function Button({
           ></path>
         </svg>
       )}
-      {loading ? "Loading..." : text}
+      {loading ? "Loading..." : (children || text)}
     </button>
   );
 }

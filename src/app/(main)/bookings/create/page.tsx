@@ -5,18 +5,8 @@ import { useRouter } from "next/navigation";
 import {
   ArrowLeft,
   Calendar,
-  User,
-  Mail,
-  Phone,
-  Users,
-  Bed,
-  DollarSign,
-  CreditCard,
-  FileText,
   CheckCircle,
   AlertCircle,
-  Loader2,
-  Plus,
 } from "lucide-react";
 import { hotelService } from "@/services/hotel.service";
 import { Room, BookingSource } from "@/types/hotel.types";
@@ -86,7 +76,7 @@ export default function CreateBookingPage() {
       const roomsArray = Array.isArray(data) ? data : [];
       setRooms(roomsArray.filter((r) => r.is_available));
       setAvailableRooms(roomsArray.filter((r) => r.is_available));
-    } catch (error) {
+    } catch {
       setRooms([]);
       setAvailableRooms([]);
     }
@@ -155,9 +145,9 @@ export default function CreateBookingPage() {
       setTimeout(() => {
         router.push("/bookings");
       }, 1500);
-    } catch (error: any) {
+    } catch (err: unknown) {
       setErrors({
-        submit: error?.response?.data?.message || "Failed to create booking. Please try again.",
+        submit: (err as { response?: { data?: { message?: string } } })?.response?.data?.message || "Failed to create booking. Please try again.",
       });
     } finally {
       setLoading(false);

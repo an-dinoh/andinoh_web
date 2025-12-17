@@ -116,93 +116,106 @@ export default function RoomsPage() {
     const roomNumber = `10${roomIndex + 1}`;
 
     return (
-      <div className="h-full bg-white overflow-y-auto scrollbar-hide pt-8 pb-8">
-        <div className="space-y-6">
+      <div className="h-full bg-white overflow-y-auto scrollbar-hide">
+        <div className="h-full bg-[#F9FAFB] px-8 py-8">
+        <div className="max-w-7xl mx-auto space-y-6">
           {/* Back Button */}
           <button
             onClick={() => setSelectedRoom(null)}
-            className="flex items-center gap-2 text-[#0F75BD] hover:text-[#0050C8] font-medium"
+            className="flex items-center gap-2 text-[#0F75BD] hover:text-[#0050C8] font-medium mb-4"
           >
             <ChevronDown className="w-5 h-5 rotate-90" />
             Back to Rooms
           </button>
 
-          {/* Room Hero Section */}
-          <div className="bg-gradient-to-br from-[#0F75BD] to-[#02A5E6] rounded-3xl p-8 relative overflow-hidden">
-            <div className="absolute inset-0 opacity-20">
-              <div className="absolute top-0 right-0 w-64 h-64 bg-white rounded-full blur-3xl"></div>
-              <div className="absolute bottom-0 left-0 w-64 h-64 bg-white rounded-full blur-3xl"></div>
-            </div>
-
-            <div className="relative z-10">
-              <div className="flex items-start justify-between mb-6">
-                <div>
-                  <div className="flex items-center gap-3 mb-2">
-                    <span className="text-6xl">🏨</span>
-                    <div className="px-4 py-2 bg-white/20 backdrop-blur-sm rounded-xl">
-                      <span className="text-2xl font-bold text-white">Room {roomNumber}</span>
-                    </div>
-                  </div>
-                  <h1 className="text-4xl font-bold text-white mb-3">{selectedRoom.title}</h1>
-                  <p className="text-white/90 text-lg max-w-3xl">{selectedRoom.description}</p>
-                </div>
-                <div className={`px-4 py-2 rounded-xl font-semibold ${
-                  selectedRoom.is_available
-                    ? "bg-[#ECFDF5] text-green-700"
-                    : "bg-[#FEE2E2] text-red-700"
-                }`}>
-                  {selectedRoom.is_available ? "Available" : "Occupied"}
-                </div>
-              </div>
-
-              <div className="flex items-center gap-4">
-                <span className="inline-flex items-center gap-2 px-4 py-2 bg-white/20 backdrop-blur-sm text-white text-sm font-bold rounded-xl">
-                  <Sparkles className="w-4 h-4" />
-                  {selectedRoom.room_type.toUpperCase()}
-                </span>
-                <div className="text-white">
-                  <span className="text-3xl font-bold">₦{selectedRoom.base_price}</span>
-                  <span className="text-white/80 ml-2">/night</span>
-                </div>
-              </div>
-            </div>
+          {/* Header */}
+          <div className="mb-8">
+            <h1 className="text-2xl font-semibold text-gray-800 mb-2">Room Details</h1>
+            <p className="text-gray-500 text-sm">View and manage room information</p>
           </div>
 
-          {/* Tabs Navigation */}
-          <div className="border-b border-[#E5E7EB]">
-            <div className="flex gap-1">
-              {[
-                { id: "pictures" as RoomDetailTab, label: "Pictures", icon: ImageIcon },
-                { id: "videos" as RoomDetailTab, label: "Videos", icon: Video },
-                { id: "reviews" as RoomDetailTab, label: "Reviews", icon: MessageSquare },
-                { id: "3d-tour" as RoomDetailTab, label: "3D Tour", icon: Box },
-              ].map((tab) => {
-                const Icon = tab.icon;
-                return (
-                  <button
-                    key={tab.id}
-                    onClick={() => setActiveTab(tab.id)}
-                    className={`flex items-center gap-2 px-6 py-4 font-semibold transition-all ${
-                      activeTab === tab.id
-                        ? "text-[#0F75BD] border-b-2 border-[#0F75BD]"
-                        : "text-[#5C5B59] hover:text-[#0F75BD]"
-                    }`}
-                  >
-                    <Icon className="w-5 h-5" />
-                    {tab.label}
-                  </button>
-                );
-              })}
+          {/* Room Hero Section */}
+          <div className="bg-white rounded-2xl border border-[#D3D9DD] overflow-hidden">
+            <div className="bg-gradient-to-br from-[#0F75BD] to-[#02A5E6] p-8 relative overflow-hidden">
+              <div className="absolute inset-0 opacity-20">
+                <div className="absolute top-0 right-0 w-64 h-64 bg-white rounded-full blur-3xl"></div>
+                <div className="absolute bottom-0 left-0 w-64 h-64 bg-white rounded-full blur-3xl"></div>
+              </div>
+
+              <div className="relative z-10">
+                <div className="flex items-start justify-between mb-6">
+                  <div>
+                    <div className="flex items-center gap-3 mb-2">
+                      <span className="text-6xl">🏨</span>
+                      <div className="px-4 py-2 bg-white/20 backdrop-blur-sm rounded-xl">
+                        <span className="text-2xl font-bold text-white">Room {roomNumber}</span>
+                      </div>
+                    </div>
+                    <h2 className="text-4xl font-bold text-white mb-3">{selectedRoom.title}</h2>
+                    <p className="text-white/90 text-lg max-w-3xl">{selectedRoom.description}</p>
+                  </div>
+                  <div className={`px-4 py-2 rounded-xl font-semibold ${
+                    selectedRoom.is_available
+                      ? "bg-[#ECFDF5] text-green-700"
+                      : "bg-[#FEE2E2] text-red-700"
+                  }`}>
+                    {selectedRoom.is_available ? "Available" : "Occupied"}
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-4">
+                  <span className="inline-flex items-center gap-2 px-4 py-2 bg-white/20 backdrop-blur-sm text-white text-sm font-bold rounded-xl">
+                    <Sparkles className="w-4 h-4" />
+                    {selectedRoom.room_type.toUpperCase()}
+                  </span>
+                  <div className="text-white">
+                    <span className="text-3xl font-bold">₦{selectedRoom.base_price}</span>
+                    <span className="text-white/80 ml-2">/night</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Tabs Navigation */}
+            <div className="border-b border-[#E5E7EB] bg-white">
+              <div className="flex gap-1 px-8">
+                {[
+                  { id: "pictures" as RoomDetailTab, label: "Pictures", icon: ImageIcon },
+                  { id: "videos" as RoomDetailTab, label: "Videos", icon: Video },
+                  { id: "reviews" as RoomDetailTab, label: "Reviews", icon: MessageSquare },
+                  { id: "3d-tour" as RoomDetailTab, label: "3D Tour", icon: Box },
+                ].map((tab) => {
+                  const Icon = tab.icon;
+                  return (
+                    <button
+                      key={tab.id}
+                      onClick={() => setActiveTab(tab.id)}
+                      className={`flex items-center gap-2 px-6 py-4 font-semibold transition-all ${
+                        activeTab === tab.id
+                          ? "text-[#0F75BD] border-b-2 border-[#0F75BD]"
+                          : "text-[#5C5B59] hover:text-[#0F75BD]"
+                      }`}
+                    >
+                      <Icon className="w-5 h-5" />
+                      {tab.label}
+                    </button>
+                  );
+                })}
+              </div>
             </div>
           </div>
 
           {/* Tab Content */}
-          <div className="min-h-[500px]">
+          <div className="bg-white rounded-2xl border border-[#D3D9DD] p-8">
             {activeTab === "pictures" && (
               <div className="space-y-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                <div>
+                  <h3 className="text-lg font-semibold text-gray-800 mb-4">Room Pictures</h3>
+                  <p className="text-sm text-gray-500 mb-6">View and manage room images</p>
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
                   {[1, 2, 3, 4, 5, 6].map((i) => (
-                    <div key={i} className="relative h-64 bg-[#E8F4F8] rounded-2xl overflow-hidden group cursor-pointer">
+                    <div key={i} className="relative h-64 bg-[#F9FAFB] border border-[#D3D9DD] rounded-xl overflow-hidden group cursor-pointer hover:border-[#0F75BD] transition-all">
                       <div className="absolute inset-0 flex items-center justify-center">
                         <ImageIcon className="w-16 h-16 text-[#0F75BD]/30" />
                       </div>
@@ -215,7 +228,7 @@ export default function RoomsPage() {
                     </div>
                   ))}
                 </div>
-                <button className="flex items-center gap-2 px-6 py-3 bg-[#FAFAFB] border border-[#E5E7EB] rounded-xl hover:bg-white hover:border-[#0F75BD] text-[#0F75BD] font-semibold transition-all">
+                <button className="flex items-center gap-2 px-6 py-3 bg-white border border-[#D3D9DD] rounded-xl hover:bg-gray-50 text-[#0F75BD] font-semibold transition-all">
                   <Plus className="w-5 h-5" />
                   Upload More Pictures
                 </button>
@@ -224,14 +237,18 @@ export default function RoomsPage() {
 
             {activeTab === "videos" && (
               <div className="space-y-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <h3 className="text-lg font-semibold text-gray-800 mb-4">Room Videos</h3>
+                  <p className="text-sm text-gray-500 mb-6">View and manage room tour videos</p>
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                   {[1, 2, 3, 4].map((i) => (
-                    <div key={i} className="relative h-72 bg-[#E8F4F8] rounded-2xl overflow-hidden group cursor-pointer">
+                    <div key={i} className="relative h-72 bg-[#F9FAFB] border border-[#D3D9DD] rounded-xl overflow-hidden group cursor-pointer hover:border-[#0F75BD] transition-all">
                       <div className="absolute inset-0 flex flex-col items-center justify-center gap-3">
                         <Video className="w-16 h-16 text-[#0F75BD]/30" />
                         <div className="text-center">
-                          <p className="font-semibold text-[#1A1A1A]">Room Tour Video {i}</p>
-                          <p className="text-sm text-[#5C5B59]">2:30 duration</p>
+                          <p className="font-semibold text-gray-800">Room Tour Video {i}</p>
+                          <p className="text-sm text-gray-500">2:30 duration</p>
                         </div>
                       </div>
                       <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
@@ -242,7 +259,7 @@ export default function RoomsPage() {
                     </div>
                   ))}
                 </div>
-                <button className="flex items-center gap-2 px-6 py-3 bg-[#FAFAFB] border border-[#E5E7EB] rounded-xl hover:bg-white hover:border-[#0F75BD] text-[#0F75BD] font-semibold transition-all">
+                <button className="flex items-center gap-2 px-6 py-3 bg-white border border-[#D3D9DD] rounded-xl hover:bg-gray-50 text-[#0F75BD] font-semibold transition-all">
                   <Plus className="w-5 h-5" />
                   Upload Room Video
                 </button>
@@ -251,15 +268,19 @@ export default function RoomsPage() {
 
             {activeTab === "reviews" && (
               <div className="space-y-6">
-                <div className="bg-[#FAFAFB] border border-[#E5E7EB] rounded-2xl p-6">
+                <div>
+                  <h3 className="text-lg font-semibold text-gray-800 mb-4">Guest Reviews</h3>
+                  <p className="text-sm text-gray-500 mb-6">View feedback from guests who stayed in this room</p>
+                </div>
+                <div className="bg-[#F9FAFB] border border-[#D3D9DD] rounded-xl p-6">
                   <div className="flex items-center justify-between mb-6">
                     <div>
-                      <h3 className="text-2xl font-bold text-[#1A1A1A]">4.8</h3>
+                      <h3 className="text-2xl font-bold text-gray-800">4.8</h3>
                       <div className="flex items-center gap-1 mt-1">
                         {[1, 2, 3, 4, 5].map((star) => (
                           <Star key={star} className={`w-5 h-5 ${star <= 4 ? "fill-[#FBB81F] text-[#FBB81F]" : "text-gray-300"}`} />
                         ))}
-                        <span className="text-sm text-[#5C5B59] ml-2">Based on 124 reviews</span>
+                        <span className="text-sm text-gray-500 ml-2">Based on 124 reviews</span>
                       </div>
                     </div>
                   </div>
@@ -270,14 +291,14 @@ export default function RoomsPage() {
                       { name: "Sarah Johnson", rating: 4, comment: "Very comfortable stay. The bed was incredibly comfortable and staff was friendly.", date: "1 week ago" },
                       { name: "Michael Brown", rating: 5, comment: "Best room I've ever stayed in. Everything was perfect from start to finish.", date: "2 weeks ago" },
                     ].map((review, i) => (
-                      <div key={i} className="bg-white border border-[#E5E7EB] rounded-xl p-4">
+                      <div key={i} className="bg-white border border-[#D3D9DD] rounded-xl p-5">
                         <div className="flex items-start justify-between mb-3">
                           <div className="flex items-center gap-3">
                             <div className="w-10 h-10 bg-[#0F75BD] rounded-full flex items-center justify-center">
                               <span className="text-white font-semibold text-sm">{review.name.charAt(0)}</span>
                             </div>
                             <div>
-                              <p className="font-semibold text-[#1A1A1A]">{review.name}</p>
+                              <p className="font-semibold text-gray-800">{review.name}</p>
                               <div className="flex items-center gap-1 mt-0.5">
                                 {[1, 2, 3, 4, 5].map((star) => (
                                   <Star key={star} className={`w-4 h-4 ${star <= review.rating ? "fill-[#FBB81F] text-[#FBB81F]" : "text-gray-300"}`} />
@@ -285,9 +306,9 @@ export default function RoomsPage() {
                               </div>
                             </div>
                           </div>
-                          <span className="text-xs text-[#5C5B59]">{review.date}</span>
+                          <span className="text-xs text-gray-500">{review.date}</span>
                         </div>
-                        <p className="text-sm text-[#5C5B59]">{review.comment}</p>
+                        <p className="text-sm text-gray-500">{review.comment}</p>
                       </div>
                     ))}
                   </div>
@@ -297,96 +318,108 @@ export default function RoomsPage() {
 
             {activeTab === "3d-tour" && (
               <div className="space-y-6">
-                <div className="bg-[#E8F4F8] border-2 border-dashed border-[#0F75BD] rounded-2xl p-12 text-center">
+                <div>
+                  <h3 className="text-lg font-semibold text-gray-800 mb-4">3D Virtual Tour</h3>
+                  <p className="text-sm text-gray-500 mb-6">Experience the room in 360° virtual reality</p>
+                </div>
+                <div className="bg-[#F9FAFB] border-2 border-dashed border-[#D3D9DD] rounded-xl p-12 text-center">
                   <Box className="w-20 h-20 text-[#0F75BD] mx-auto mb-4" />
-                  <h3 className="text-xl font-bold text-[#1A1A1A] mb-2">3D Virtual Tour</h3>
-                  <p className="text-[#5C5B59] mb-6">Experience the room in 360° virtual reality</p>
+                  <h3 className="text-xl font-bold text-gray-800 mb-2">Interactive 3D Experience</h3>
+                  <p className="text-gray-500 mb-6">Launch or upload a virtual tour for this room</p>
                   <div className="space-y-3 max-w-md mx-auto">
                     <button className="w-full px-6 py-3 bg-[#0F75BD] text-white font-semibold rounded-xl hover:bg-[#0050C8] transition-colors">
                       Launch 3D Tour
                     </button>
-                    <button className="w-full px-6 py-3 bg-white border-2 border-[#E5E7EB] text-[#1A1A1A] font-semibold rounded-xl hover:border-[#0F75BD] transition-colors">
+                    <button className="w-full px-6 py-3 bg-white border border-[#D3D9DD] text-gray-800 font-semibold rounded-xl hover:bg-gray-50 transition-colors">
                       Upload 3D Tour Link
                     </button>
                   </div>
-                  <p className="text-xs text-[#5C5B59] mt-6">Supported platforms: Matterport, Kuula, 360Cities</p>
+                  <p className="text-xs text-gray-500 mt-6">Supported platforms: Matterport, Kuula, 360Cities</p>
                 </div>
               </div>
             )}
           </div>
 
           {/* Quick Info Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-5 pb-8">
             {/* Basic Info */}
-            <div className="bg-[#FAFAFB] border border-[#E5E7EB] rounded-2xl p-6">
-              <h3 className="font-bold text-[#1A1A1A] mb-4 flex items-center gap-2">
-                <Bed className="w-5 h-5 text-[#0F75BD]" />
-                Room Details
-              </h3>
-              <div className="space-y-3">
-                <div className="flex items-center justify-between">
-                  <span className="text-[#5C5B59] text-sm">Bed Type</span>
-                  <span className="font-semibold text-[#1A1A1A] capitalize">{selectedRoom.bed_type}</span>
+            <div className="bg-white border border-[#D3D9DD] rounded-2xl p-8 shadow-sm hover:shadow-md transition-shadow">
+              <div className="flex items-center gap-3 mb-6">
+                <div className="w-12 h-12 bg-[#F0F9FF] rounded-xl flex items-center justify-center">
+                  <Bed className="w-6 h-6 text-[#0F75BD]" />
+                </div>
+                <h3 className="text-lg font-semibold text-gray-800">Room Details</h3>
+              </div>
+              <div className="space-y-5">
+                <div className="flex items-center justify-between pb-4 border-b border-[#F3F4F6]">
+                  <span className="text-gray-500 text-sm font-medium">Bed Type</span>
+                  <span className="font-semibold text-gray-800 capitalize">{selectedRoom.bed_type}</span>
+                </div>
+                <div className="flex items-center justify-between pb-4 border-b border-[#F3F4F6]">
+                  <span className="text-gray-500 text-sm font-medium">Room Size</span>
+                  <span className="font-semibold text-gray-800">{selectedRoom.room_size} ft²</span>
                 </div>
                 <div className="flex items-center justify-between">
-                  <span className="text-[#5C5B59] text-sm">Room Size</span>
-                  <span className="font-semibold text-[#1A1A1A]">{selectedRoom.room_size} ft²</span>
-                </div>
-                <div className="flex items-center justify-between">
-                  <span className="text-[#5C5B59] text-sm">Max Occupancy</span>
-                  <span className="font-semibold text-[#1A1A1A]">{selectedRoom.max_occupancy} guests</span>
+                  <span className="text-gray-500 text-sm font-medium">Max Occupancy</span>
+                  <span className="font-semibold text-gray-800">{selectedRoom.max_occupancy} guests</span>
                 </div>
               </div>
             </div>
 
             {/* Features */}
-            <div className="bg-[#FAFAFB] border border-[#E5E7EB] rounded-2xl p-6">
-              <h3 className="font-bold text-[#1A1A1A] mb-4 flex items-center gap-2">
-                <Sparkles className="w-5 h-5 text-[#0F75BD]" />
-                Amenities
-              </h3>
-              <div className="space-y-2">
+            <div className="bg-white border border-[#D3D9DD] rounded-2xl p-8 shadow-sm hover:shadow-md transition-shadow">
+              <div className="flex items-center gap-3 mb-6">
+                <div className="w-12 h-12 bg-[#F5F3FF] rounded-xl flex items-center justify-center">
+                  <Sparkles className="w-6 h-6 text-[#0F75BD]" />
+                </div>
+                <h3 className="text-lg font-semibold text-gray-800">Amenities</h3>
+              </div>
+              <div className="space-y-3">
                 {selectedRoom.has_sea_view && (
-                  <div className="flex items-center gap-2 p-2 bg-[#E8F4F8] rounded-lg">
-                    <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+                  <div className="flex items-center gap-3 px-4 py-3 bg-[#F0F9FF] border border-[#BFDBFE] rounded-xl">
+                    <div className="w-2 h-2 bg-[#0F75BD] rounded-full"></div>
                     <span className="text-sm font-medium text-[#0F75BD]">Sea View</span>
                   </div>
                 )}
                 {selectedRoom.has_city_view && (
-                  <div className="flex items-center gap-2 p-2 bg-[#F5F3FF] rounded-lg">
-                    <div className="w-2 h-2 bg-purple-500 rounded-full"></div>
+                  <div className="flex items-center gap-3 px-4 py-3 bg-[#F5F3FF] border border-[#E9D5FF] rounded-xl">
+                    <div className="w-2 h-2 bg-purple-600 rounded-full"></div>
                     <span className="text-sm font-medium text-purple-700">City View</span>
                   </div>
                 )}
                 {selectedRoom.has_balcony && (
-                  <div className="flex items-center gap-2 p-2 bg-[#ECFDF5] rounded-lg">
-                    <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                  <div className="flex items-center gap-3 px-4 py-3 bg-[#ECFDF5] border border-[#A7F3D0] rounded-xl">
+                    <div className="w-2 h-2 bg-green-600 rounded-full"></div>
                     <span className="text-sm font-medium text-green-700">Balcony</span>
                   </div>
                 )}
-                <div className="flex items-center gap-2 p-2 bg-[#FEF3C7] rounded-lg">
-                  <div className="w-2 h-2 bg-orange-500 rounded-full"></div>
+                <div className="flex items-center gap-3 px-4 py-3 bg-[#FEF3C7] border border-[#FDE68A] rounded-xl">
+                  <div className="w-2 h-2 bg-orange-600 rounded-full"></div>
                   <span className="text-sm font-medium text-orange-700">Free WiFi</span>
                 </div>
               </div>
             </div>
 
             {/* Actions */}
-            <div className="bg-[#FAFAFB] border border-[#E5E7EB] rounded-2xl p-6">
-              <h3 className="font-bold text-[#1A1A1A] mb-4 flex items-center gap-2">
-                <Users className="w-5 h-5 text-[#0F75BD]" />
-                Quick Actions
-              </h3>
+            <div className="bg-white border border-[#D3D9DD] rounded-2xl p-8 shadow-sm hover:shadow-md transition-shadow">
+              <div className="flex items-center gap-3 mb-6">
+                <div className="w-12 h-12 bg-[#ECFDF5] rounded-xl flex items-center justify-center">
+                  <Users className="w-6 h-6 text-[#0F75BD]" />
+                </div>
+                <h3 className="text-lg font-semibold text-gray-800">Quick Actions</h3>
+              </div>
               <div className="space-y-3">
-                <button className="w-full py-3 bg-[#0F75BD] text-white font-semibold rounded-xl hover:bg-[#0050C8] transition-colors">
-                  Book Now
+                <button className="w-full py-3.5 bg-[#0F75BD] text-white font-semibold rounded-xl hover:bg-[#0050C8] transition-all hover:shadow-lg flex items-center justify-center gap-2">
+                  <span>Book Now</span>
                 </button>
-                <button className="w-full py-3 bg-white border-2 border-[#E5E7EB] text-[#1A1A1A] font-semibold rounded-xl hover:border-[#0F75BD] transition-colors">
-                  Edit Room
+                <button className="w-full py-3.5 bg-white border border-[#D3D9DD] text-gray-800 font-semibold rounded-xl hover:bg-gray-50 hover:border-[#0F75BD] transition-all flex items-center justify-center gap-2">
+                  <Edit className="w-4 h-4" />
+                  <span>Edit Room</span>
                 </button>
               </div>
             </div>
           </div>
+        </div>
         </div>
       </div>
     );

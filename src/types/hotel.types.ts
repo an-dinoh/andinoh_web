@@ -46,6 +46,7 @@ export interface CreateHotelRequest {
   total_rooms: number;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
 export interface UpdateHotelRequest extends Partial<CreateHotelRequest> {}
 
 // Room Types
@@ -96,6 +97,7 @@ export interface CreateRoomRequest {
   total_rooms: number;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
 export interface UpdateRoomRequest extends Partial<CreateRoomRequest> {}
 
 export interface RoomFilters {
@@ -158,6 +160,7 @@ export interface CreateBookingRequest {
   created_by_staff_id?: string;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
 export interface UpdateBookingRequest extends Partial<CreateBookingRequest> {}
 
 export interface BookingFilters {
@@ -364,4 +367,87 @@ export interface RevenueByRoomType {
   room_type: RoomType;
   revenue: string;
   bookings_count: number;
+}
+
+// Event Space Types
+export type EventSpaceType = 'ballroom' | 'conference_room' | 'meeting_room' | 'banquet_hall' | 'boardroom' | 'outdoor_venue' | 'rooftop_terrace' | 'garden' | 'theater' | 'exhibition_hall';
+export type EventType = 'wedding' | 'corporate' | 'conference' | 'seminar' | 'workshop' | 'birthday' | 'anniversary' | 'exhibition' | 'product_launch' | 'gala' | 'networking' | 'other';
+export type SetupStyle = 'theater' | 'classroom' | 'banquet' | 'cocktail' | 'u_shape' | 'boardroom' | 'hollow_square' | 'cabaret';
+
+export interface EventSpace {
+  id: string;
+  hotel: string;
+  space_type: EventSpaceType;
+  title: string;
+  description: string;
+  space_size: number; // in sq ft
+  max_capacity_theater: number;
+  max_capacity_banquet: number;
+  max_capacity_cocktail: number;
+  min_capacity: number;
+  base_rate_per_hour: string;
+  base_rate_full_day: string;
+  base_rate_half_day: string;
+  weekend_rate_multiplier?: number; // e.g., 1.5 for 50% increase
+  has_natural_light: boolean;
+  has_audio_visual: boolean;
+  has_stage: boolean;
+  has_dance_floor: boolean;
+  has_kitchen_access: boolean;
+  has_outdoor_access: boolean;
+  ceiling_height: number; // in feet
+  is_available: boolean;
+  floor_level: string; // e.g., "Ground Floor", "2nd Floor"
+  total_spaces: number; // how many of this type exist
+  created_at: string;
+  updated_at: string;
+}
+
+export interface CreateEventSpaceRequest {
+  hotel: string;
+  space_type: EventSpaceType;
+  title: string;
+  description: string;
+  space_size: number;
+  max_capacity_theater: number;
+  max_capacity_banquet: number;
+  max_capacity_cocktail: number;
+  min_capacity: number;
+  base_rate_per_hour: string;
+  base_rate_full_day: string;
+  base_rate_half_day: string;
+  weekend_rate_multiplier?: number;
+  has_natural_light?: boolean;
+  has_audio_visual?: boolean;
+  has_stage?: boolean;
+  has_dance_floor?: boolean;
+  has_kitchen_access?: boolean;
+  has_outdoor_access?: boolean;
+  ceiling_height: number;
+  floor_level: string;
+  total_spaces: number;
+}
+
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
+export interface UpdateEventSpaceRequest extends Partial<CreateEventSpaceRequest> {}
+
+export interface EventSpaceFilters {
+  space_type?: EventSpaceType;
+  min_capacity?: number;
+  max_capacity?: number;
+  min_size?: number;
+  max_size?: number;
+  has_audio_visual?: boolean;
+  has_stage?: boolean;
+  is_available?: boolean;
+}
+
+export interface EventSpaceImage {
+  id: string;
+  event_space: string;
+  image: string;
+  caption?: string;
+  is_primary: boolean;
+  order: number;
+  created_at: string;
 }

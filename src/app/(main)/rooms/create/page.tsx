@@ -128,10 +128,10 @@ export default function CreateRoomPage() {
       setTimeout(() => {
         router.push("/rooms");
       }, 1500);
-    } catch (error: any) {
+    } catch (error: unknown) {
       setErrors({
         submit:
-          error?.response?.data?.message ||
+          (error as { response?: { data?: { message?: string } } })?.response?.data?.message ||
           "Failed to create room. Please try again.",
       });
     } finally {

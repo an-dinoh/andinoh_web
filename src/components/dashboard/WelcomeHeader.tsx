@@ -34,7 +34,7 @@ export default function WelcomeHeader({
             Welcome back {userName}!
           </h1>
           <p className="mt-2 text-sm">
-            Here's what's happening on your account today:
+            Here&apos;s what&apos;s happening on your account today:
           </p>
         </div>
         <div className="text-right">

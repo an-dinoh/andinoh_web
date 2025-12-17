@@ -6,6 +6,8 @@ import { ChevronDown, Plus, Download, TrendingUp, TrendingDown, Calendar, Dollar
 export default function WalletPage() {
   const [selectedPeriod, setSelectedPeriod] = useState("This Month");
   const [showPeriodDropdown, setShowPeriodDropdown] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
 
   // Mock transaction data
   const transactions = [
@@ -20,6 +22,12 @@ export default function WalletPage() {
   const totalRevenue = 450000;
   const withdrawals = 120000;
   const pendingPayments = 58000;
+
+  // Pagination calculations
+  const totalPages = Math.ceil(transactions.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const paginatedTransactions = transactions.slice(startIndex, endIndex);
 
   return (
     <div className="h-full bg-white overflow-y-auto scrollbar-hide pt-8 pb-8">
@@ -129,7 +137,7 @@ export default function WalletPage() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-[#E5E7EB]">
-                {transactions.map((transaction) => (
+                {paginatedTransactions.map((transaction) => (
                   <tr key={transaction.id} className="hover:bg-[#FAFAFB] transition-colors">
                     <td className="px-6 py-4">
                       <p className="text-sm font-medium text-[#1A1A1A]">{transaction.id}</p>
@@ -167,6 +175,58 @@ export default function WalletPage() {
               </tbody>
             </table>
           </div>
+
+          {/* Pagination */}
+          {totalPages > 1 && (
+            <div className="flex items-center justify-between px-6 py-4 border-t border-[#E5E7EB]">
+              <p className="text-sm text-[#5C5B59]">
+                Showing {startIndex + 1} to {Math.min(endIndex, transactions.length)} of {transactions.length} transactions
+              </p>
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={() => setCurrentPage((prev) => Math.max(1, prev - 1))}
+                  disabled={currentPage === 1}
+                  className="px-3 py-1.5 text-sm font-medium text-[#1A1A1A] border border-[#E5E7EB] rounded-lg hover:bg-[#FAFAFB] disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                >
+                  Previous
+                </button>
+                <div className="flex items-center gap-1">
+                  {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
+                    let pageNum;
+                    if (totalPages <= 5) {
+                      pageNum = i + 1;
+                    } else if (currentPage <= 3) {
+                      pageNum = i + 1;
+                    } else if (currentPage >= totalPages - 2) {
+                      pageNum = totalPages - 4 + i;
+                    } else {
+                      pageNum = currentPage - 2 + i;
+                    }
+                    return (
+                      <button
+                        key={pageNum}
+                        onClick={() => setCurrentPage(pageNum)}
+                        className={`px-3 py-1.5 text-sm font-medium rounded-lg transition-colors ${
+                          currentPage === pageNum
+                            ? "bg-[#0F75BD] text-white"
+                            : "text-[#1A1A1A] border border-[#E5E7EB] hover:bg-[#FAFAFB]"
+                        }`}
+                      >
+                        {pageNum}
+                      </button>
+                    );
+                  })}
+                </div>
+                <button
+                  onClick={() => setCurrentPage((prev) => Math.min(totalPages, prev + 1))}
+                  disabled={currentPage === totalPages}
+                  className="px-3 py-1.5 text-sm font-medium text-[#1A1A1A] border border-[#E5E7EB] rounded-lg hover:bg-[#FAFAFB] disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                >
+                  Next
+                </button>
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </div>

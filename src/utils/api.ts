@@ -44,8 +44,8 @@ class ApiClient {
       (error) => {
         // Handle 404 errors
         if (error.response?.status === 404) {
-          const notFoundError = new Error('Resource not found');
-          (notFoundError as any).response = error.response;
+          const notFoundError = new Error('Resource not found') as Error & { response?: unknown };
+          notFoundError.response = error.response;
           return Promise.reject(notFoundError);
         }
 
@@ -67,41 +67,41 @@ class ApiClient {
           message = 'Network error. The API server might be unreachable. Please wait 30-60 seconds for it to wake up, then try again.';
         }
 
-        const apiError = new Error(message);
-        (apiError as any).response = error.response;
+        const apiError = new Error(message) as Error & { response?: unknown };
+        apiError.response = error.response;
         return Promise.reject(apiError);
       }
     );
   }
 
   async get<T>(endpoint: string, config?: AxiosRequestConfig): Promise<T> {
-    const response: AxiosResponse<any> = await this.client.get(endpoint, config);
+    const response: AxiosResponse<{ data?: T } & Record<string, unknown>> = await this.client.get(endpoint, config);
     // API returns: { error: false, data: {...}, message: "..." }
-    return response.data.data || response.data;
+    return response.data.data || (response.data as T);
   }
 
-  async post<T>(endpoint: string, data?: any, config?: AxiosRequestConfig): Promise<T> {
-    const response: AxiosResponse<any> = await this.client.post(endpoint, data, config);
+  async post<T>(endpoint: string, data?: Record<string, unknown> | unknown, config?: AxiosRequestConfig): Promise<T> {
+    const response: AxiosResponse<{ data?: T } & Record<string, unknown>> = await this.client.post(endpoint, data, config);
     // API returns: { error: false, data: {...}, message: "..." }
-    return response.data.data || response.data;
+    return response.data.data || (response.data as T);
   }
 
-  async put<T>(endpoint: string, data?: any, config?: AxiosRequestConfig): Promise<T> {
-    const response: AxiosResponse<any> = await this.client.put(endpoint, data, config);
+  async put<T>(endpoint: string, data?: Record<string, unknown> | unknown, config?: AxiosRequestConfig): Promise<T> {
+    const response: AxiosResponse<{ data?: T } & Record<string, unknown>> = await this.client.put(endpoint, data, config);
     // API returns: { error: false, data: {...}, message: "..." }
-    return response.data.data || response.data;
+    return response.data.data || (response.data as T);
   }
 
-  async patch<T>(endpoint: string, data?: any, config?: AxiosRequestConfig): Promise<T> {
-    const response: AxiosResponse<any> = await this.client.patch(endpoint, data, config);
+  async patch<T>(endpoint: string, data?: Record<string, unknown> | unknown, config?: AxiosRequestConfig): Promise<T> {
+    const response: AxiosResponse<{ data?: T } & Record<string, unknown>> = await this.client.patch(endpoint, data, config);
     // API returns: { error: false, data: {...}, message: "..." }
-    return response.data.data || response.data;
+    return response.data.data || (response.data as T);
   }
 
   async delete<T>(endpoint: string, config?: AxiosRequestConfig): Promise<T> {
-    const response: AxiosResponse<any> = await this.client.delete(endpoint, config);
+    const response: AxiosResponse<{ data?: T } & Record<string, unknown>> = await this.client.delete(endpoint, config);
     // API returns: { error: false, data: {...}, message: "..." }
-    return response.data.data || response.data;
+    return response.data.data || (response.data as T);
   }
 
   // For file uploads
