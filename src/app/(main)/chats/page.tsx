@@ -1,7 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { Send, Search, User, Phone, MoreVertical, Paperclip, Smile } from "lucide-react";
+import { Send, Search, User, MoreVertical, Paperclip, Smile, UserCircle, Mail, FileText, Trash2 } from "lucide-react";
+import Image from "next/image";
 
 interface Chat {
   id: string;
@@ -24,6 +25,7 @@ export default function ChatsPage() {
   const [selectedChat, setSelectedChat] = useState<string>("1");
   const [message, setMessage] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
+  const [showChatMenu, setShowChatMenu] = useState(false);
 
   const chats: Chat[] = [
     {
@@ -114,6 +116,28 @@ export default function ChatsPage() {
     }
   };
 
+  const handleChatAction = (action: string) => {
+    setShowChatMenu(false);
+    if (!currentChat) return;
+
+    switch (action) {
+      case "profile":
+        alert(`View profile for ${currentChat.guestName}`);
+        break;
+      case "email":
+        alert(`Send email to ${currentChat.guestName}`);
+        break;
+      case "booking":
+        alert(`View booking details for Room ${currentChat.roomNumber}`);
+        break;
+      case "clear":
+        if (confirm(`Clear chat history with ${currentChat.guestName}?`)) {
+          alert(`Chat history cleared`);
+        }
+        break;
+    }
+  };
+
   return (
     <div className="h-full bg-white flex overflow-hidden">
       {/* Chats List Sidebar */}
@@ -201,11 +225,50 @@ export default function ChatsPage() {
               </div>
               <div className="flex items-center gap-2">
                 <button className="p-2 hover:bg-[#FAFAFB] rounded-lg transition-colors">
-                  <Phone className="w-5 h-5 text-[#5C5B59]" />
+                  <Image src="/icons/call.svg" alt="Call" width={20} height={20} />
                 </button>
-                <button className="p-2 hover:bg-[#FAFAFB] rounded-lg transition-colors">
-                  <MoreVertical className="w-5 h-5 text-[#5C5B59]" />
-                </button>
+                <div className="relative">
+                  <button
+                    onClick={() => setShowChatMenu(!showChatMenu)}
+                    className="p-2 hover:bg-[#FAFAFB] rounded-lg transition-colors"
+                  >
+                    <MoreVertical className="w-5 h-5 text-[#5C5B59]" />
+                  </button>
+
+                  {showChatMenu && (
+                    <div className="absolute right-0 top-full mt-2 w-52 bg-white border border-[#D3D9DD] rounded-xl shadow-lg z-10 py-2">
+                      <button
+                        onClick={() => handleChatAction("profile")}
+                        className="w-full px-4 py-2.5 text-left text-sm hover:bg-[#FAFAFB] transition-colors flex items-center gap-3 text-[#1A1A1A]"
+                      >
+                        <UserCircle className="w-4 h-4 text-[#0F75BD]" />
+                        View Guest Profile
+                      </button>
+                      <button
+                        onClick={() => handleChatAction("email")}
+                        className="w-full px-4 py-2.5 text-left text-sm hover:bg-[#FAFAFB] transition-colors flex items-center gap-3 text-[#1A1A1A]"
+                      >
+                        <Mail className="w-4 h-4 text-purple-600" />
+                        Send Email
+                      </button>
+                      <button
+                        onClick={() => handleChatAction("booking")}
+                        className="w-full px-4 py-2.5 text-left text-sm hover:bg-[#FAFAFB] transition-colors flex items-center gap-3 text-[#1A1A1A]"
+                      >
+                        <FileText className="w-4 h-4 text-blue-600" />
+                        View Booking Details
+                      </button>
+                      <div className="border-t border-[#E5E7EB] my-1"></div>
+                      <button
+                        onClick={() => handleChatAction("clear")}
+                        className="w-full px-4 py-2.5 text-left text-sm hover:bg-red-50 transition-colors flex items-center gap-3 text-red-600"
+                      >
+                        <Trash2 className="w-4 h-4" />
+                        Clear Chat History
+                      </button>
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
 

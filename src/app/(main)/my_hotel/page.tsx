@@ -1,10 +1,10 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Image from "next/image";
 import {
   Building2,
   MapPin,
-  Phone,
   Mail,
   Globe,
   Clock,
@@ -429,7 +429,7 @@ export default function MyHotelPage() {
             {/* Contact Information */}
             <div className="bg-white rounded-xl border border-gray-200 p-6 shadow-sm">
               <h2 className="text-lg font-semibold text-gray-900 mb-6 flex items-center gap-2">
-                <Phone className="w-5 h-5 text-blue-600" />
+                <Image src="/icons/call.svg" alt="Phone" width={20} height={20} />
                 Contact
               </h2>
 

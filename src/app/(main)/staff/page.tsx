@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useSearchParams } from "next/navigation";
 import { Plus } from "lucide-react";
 import { TabType } from "@/types/staff.types";
 import { mockUsers, mockAdmins, mockRoles, mockStats } from "@/data/mockStaffData";
@@ -12,11 +13,21 @@ import CreateUserModal from "@/components/staff/CreateUserModal";
 import CreateAdminModal from "@/components/staff/CreateAdminModal";
 
 export default function StaffPage() {
-  const [activeTab, setActiveTab] = useState<TabType>("users");
+  const searchParams = useSearchParams();
+  const tabParam = searchParams.get("tab") as TabType | null;
+
+  const [activeTab, setActiveTab] = useState<TabType>(tabParam || "users");
   const [searchTerm, setSearchTerm] = useState("");
   const [showCreateUserModal, setShowCreateUserModal] = useState(false);
   const [showCreateAdminModal, setShowCreateAdminModal] = useState(false);
   const [selectedUsers, setSelectedUsers] = useState<string[]>([]);
+
+  // Update active tab when URL parameter changes
+  useEffect(() => {
+    if (tabParam && ["users", "admins", "roles"].includes(tabParam)) {
+      setActiveTab(tabParam);
+    }
+  }, [tabParam]);
 
   const toggleUserSelection = (userId: string) => {
     setSelectedUsers((prev) =>
@@ -92,7 +103,7 @@ export default function StaffPage() {
             <div className="flex">
               <button
                 onClick={() => setActiveTab("users")}
-                className={`px-8 py-4 font-medium transition-colors relative ${
+                className={`px-8 py-4 font-medium text-sm  transition-colors relative ${
                   activeTab === "users"
                     ? "text-[#0F75BD] border-b-2 border-[#0F75BD]"
                     : "text-[#5C5B59] hover:text-[#1A1A1A]"
@@ -102,7 +113,7 @@ export default function StaffPage() {
               </button>
               <button
                 onClick={() => setActiveTab("admins")}
-                className={`px-8 py-4 font-medium transition-colors relative ${
+                className={`px-8 py-4 font-medium text-sm transition-colors relative ${
                   activeTab === "admins"
                     ? "text-[#0F75BD] border-b-2 border-[#0F75BD]"
                     : "text-[#5C5B59] hover:text-[#1A1A1A]"
@@ -112,7 +123,7 @@ export default function StaffPage() {
               </button>
               <button
                 onClick={() => setActiveTab("roles")}
-                className={`px-8 py-4 font-medium transition-colors relative ${
+                className={`px-8 py-4 font-medium text-sm transition-colors relative ${
                   activeTab === "roles"
                     ? "text-[#0F75BD] border-b-2 border-[#0F75BD]"
                     : "text-[#5C5B59] hover:text-[#1A1A1A]"

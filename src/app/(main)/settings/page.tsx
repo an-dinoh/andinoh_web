@@ -1,7 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { User, Bell, Lock, Building2, ChevronRight, Mail, Phone, Globe, MapPin, Clock, Star, Upload, Shield, CreditCard } from "lucide-react";
+import { User, Bell, Lock, Building2, ChevronRight, Mail, Globe, MapPin, Clock, Star, Upload, Shield, CreditCard } from "lucide-react";
+import Image from "next/image";
 
 export default function SettingsPage() {
   const [activeTab, setActiveTab] = useState("profile");
@@ -404,8 +405,8 @@ export default function SettingsPage() {
               <div className="grid grid-cols-2 gap-6">
                 {/* Contact */}
                 <div className="bg-white rounded-2xl p-8 space-y-5">
-                  <h3 className="text-2xl font-semibold text-gray-800 mb-2">
-                    <Phone className="w-5 h-5 text-[#0F75BD]" />
+                  <h3 className="text-2xl font-semibold text-gray-800 mb-2 flex items-center gap-2">
+                    <Image src="/icons/call.svg" alt="Phone" width={20} height={20} />
                     Contact
                   </h3>
 

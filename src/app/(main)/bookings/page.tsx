@@ -11,6 +11,7 @@ import {
   CheckCircle,
   XCircle,
   Clock,
+  ChevronDown,
 } from "lucide-react";
 import { Booking, BookingStatus } from "@/types/hotel.types";
 
@@ -138,6 +139,160 @@ export default function BookingsPage() {
           booking_status: "confirmed",
           payment_status: "partial",
           booking_source: "online",
+          created_at: new Date().toISOString(),
+          updated_at: new Date().toISOString(),
+        },
+        {
+          id: "6",
+          hotel: "hotel-1",
+          room: "room-6",
+          customer_name: "Linda Martinez",
+          customer_email: "linda.m@example.com",
+          customer_phone: "+234 806 789 0123",
+          booking_reference: "BK-2024-006",
+          check_in_date: "2024-12-19",
+          check_out_date: "2024-12-21",
+          number_of_nights: 2,
+          number_of_adults: 2,
+          number_of_children: 1,
+          total_amount: "350000",
+          amount_paid: "350000",
+          balance_due: "0",
+          booking_status: "confirmed",
+          payment_status: "paid",
+          booking_source: "online",
+          created_at: new Date().toISOString(),
+          updated_at: new Date().toISOString(),
+        },
+        {
+          id: "7",
+          hotel: "hotel-1",
+          room: "room-7",
+          customer_name: "Robert Anderson",
+          customer_email: "r.anderson@example.com",
+          customer_phone: "+234 807 890 1234",
+          booking_reference: "BK-2024-007",
+          check_in_date: "2024-12-16",
+          check_out_date: "2024-12-18",
+          number_of_nights: 2,
+          number_of_adults: 1,
+          number_of_children: 0,
+          total_amount: "250000",
+          amount_paid: "250000",
+          balance_due: "0",
+          booking_status: "checked_out",
+          payment_status: "paid",
+          booking_source: "phone",
+          created_at: new Date().toISOString(),
+          updated_at: new Date().toISOString(),
+        },
+        {
+          id: "8",
+          hotel: "hotel-1",
+          room: "room-8",
+          customer_name: "Patricia Thomas",
+          customer_email: "p.thomas@example.com",
+          customer_phone: "+234 808 901 2345",
+          booking_reference: "BK-2024-008",
+          check_in_date: "2024-12-24",
+          check_out_date: "2024-12-27",
+          number_of_nights: 3,
+          number_of_adults: 2,
+          number_of_children: 0,
+          total_amount: "480000",
+          amount_paid: "0",
+          balance_due: "480000",
+          booking_status: "pending",
+          payment_status: "pending",
+          booking_source: "email",
+          created_at: new Date().toISOString(),
+          updated_at: new Date().toISOString(),
+        },
+        {
+          id: "9",
+          hotel: "hotel-1",
+          room: "room-9",
+          customer_name: "James Rodriguez",
+          customer_email: "j.rodriguez@example.com",
+          customer_phone: "+234 809 012 3456",
+          booking_reference: "BK-2024-009",
+          check_in_date: "2024-12-21",
+          check_out_date: "2024-12-24",
+          number_of_nights: 3,
+          number_of_adults: 2,
+          number_of_children: 2,
+          total_amount: "550000",
+          amount_paid: "550000",
+          balance_due: "0",
+          booking_status: "confirmed",
+          payment_status: "paid",
+          booking_source: "online",
+          created_at: new Date().toISOString(),
+          updated_at: new Date().toISOString(),
+        },
+        {
+          id: "10",
+          hotel: "hotel-1",
+          room: "room-10",
+          customer_name: "Maria Garcia",
+          customer_email: "m.garcia@example.com",
+          customer_phone: "+234 810 123 4567",
+          booking_reference: "BK-2024-010",
+          check_in_date: "2024-12-14",
+          check_out_date: "2024-12-16",
+          number_of_nights: 2,
+          number_of_adults: 1,
+          number_of_children: 0,
+          total_amount: "280000",
+          amount_paid: "280000",
+          balance_due: "0",
+          booking_status: "checked_out",
+          payment_status: "paid",
+          booking_source: "walk_in",
+          created_at: new Date().toISOString(),
+          updated_at: new Date().toISOString(),
+        },
+        {
+          id: "11",
+          hotel: "hotel-1",
+          room: "room-11",
+          customer_name: "Christopher Lee",
+          customer_email: "c.lee@example.com",
+          customer_phone: "+234 811 234 5678",
+          booking_reference: "BK-2024-011",
+          check_in_date: "2024-12-28",
+          check_out_date: "2024-12-31",
+          number_of_nights: 3,
+          number_of_adults: 4,
+          number_of_children: 1,
+          total_amount: "720000",
+          amount_paid: "360000",
+          balance_due: "360000",
+          booking_status: "confirmed",
+          payment_status: "partial",
+          booking_source: "online",
+          created_at: new Date().toISOString(),
+          updated_at: new Date().toISOString(),
+        },
+        {
+          id: "12",
+          hotel: "hotel-1",
+          room: "room-12",
+          customer_name: "Nancy White",
+          customer_email: "n.white@example.com",
+          customer_phone: "+234 812 345 6789",
+          booking_reference: "BK-2024-012",
+          check_in_date: "2024-12-13",
+          check_out_date: "2024-12-15",
+          number_of_nights: 2,
+          number_of_adults: 2,
+          number_of_children: 0,
+          total_amount: "320000",
+          amount_paid: "320000",
+          balance_due: "0",
+          booking_status: "checked_out",
+          payment_status: "paid",
+          booking_source: "phone",
           created_at: new Date().toISOString(),
           updated_at: new Date().toISOString(),
         },
@@ -414,54 +569,57 @@ export default function BookingsPage() {
 
             {/* Pagination */}
             {totalPages > 1 && (
-              <div className="flex items-center justify-between px-6 py-4 border-t border-[#E5E7EB]">
-                <p className="text-sm text-[#5C5B59]">
-                  Showing {startIndex + 1} to {Math.min(endIndex, filteredBookings.length)} of {filteredBookings.length} results
-                </p>
-                <div className="flex items-center gap-2">
+              <>
+                <div className="flex items-center justify-center gap-2 m-8">
                   <button
                     onClick={() => setCurrentPage((prev) => Math.max(1, prev - 1))}
                     disabled={currentPage === 1}
-                    className="px-3 py-1.5 text-sm font-medium text-[#1A1A1A] border border-[#E5E7EB] rounded-lg hover:bg-[#FAFAFB] disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                    className="p-2 hover:bg-[#FAFAFB] rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                   >
-                    Previous
+                    <ChevronDown className="w-5 h-5 rotate-90 text-[#5C5B59] text-xs" />
                   </button>
-                  <div className="flex items-center gap-1">
-                    {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
-                      let pageNum;
-                      if (totalPages <= 5) {
-                        pageNum = i + 1;
-                      } else if (currentPage <= 3) {
-                        pageNum = i + 1;
-                      } else if (currentPage >= totalPages - 2) {
-                        pageNum = totalPages - 4 + i;
-                      } else {
-                        pageNum = currentPage - 2 + i;
-                      }
-                      return (
-                        <button
-                          key={pageNum}
-                          onClick={() => setCurrentPage(pageNum)}
-                          className={`px-3 py-1.5 text-sm font-medium rounded-lg transition-colors ${
-                            currentPage === pageNum
-                              ? "bg-[#0F75BD] text-white"
-                              : "text-[#1A1A1A] border border-[#E5E7EB] hover:bg-[#FAFAFB]"
-                          }`}
-                        >
-                          {pageNum}
-                        </button>
-                      );
-                    })}
-                  </div>
+                  {Array.from({ length: Math.min(totalPages, 5) }, (_, i) => {
+                    let pageNum;
+                    if (totalPages <= 5) {
+                      pageNum = i + 1;
+                    } else if (currentPage <= 3) {
+                      pageNum = i + 1;
+                    } else if (currentPage >= totalPages - 2) {
+                      pageNum = totalPages - 4 + i;
+                    } else {
+                      pageNum = currentPage - 2 + i;
+                    }
+
+                    if (pageNum === 2 && currentPage > 3 && totalPages > 5) {
+                      return <span key="dots1" className="px-2 text-[#5C5B59]">...</span>;
+                    }
+                    if (pageNum === totalPages - 1 && currentPage < totalPages - 2 && totalPages > 5) {
+                      return <span key="dots2" className="px-2 text-[#5C5B59]">...</span>;
+                    }
+
+                    return (
+                      <button
+                        key={pageNum}
+                        onClick={() => setCurrentPage(pageNum)}
+                        className={`px-2 py-1 rounded-lg font-medium transition-colors ${
+                          currentPage === pageNum
+                            ? "bg-[#0F75BD] text-white"
+                            : "hover:bg-[#FAFAFB] text-[#1A1A1A] font-regular"
+                        }`}
+                      >
+                        {pageNum}
+                      </button>
+                    );
+                  })}
                   <button
                     onClick={() => setCurrentPage((prev) => Math.min(totalPages, prev + 1))}
                     disabled={currentPage === totalPages}
-                    className="px-3 py-1.5 text-sm font-medium text-[#1A1A1A] border border-[#E5E7EB] rounded-lg hover:bg-[#FAFAFB] disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                    className="p-2.5 hover:bg-[#FAFAFB] rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                   >
-                    Next
+                    <ChevronDown className="w-5 h-5 -rotate-90 text-[#5C5B59]" />
                   </button>
                 </div>
-              </div>
+              </>
             )}
           </div>
         )}

@@ -1,7 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { Search, MessageCircle, Mail, Phone, Book, Video, ExternalLink, Clock, CheckCircle2, ArrowRight, Zap, Shield, HeadphonesIcon, MessageSquare } from "lucide-react";
+import { Search, MessageCircle, Mail, Book, Video, ExternalLink, Clock, CheckCircle2, ArrowRight, Zap, Shield, HeadphonesIcon, MessageSquare } from "lucide-react";
+import Image from "next/image";
 
 export default function HelpPage() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -121,9 +122,10 @@ export default function HelpPage() {
       bg: "bg-[#F5F3FF]",
       iconColor: "text-purple-600",
       available: true,
+      isPhone: false,
     },
     {
-      icon: Phone,
+      icon: null,
       title: "Phone Support",
       description: "Speak directly with our support team",
       availability: "Available 24/7",
@@ -131,6 +133,7 @@ export default function HelpPage() {
       bg: "bg-[#ECFDF5]",
       iconColor: "text-green-600",
       available: true,
+      isPhone: true,
     },
     {
       icon: MessageSquare,
@@ -141,6 +144,7 @@ export default function HelpPage() {
       bg: "bg-[#F0F9FF]",
       iconColor: "text-blue-600",
       available: true,
+      isPhone: false,
     },
   ];
 
@@ -315,7 +319,11 @@ export default function HelpPage() {
                       </div>
                     )}
 
-                    <Icon className={`w-12 h-12 mb-4 ${channel.iconColor}`} />
+                    {channel.isPhone ? (
+                      <Image src="/icons/call.svg" alt="Phone" width={48} height={48} className="mb-4" />
+                    ) : (
+                      Icon && <Icon className={`w-12 h-12 mb-4 ${channel.iconColor}`} />
+                    )}
                     <h3 className="font-bold text-xl mb-2 text-gray-800">{channel.title}</h3>
                     <p className="text-gray-500 text-sm mb-4">{channel.description}</p>
 
@@ -345,7 +353,7 @@ export default function HelpPage() {
             <p className="text-gray-500 mb-6">
               Check out our comprehensive knowledge base with detailed guides and tutorials to help you master your hotel management system
             </p>
-            <button className="px-8 py-3 bg-[#0F75BD] text-white font-semibold rounded-xl hover:bg-[#0050C8] transition-colors inline-flex items-center gap-2">
+            <button className="px-8 py-3 bg-[#0F75BD] text-sm text-white font-medium rounded-xl hover:bg-[#0050C8] transition-colors inline-flex items-center gap-2">
               Visit Knowledge Base
               <ExternalLink className="w-4 h-4" />
             </button>

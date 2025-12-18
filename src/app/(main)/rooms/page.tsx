@@ -2,7 +2,8 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { Plus, Search, Filter, Edit, Trash2, Eye, ChevronDown, Bookmark, MapPin, Star, Bed, Users, Maximize2, Sparkles, Image as ImageIcon, Video, MessageSquare, Box } from "lucide-react";
+import { Plus, Search, Edit, Trash2, Eye, ChevronDown, Bookmark, MapPin, Star, Bed, Users, Maximize2, Sparkles, Image as ImageIcon, Video, MessageSquare, Box } from "lucide-react";
+import Image from "next/image";
 import Loading from "@/components/ui/Loading";
 import { Room, RoomType } from "@/types/hotel.types";
 
@@ -463,7 +464,7 @@ export default function RoomsPage() {
                 onClick={() => setShowSortDropdown(!showSortDropdown)}
                 className="flex items-center gap-2 px-4 py-2 border border-[#D3D9DD] rounded-xl hover:bg-gray-50 transition-colors"
               >
-                <Filter className="w-5 h-5 text-[#8F8E8D]" />
+                <Image src="/icons/filter-search.svg" alt="Filter" width={20} height={20} />
                 <span className="text-sm font-medium text-gray-800">Sort By</span>
                 <ChevronDown className="w-4 h-4 text-[#8F8E8D]" />
               </button>
@@ -672,11 +673,6 @@ export default function RoomsPage() {
                 <button className="p-2.5 hover:bg-[#FAFAFB] rounded-lg transition-colors">
                   <ChevronDown className="w-5 h-5 -rotate-90 text-[#5C5B59]" />
                 </button>
-            </div>
-
-            {/* Showing count */}
-            <div className="text-center text-sm text-[#5C5B59] m-8">
-              Showing <span className="font-semibold text-[#1A1A1A]">1-{Math.min(10, filteredRooms.length)}</span> of <span className="font-semibold text-[#1A1A1A]">{filteredRooms.length}</span> rooms
             </div>
           </>
         )}
